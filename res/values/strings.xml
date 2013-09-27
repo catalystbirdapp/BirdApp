@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BirdApp</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    
     <string name="title_activity_map_">Map_Activity</string>
 
+     <string name="app_name">BirdApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="formTitle">Bird Sighting Form</string>
+    <string name = "birdName">Bird Name:</string>
+<string name = "scientificName">Scientific Name:</string>
+<string name = "gpsText">Coordinates:</string>
+<string name = "noteText">Notes:</string>
+<string name = "categoryText">Category:</string>
+<string name = "activityText">Activity:</string>
+<string name = "addAudioText">Add Audio</string>
+<string name = "addPictureText">Add Picture</string>
+<string name = "submitButtonText">Submit</string>
+<string name = "birdNameHint">Enter Bird Name</string>
+<string name = "scientificNameHint">Enter Scientific Name</string>
+<string name = "latHint">Lat</string>
+<string name = "longHint">Long</string>
+<string name = "notesHint">Enter Notes...</string>
+<string name = "camera">Camera Title</string>
+<string name = "dateText">Date:</string>
+<string name = "map">Map</string>
+
+<string-array name="category_drop_down_choices">
+    	<item>None</item>
+        <item>Nest Site</item>
+        <item>Family</item>
+        <item>Rare</item>
+        <item>Unknown</item>
+    </string-array>
+    <string-array name="bird_acivity_dropdown_choices">
+        <item>None</item>
+        <item>Nesting</item>
+        <item>Flying</item>
+        <item>Mating Call</item>
+        <item>Hunting</item>
+        <item>Misc</item>
+    </string-array>
+    
 </resources>
