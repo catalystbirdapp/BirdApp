@@ -19,10 +19,9 @@ public class BirdLocationListener  implements LocationListener{
 	private LocationManager locationManager;
 	private String provider;
 	
-	private double latitude;
-	private double longitude;
+	private double latitude, longitude;
 	
-	Location currentLocation;
+	private Location currentLocation;
 	
 
 	/**

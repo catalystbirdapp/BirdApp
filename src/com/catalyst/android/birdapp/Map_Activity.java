@@ -37,7 +37,7 @@ public class Map_Activity extends Activity {
 		Location currentLocation = locationManager.getLastKnownLocation(provider);
 		
 		location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-		//Updates the map to your location and zooms in
+		//Updates the map to your location and zooms in.  The number is the amount of zoom
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
 		map.animateCamera(update);
 	}
