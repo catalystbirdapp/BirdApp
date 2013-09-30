@@ -234,45 +234,6 @@
         android:layout_marginTop="30dp"
         android:text="@string/gpsText" />
 
-    <EditText
-        android:id="@+id/day_edit_text"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/autofill_checkbox"
-        android:layout_alignTop="@+id/time_slash_2"
-        android:layout_toRightOf="@+id/timeSeparator"
-        android:ems="10"
-        android:hint="@string/minuteText"
-        android:inputType="number" />
-
-    <CheckBox
-        android:id="@+id/autofill_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/locationText"
-        android:layout_alignBottom="@+id/locationText"
-        android:layout_centerHorizontal="true"
-        android:text="@string/autofillCheckBox" />
-
-    <TextView
-        android:id="@+id/time_slash_2"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/date_time_edit_text"
-        android:layout_toRightOf="@+id/autofill_checkbox"
-        android:text="@string/dateSeparator"
-        android:textSize="28sp" />
-
-    <EditText
-        android:id="@+id/year_edit_text"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/time_title"
-        android:layout_alignRight="@+id/category_drop_down"
-        android:ems="10"
-        android:hint="@string/yearText"
-        android:inputType="number" />
-
     <TextView
         android:id="@+id/category_text"
         android:layout_width="wrap_content"
@@ -291,7 +252,7 @@
         android:ems="10"
         android:hint="@string/longHint" >
 
-        <requestFocus />
+     
     </EditText>
 
     <EditText
@@ -302,6 +263,47 @@
         android:layout_below="@+id/locationText"
         android:ems="10"
         android:hint="@string/latHint" />
+
+    <TextView
+        android:id="@+id/time_slash_2"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/time_title"
+        android:layout_toRightOf="@+id/day_edit_text"
+        android:text="@string/dateSeparator"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/day_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/time_title"
+        android:layout_toRightOf="@+id/picture_button"
+        android:ems="10"
+        android:hint="@string/minuteText"
+        android:inputType="number" >
+
+        
+    </EditText>
+
+    <EditText
+        android:id="@+id/year_edit_text"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/time_slash_2"
+        android:layout_alignRight="@+id/category_drop_down"
+        android:ems="10"
+        android:hint="@string/yearText"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/autofill_checkbox"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_alignBaseline="@+id/locationText"
+        android:layout_alignBottom="@+id/locationText"
+        android:layout_toLeftOf="@+id/time_slash_2"
+        android:text="@string/autofillCheckBox" />
 
 </RelativeLayout>
 
