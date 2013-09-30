@@ -5,6 +5,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -39,16 +41,18 @@ public class Map_Activity extends Activity {
 		location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 		//Updates the map to your location and zooms in.  The number is the amount of zoom
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
+		Marker myMarker = map.addMarker(new MarkerOptions().position(location).title("My Location"));
 		map.animateCamera(update);
 	}
 	
 	@Override
 	protected void onPause(){
-		
+		super.onPause();
 	}
 
 	@Override
 	protected void onResume(){
+		super.onResume();
 		//Sets up the location manager
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		//gets the map fragment from the page to modify it
