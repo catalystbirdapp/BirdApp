@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -56,7 +57,7 @@ public class BirdFormActivity extends Activity {
 	
 
 	
-	public void getMap(View view){
+	public void getMap(MenuItem item){
 		Intent intent = new Intent(getApplication(), Map_Activity.class);
 		startActivity(intent);
 	}
