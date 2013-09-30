@@ -132,14 +132,6 @@
         android:layout_alignLeft="@+id/birdName"
         android:text="@string/noteText" />
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/date_time_edit_text"
-        android:layout_marginTop="88dp"
-        android:text="@string/gpsText" />
-
     <Spinner
         android:id="@+id/category_drop_down"
         android:layout_width="210dp"
@@ -154,35 +146,6 @@
         android:layout_above="@+id/submit_button"
         android:layout_alignRight="@+id/submit_button"
         android:text="@string/addAudioText" />
-
-    <EditText
-        android:id="@+id/latitude_edit_text"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/locationText"
-        android:layout_alignBottom="@+id/locationText"
-        android:layout_toLeftOf="@+id/audio_button"
-        android:ems="10"
-        android:hint="@string/latHint" />
-
-    <EditText
-        android:id="@+id/longitude_edit_text"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/latitude_edit_text"
-        android:layout_alignBottom="@+id/latitude_edit_text"
-        android:layout_alignRight="@+id/category_drop_down"
-        android:ems="10"
-        android:hint="@string/longHint" />
-
-    <TextView
-        android:id="@+id/category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationText"
-        android:layout_below="@+id/latitude_edit_text"
-        android:layout_marginTop="29dp"
-        android:text="@string/categoryText" />
 
     <TextView
         android:id="@+id/timeSeparator"
@@ -222,7 +185,7 @@
         android:hint="@string/hourText"
         android:inputType="number" >
 
-        <requestFocus />
+   
     </EditText>
 
     <TextView
@@ -233,15 +196,6 @@
         android:layout_below="@+id/date_time_edit_text"
         android:layout_marginTop="14dp"
         android:text="@string/timeText" />
-
-    <TextView
-        android:id="@+id/time_slash_2"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/locationText"
-        android:layout_alignLeft="@+id/longitude_edit_text"
-        android:text="@string/dateSeparator"
-        android:textSize="28sp" />
 
     <EditText
         android:id="@+id/date_time_edit_text"
@@ -262,26 +216,6 @@
         android:text="@string/dateSeparator"
         android:textSize="28sp" />
 
-    <EditText
-        android:id="@+id/day_edit_text"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/time_slash_2"
-        android:layout_toLeftOf="@+id/time_slash_2"
-        android:ems="10"
-        android:hint="@string/minuteText"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/year_edit_text"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/longitude_edit_text"
-        android:layout_alignTop="@+id/time_slash_2"
-        android:ems="10"
-        android:hint="@string/yearText"
-        android:inputType="number" />
-
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
@@ -290,6 +224,84 @@
         android:layout_below="@+id/notes_edit_text"
         android:layout_marginTop="34dp"
         android:text="@string/dateText" />
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/noteText"
+        android:layout_below="@+id/hour_edit_text"
+        android:layout_marginTop="30dp"
+        android:text="@string/gpsText" />
+
+    <EditText
+        android:id="@+id/day_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/autofill_checkbox"
+        android:layout_alignTop="@+id/time_slash_2"
+        android:layout_toRightOf="@+id/timeSeparator"
+        android:ems="10"
+        android:hint="@string/minuteText"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/autofill_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/locationText"
+        android:layout_alignBottom="@+id/locationText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/autofillCheckBox" />
+
+    <TextView
+        android:id="@+id/time_slash_2"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date_time_edit_text"
+        android:layout_toRightOf="@+id/autofill_checkbox"
+        android:text="@string/dateSeparator"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/year_edit_text"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/time_title"
+        android:layout_alignRight="@+id/category_drop_down"
+        android:ems="10"
+        android:hint="@string/yearText"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationText"
+        android:layout_below="@+id/latitude_edit_text"
+        android:layout_marginTop="16dp"
+        android:text="@string/categoryText" />
+
+    <EditText
+        android:id="@+id/longitude_edit_text"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/category_text"
+        android:layout_alignRight="@+id/formTitle"
+        android:ems="10"
+        android:hint="@string/longHint" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/latitude_edit_text"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/timeSeparator"
+        android:layout_below="@+id/locationText"
+        android:ems="10"
+        android:hint="@string/latHint" />
 
 </RelativeLayout>
 

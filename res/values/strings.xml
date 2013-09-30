@@ -32,6 +32,7 @@
 <string name = "dateSeparator">/</string>
 <string name = "timeText">Time:</string>
 <string name = "timeSeparator">:</string>
+<string name = "autofillCheckBox">Autofill?</string>
 
 <string-array name="category_drop_down_choices">
     	<item>None</item>
