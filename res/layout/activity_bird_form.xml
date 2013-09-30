@@ -245,22 +245,23 @@
 
     <EditText
         android:id="@+id/longitude_edit_text"
-        android:layout_width="100dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/category_text"
-        android:layout_alignRight="@+id/formTitle"
+        android:layout_alignRight="@+id/category_drop_down"
+        android:layout_toRightOf="@+id/time_slash"
         android:ems="10"
         android:hint="@string/longHint" >
-
      
     </EditText>
 
     <EditText
         android:id="@+id/latitude_edit_text"
-        android:layout_width="100dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/timeSeparator"
+        android:layout_alignLeft="@+id/locationText"
         android:layout_below="@+id/locationText"
+        android:layout_toLeftOf="@+id/minute_edit_text"
         android:ems="10"
         android:hint="@string/latHint" />
 
