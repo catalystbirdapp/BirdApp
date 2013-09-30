@@ -234,35 +234,15 @@
         android:layout_marginTop="30dp"
         android:text="@string/gpsText" />
 
-    <TextView
-        android:id="@+id/category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationText"
-        android:layout_below="@+id/latitude_edit_text"
-        android:layout_marginTop="16dp"
-        android:text="@string/categoryText" />
-
-    <EditText
-        android:id="@+id/longitude_edit_text"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/category_text"
-        android:layout_alignRight="@+id/category_drop_down"
-        android:layout_toRightOf="@+id/time_slash"
-        android:ems="10"
-        android:hint="@string/longHint" >
-     
-    </EditText>
-
     <EditText
         android:id="@+id/latitude_edit_text"
-        android:layout_width="125dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/locationText"
+        android:layout_alignRight="@+id/time_slash_2"
         android:layout_below="@+id/locationText"
-        android:layout_toLeftOf="@+id/minute_edit_text"
         android:ems="10"
+        android:layout_alignParentLeft="true"
         android:hint="@string/latHint" />
 
     <TextView
@@ -305,6 +285,29 @@
         android:layout_alignBottom="@+id/locationText"
         android:layout_toLeftOf="@+id/time_slash_2"
         android:text="@string/autofillCheckBox" />
+
+    <TextView
+        android:id="@+id/category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/latitude_edit_text"
+        android:layout_below="@+id/latitude_edit_text"
+        android:layout_marginTop="55dp"
+        android:text="@string/categoryText" />
+
+    <EditText
+        android:id="@+id/longitude_edit_text"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/latitude_edit_text"
+        android:layout_alignRight="@+id/latitude_edit_text"
+        android:layout_below="@+id/latitude_edit_text"
+        android:ems="10"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/longHint" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
 

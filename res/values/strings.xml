@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
     <string name="title_activity_map_">Map_Activity</string>
-
-     <string name="app_name">BirdApp</string>
+    <string name="app_name">BirdApp</string>
     <string name="action_settings">Settings</string>
+    <string name="action_activity">Add Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="formTitle">Bird Sighting Form</string>
-    <string name = "birdName">Bird Name:</string>
-<string name = "scientificName">Scientific Name:</string>
-<string name = "gpsText">Coordinates:</string>
-<string name = "noteText">Notes:</string>
-<string name = "categoryText">Category:</string>
-<string name = "activityText">Activity:</string>
-<string name = "addAudioText">Add Audio</string>
-<string name = "addPictureText">Add Picture</string>
-<string name = "submitButtonText">Submit</string>
-<string name = "birdNameHint">Enter Bird Name</string>
-<string name = "scientificNameHint">Enter Scientific Name</string>
-<string name = "latHint">Lat</string>
-<string name = "longHint">Long</string>
-<string name = "notesHint">Enter Notes...</string>
-<string name = "camera">Camera Title</string>
-<string name = "dateText">Date:</string>
-<string name = "map">Map</string>
-<string name = "minuteText">MM</string>
-<string name = "yearText">YYYY</string>
-<string name = "dayText">DD</string>
-<string name = "hourText">HH</string>
-<string name = "dateSeparator">/</string>
-<string name = "timeText">Time:</string>
-<string name = "timeSeparator">:</string>
-<string name = "autofillCheckBox">Autofill?</string>
+    <string name="birdName">Bird Name:</string>
+    <string name="scientificName">Scientific Name:</string>
+    <string name="gpsText">Coordinates:</string>
+    <string name="noteText">Notes:</string>
+    <string name="categoryText">Category:</string>
+    <string name="activityText">Activity:</string>
+    <string name="addAudioText">Add Audio</string>
+    <string name="addPictureText">Add Picture</string>
+    <string name="submitButtonText">Submit</string>
+    <string name="birdNameHint">Enter Bird Name</string>
+    <string name="scientificNameHint">Enter Scientific Name</string>
+    <string name="latHint">Latitude</string>
+    <string name="longHint">Longitude</string>
+    <string name="notesHint">Enter Notes...</string>
+    <string name="camera">Camera Title</string>
+    <string name="dateText">Date:</string>
+    <string name="map">Map</string>
+    <string name="minuteText">MM</string>
+    <string name="yearText">YYYY</string>
+    <string name="dayText">DD</string>
+    <string name="hourText">HH</string>
+    <string name="dateSeparator">/</string>
+    <string name="timeText">Time:</string>
+    <string name="timeSeparator">:</string>
+    <string name="autofillCheckBox">Autofill?</string>
+    <string name="addActivityTitleText">Add an Activity</string>
+    <string name="nameActivityText">Name of Activity:</string>
+    <string name="saveButton">Save</string>
+     <string name="addActivityCheckBox">Add Another</string>
 
-<string-array name="category_drop_down_choices">
-    	<item>None</item>
+    <string-array name="category_drop_down_choices">
+        <item>None</item>
         <item>Nest Site</item>
         <item>Family</item>
         <item>Rare</item>
@@ -49,10 +52,11 @@
         <item>Hunting</item>
         <item>Misc</item>
     </string-array>
-    
-    
-     <string-array name="am_pm_choices">
-         <item>AM</item>
-         <item>PM</item>
-         </string-array>
+    <string-array name="am_pm_choices">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
+
+    <string name="title_activity_add">AddActivity</string>
+
 </resources>
