@@ -7,7 +7,7 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="679dp"
+    android:layout_height="wrap_content"
     android:background="#9999CC99"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -53,7 +53,7 @@
         android:id="@+id/scientific_name_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignLeft="@+id/common_name_edit_text"
         android:layout_alignRight="@+id/common_name_edit_text"
         android:layout_alignTop="@+id/birdName"
         android:ems="10"
@@ -67,7 +67,7 @@
         android:id="@+id/notes_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignLeft="@+id/scientific_name_edit_text"
         android:layout_alignRight="@+id/scientific_name_edit_text"
         android:layout_below="@+id/scientific_name_edit_text"
         android:layout_marginTop="25dp"
@@ -86,24 +86,6 @@
         android:layout_marginTop="14dp"
         android:text="@string/activityText" />
 
-    <TextView
-        android:id="@+id/category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/dateText"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="65dp"
-        android:text="@string/categoryText" />
-
-    <Button
-        android:id="@+id/audio_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/picture_button"
-        android:layout_alignBottom="@+id/picture_button"
-        android:layout_alignRight="@+id/bird_acivity_dropdown"
-        android:text="@string/addAudioText" />
-
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
@@ -112,7 +94,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/picture_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:text="@string/submitButtonText" />
 
     <Button
@@ -125,31 +107,12 @@
         android:text="@string/addPictureText" />
 
     <Spinner
-        android:id="@+id/category_drop_down"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/category_text"
-        android:layout_marginTop="27dp"
-        android:layout_toRightOf="@+id/category_text" />
-
-    <Spinner
         android:id="@+id/bird_acivity_dropdown"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/category_drop_down"
         android:layout_alignRight="@+id/category_drop_down"
         android:layout_below="@+id/activity_text" />
-
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dateText"
-        android:layout_alignRight="@+id/common_name_edit_text"
-        android:layout_toRightOf="@+id/activity_text"
-        android:ems="10"
-        android:inputType="date" />
 
     <TextView
         android:id="@+id/scientificName"
@@ -170,21 +133,27 @@
         android:text="@string/noteText" />
 
     <TextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/noteText"
-        android:layout_below="@+id/notes_edit_text"
-        android:layout_marginTop="29dp"
-        android:text="@string/dateText" />
-
-    <TextView
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="28dp"
+        android:layout_below="@+id/date_time_edit_text"
+        android:layout_marginTop="88dp"
         android:text="@string/gpsText" />
+
+    <Spinner
+        android:id="@+id/category_drop_down"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category_text"
+        android:layout_toRightOf="@+id/category_text" />
+
+    <Button
+        android:id="@+id/audio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_button"
+        android:layout_alignRight="@+id/submit_button"
+        android:text="@string/addAudioText" />
 
     <EditText
         android:id="@+id/latitude_edit_text"
@@ -194,8 +163,7 @@
         android:layout_alignBottom="@+id/locationText"
         android:layout_toLeftOf="@+id/audio_button"
         android:ems="10"
-        android:hint="@string/latHint"
-        android:inputType="number" />
+        android:hint="@string/latHint" />
 
     <EditText
         android:id="@+id/longitude_edit_text"
@@ -203,10 +171,125 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/latitude_edit_text"
         android:layout_alignBottom="@+id/latitude_edit_text"
-        android:layout_alignRight="@+id/editText1"
+        android:layout_alignRight="@+id/category_drop_down"
         android:ems="10"
-        android:hint="@string/longHint"
+        android:hint="@string/longHint" />
+
+    <TextView
+        android:id="@+id/category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationText"
+        android:layout_below="@+id/latitude_edit_text"
+        android:layout_marginTop="29dp"
+        android:text="@string/categoryText" />
+
+    <TextView
+        android:id="@+id/timeSeparator"
+        android:layout_width="14dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/minute_edit_text"
+        android:layout_alignLeft="@+id/time_slash"
+        android:text="@string/timeSeparator"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/minute_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/hour_edit_text"
+        android:layout_alignBottom="@+id/hour_edit_text"
+        android:layout_alignLeft="@+id/day_edit_text"
+        android:ems="10"
+        android:hint="@string/minuteText"
         android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/am_pm_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/minute_edit_text"
+        android:layout_alignLeft="@+id/year_edit_text"
+        android:layout_alignTop="@+id/minute_edit_text" />
+
+    <EditText
+        android:id="@+id/hour_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/date_time_edit_text"
+        android:layout_alignTop="@+id/time_title"
+        android:ems="10"
+        android:hint="@string/hourText"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dateText"
+        android:layout_below="@+id/date_time_edit_text"
+        android:layout_marginTop="14dp"
+        android:text="@string/timeText" />
+
+    <TextView
+        android:id="@+id/time_slash_2"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/locationText"
+        android:layout_alignLeft="@+id/longitude_edit_text"
+        android:text="@string/dateSeparator"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/date_time_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/category_drop_down"
+        android:layout_alignTop="@+id/dateText"
+        android:ems="10"
+        android:hint="@string/dayText"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/time_slash"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/day_edit_text"
+        android:layout_toRightOf="@+id/date_time_edit_text"
+        android:text="@string/dateSeparator"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/day_edit_text"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/time_slash_2"
+        android:layout_toLeftOf="@+id/time_slash_2"
+        android:ems="10"
+        android:hint="@string/minuteText"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/year_edit_text"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/longitude_edit_text"
+        android:layout_alignTop="@+id/time_slash_2"
+        android:ems="10"
+        android:hint="@string/yearText"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/noteText"
+        android:layout_below="@+id/notes_edit_text"
+        android:layout_marginTop="34dp"
+        android:text="@string/dateText" />
 
 </RelativeLayout>
 

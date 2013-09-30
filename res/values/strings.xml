@@ -25,6 +25,13 @@
 <string name = "camera">Camera Title</string>
 <string name = "dateText">Date:</string>
 <string name = "map">Map</string>
+<string name = "minuteText">MM</string>
+<string name = "yearText">YYYY</string>
+<string name = "dayText">DD</string>
+<string name = "hourText">HH</string>
+<string name = "dateSeparator">/</string>
+<string name = "timeText">Time:</string>
+<string name = "timeSeparator">:</string>
 
 <string-array name="category_drop_down_choices">
     	<item>None</item>
@@ -42,4 +49,9 @@
         <item>Misc</item>
     </string-array>
     
+    
+     <string-array name="am_pm_choices">
+         <item>AM</item>
+         <item>PM</item>
+         </string-array>
 </resources>
