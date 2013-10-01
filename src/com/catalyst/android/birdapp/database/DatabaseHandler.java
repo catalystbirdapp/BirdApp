@@ -1,13 +1,19 @@
 package com.catalyst.android.birdapp.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.catalyst.android.birdapp.BirdSighting;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
+	private Cursor cursor;
+	
 	private static DatabaseHandler INSTANCE;
 	private static final String DATABASE_NAME = "BADB";
 	private static final int DATABASE_VERSION = 1;
@@ -110,5 +116,62 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Create tables again
 		onCreate(db);
 	}
+	
+	public int getAcivityByActivityName(String activity) {
+		int birdId;
+		SQLiteDatabase db = this.getReadableDatabase();
+		cursor = db.query(BIRD_ACTIVITIES, new String[] { BIRD_ACTIVITY_ID }, BIRD_ACTIVITY
+				+ " = ?", new String[] { activity }, null, null, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			birdId = cursor.getInt(0);
+		} else {
+			birdId = 0;
+		}
+		db.close();
+		return birdId;
+	}
+	
+	public int getCategoryByCategoryName(String category) {
+		int birdId;
+		SQLiteDatabase db = this.getReadableDatabase();
+		cursor = db.query(BIRD_SIGHTINGS_CATEGORY, new String[] { SIGHTING_CATEGORY_ID }, SIGHTING_CATEGORY
+				+ " = ?", new String[] { category }, null, null, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			birdId = cursor.getInt(0);
+		} else {
+			birdId = 0;
+		}
+		db.close();
+		return birdId;
+	}
+	
+	public long insertBirdSighting(BirdSighting birdSighting) {
+		
+		// Perform Readable tasks before trying to write to DB (get foreign Key Ids)
+		int activityId = getAcivityByActivityName(birdSighting.getActivity());
+		int categoryId = getCategoryByCategoryName(birdSighting.getCategory());
+		
+		SQLiteDatabase database = getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.BIRD_COMMON_NAME, birdSighting.getCommonName());
+		contentValues.put(DatabaseHandler.BIRD_SCIENTIFIC_NAME, birdSighting.getScientificName());
+		contentValues.put(DatabaseHandler.SIGHTING_NOTES, birdSighting.getNotes());
+		contentValues.put(DatabaseHandler.LATITUDE, birdSighting.getLatitude());
+		contentValues.put(DatabaseHandler.LONGITUDE, birdSighting.getLongitude());
+		contentValues.put(DatabaseHandler.SIGHTING_CATEGORY_ID, categoryId);
+		contentValues.put(DatabaseHandler.BIRD_ACTIVITY_ID, activityId);
+		if (birdSighting.getDateTime() != null) {
+			contentValues.put(DatabaseHandler.DATE_TIME, birdSighting.getDateTime().toString());
+		}
+		
+		long affectedColumnId = database.insert(DatabaseHandler.BIRD_SIGHTING, null, contentValues);
+		
+		database.close();
+		
+		return affectedColumnId;
+	}
+	
+	
 
 }

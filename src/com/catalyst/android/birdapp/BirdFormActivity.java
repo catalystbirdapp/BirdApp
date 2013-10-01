@@ -1,33 +1,38 @@
 package com.catalyst.android.birdapp;
 
-import com.catalyst.android.birdapp.utilities.Utilities;
+import java.util.Date;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.app.Activity;
-import android.app.AlertDialog;
-
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.utilities.Utilities;
 
 
-public class BirdFormActivity extends Activity {
+public class BirdFormActivity extends Activity implements android.view.View.OnClickListener {
 	
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
@@ -37,17 +42,32 @@ public class BirdFormActivity extends Activity {
 	private CheckBox autoGPS;
 	private LocationManager locationManager;
 	
+	private EditText commonNameEditText;
+	private EditText scientificNameEditText;
+	private EditText notesEditText;
+	private EditText dateEditText;
+	private EditText timeEditText;
+	private Button submitButton;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bird_form);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
-		TextView textView = (TextView)findViewById(R.id.notes_edit_text);
-		textView.setMovementMethod(ScrollingMovementMethod.getInstance());
+		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
+		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
 		populateSpinners();
 		displayDateAndTime();
 		intializeGPSfields();
+		
+		commonNameEditText = (EditText)findViewById(R.id.common_name_edit_text);
+		scientificNameEditText = (EditText)findViewById(R.id.scientific_name_edit_text);
+		dateEditText = (EditText) findViewById(R.id.date_time_edit_text);
+		timeEditText = (EditText) findViewById(R.id.hour_edit_text);
+		
+		submitButton = (Button) findViewById(R.id.submit_button);
+		submitButton.setOnClickListener(this);
 		
 	}
 	
@@ -249,6 +269,19 @@ public class BirdFormActivity extends Activity {
 		
 	};
 	
+	@Override
+	public void onClick(View v) {
+		
+		// Onclick event for submit button 
+		if (v.getId() == R.id.submit_button)
+		{
+			long affectedColumnId = submitBirdSighting();
+			
+			Toast.makeText(this, "Added Bird Sighting :" + affectedColumnId, Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
 	private void displayDateAndTime(){
 		Utilities util = new Utilities();
 		TextView date = (TextView) findViewById(R.id.date_time_edit_text);
@@ -256,4 +289,48 @@ public class BirdFormActivity extends Activity {
 		date.setText(util.formatDate(util.currentMillis()));
 		time.setText(util.formatTime(util.currentMillis()));
 	}
+	
+	public long submitBirdSighting() {
+		
+		BirdSighting birdSighting = new BirdSighting();
+		
+		String commonNameField = commonNameEditText.getText().toString();
+		String scientificNameField = scientificNameEditText.getText().toString();
+		String longitudeField = longitudeEditText.getText().toString();
+		String latitudeField = latitudeEditText.getText().toString();
+		String notesField = notesEditText.getText().toString();
+		String categoryField = categorySpinner.getSelectedItem().toString();
+		String activityField = activitySpinner.getSelectedItem().toString();
+		String dateField = dateEditText.getText().toString();
+		String timeField = timeEditText.getText().toString();
+		
+		// create Date object from date/time fields
+		String dateTimeString = dateField + " " +timeField;
+		Utilities util = new Utilities();
+		Date dateTime = util.getDateObject(dateTimeString);
+		
+		//Set values in BirdSighting object
+		birdSighting.setCommonName(commonNameField);
+		birdSighting.setScientificName(scientificNameField);
+		birdSighting.setNotes(notesField);
+		birdSighting.setActivity(activityField);
+		birdSighting.setCategory(categoryField);
+		birdSighting.setDateTime(dateTime);
+		
+		//Check formatting, set field to null if wrong format
+		try {
+		birdSighting.setLatitude(Double.parseDouble(latitudeField));
+		} catch (NumberFormatException e) {
+			birdSighting.setLatitude(null);	
+		}
+		try {
+		birdSighting.setLongitude(Double.parseDouble(longitudeField));
+		} catch (NumberFormatException e) {
+			birdSighting.setLongitude(null);
+		}
+		
+		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+		return dbHandler.insertBirdSighting(birdSighting);
+	}
+
 }

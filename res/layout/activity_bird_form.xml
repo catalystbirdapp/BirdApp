@@ -144,8 +144,9 @@
             android:layout_alignRight="@+id/submit_button"
             android:text="@string/addAudioText" />
 
-        <TextView
+        <EditText
             android:id="@+id/hour_edit_text"
+            android:inputType="time"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/time_title"
@@ -163,8 +164,9 @@
             android:layout_marginTop="14dp"
             android:text="@string/timeText" />
 
-        <TextView
+        <EditText
             android:id="@+id/date_time_edit_text"
+            android:inputType="date"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/category_drop_down"
