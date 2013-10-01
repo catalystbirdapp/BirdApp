@@ -35,7 +35,8 @@
     <string name="addActivityTitleText">Add an Activity</string>
     <string name="nameActivityText">Name of Activity:</string>
     <string name="saveButton">Save</string>
-     <string name="addActivityCheckBox">Add Another</string>
+    <string name="addActivityCheckBox">Add Another</string>
+    <string name="date">00/00/0000</string> 
 
     <string-array name="category_drop_down_choices">
         <item>None</item>

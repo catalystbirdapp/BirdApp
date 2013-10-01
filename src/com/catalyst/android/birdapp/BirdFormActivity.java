@@ -1,5 +1,7 @@
 package com.catalyst.android.birdapp;
 
+import com.catalyst.android.birdapp.utilities.Utilities;
+
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -41,10 +43,10 @@ public class BirdFormActivity extends Activity {
 		setContentView(R.layout.activity_bird_form);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
-		amPmSpinner = (Spinner) findViewById(R.id.am_pm_spinner);
 		TextView textView = (TextView)findViewById(R.id.notes_edit_text);
 		textView.setMovementMethod(ScrollingMovementMethod.getInstance());
 		populateSpinners();
+		displayDateAndTime();
 		intializeGPSfields();
 		
 	}
@@ -126,11 +128,10 @@ public class BirdFormActivity extends Activity {
 		ArrayAdapter<CharSequence> amPmAdapter = ArrayAdapter.createFromResource(BirdFormActivity.this,
 		        R.array.am_pm_choices, android.R.layout.simple_spinner_item);
 		
-		amPmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//amPmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		activityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		amPmSpinner.setAdapter(amPmAdapter);
 		categorySpinner.setAdapter(adapter);
 		activitySpinner.setAdapter(activityAdapter);
 		
@@ -247,4 +248,12 @@ public class BirdFormActivity extends Activity {
 		
 		
 	};
+	
+	private void displayDateAndTime(){
+		Utilities util = new Utilities();
+		TextView date = (TextView) findViewById(R.id.date_time_edit_text);
+		TextView time = (TextView) findViewById(R.id.hour_edit_text);
+		date.setText(util.formatDate(util.currentMillis()));
+		time.setText(util.formatTime(util.currentMillis()));
+	}
 }
