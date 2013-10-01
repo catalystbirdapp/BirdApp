@@ -166,6 +166,7 @@ public class BirdFormActivity extends Activity {
 					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					startActivity(intent);
 					dialogInterface.cancel();
+					autoFillCoordinates();
 				}
 			});
 			//Sets the alert box NO button and listener
@@ -173,10 +174,29 @@ public class BirdFormActivity extends Activity {
 				@Override
 				public void onClick(final DialogInterface dialogInterface, int notUsed) {
 					dialogInterface.cancel();
+					autoFillCoordinates();
 				}
 			});
 			//shows the alertbox
 			alert.show();
+		}
+	}
+	
+	private void autoFillCoordinates(){
+		//Gets the best location provider
+		String provider = locationManager.getBestProvider(new Criteria(), true);
+		//Gets the user's location
+		Location location = locationManager.getLastKnownLocation(provider);
+		//Auto fills the form
+		latitudeEditText.setText(Double.toString(location.getLatitude()));
+		longitudeEditText.setText(Double.toString(location.getLongitude()));
+		//Checks if there are any coordinates in the edit text boxes.  If they are empty then the coordinates are unavailable
+		if(latitudeEditText.getText().length() == 0 || longitudeEditText.getText().length() == 0){
+			latitudeEditText.setText("Coordinates not available");
+			longitudeEditText.setText("Coordinates not available");
+		} else {
+			//Sets the listener for location changes.  The two 0's are for minimum time and distance to check for an update
+			locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
 		}
 	}
 	
@@ -190,21 +210,8 @@ public class BirdFormActivity extends Activity {
 			if(autoGPS.isChecked()){
 				//Checks to see if the GPS is enabled
 				checkForGPS();
-				//Gets the best location provider
-				String provider = locationManager.getBestProvider(new Criteria(), true);
-				//Gets the user's location
-				Location location = locationManager.getLastKnownLocation(provider);
-				//Auto fills the form
-				latitudeEditText.setText(Double.toString(location.getLatitude()));
-				longitudeEditText.setText(Double.toString(location.getLongitude()));
-				//Checks if there are any coordinates in the edit text boxes.  If they are empty then the coordinates are unavailable
-				if(latitudeEditText.getText().length() == 0 || longitudeEditText.getText().length() == 0){
-					latitudeEditText.setText("Coordinates not available");
-					longitudeEditText.setText("Coordinates not available");
-				} else {
-					//Sets the listener for location changes.  The two 0's are for minimum time and distance to check for an update
-					locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
-				}
+				autoFillCoordinates();
+				
 			} else {
 				//If the user is unchecking the box, the latitude and longitude boxes are cleared, and the location listener is removed.
 				locationManager.removeUpdates(locationListener);
