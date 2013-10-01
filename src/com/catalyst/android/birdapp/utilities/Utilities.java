@@ -14,7 +14,7 @@ public class Utilities {
 	public String formatDate(long millis){
 		String countryCode = getLocaleCode();
 		DateFormat formatter;   
-		if (countryCode == "DE"){
+		if (countryCode.equals("DE")){
 			formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMAN);
 		} else {
 			formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -26,7 +26,7 @@ public class Utilities {
 	public String formatTime(long millis){
 		String countryCode = getLocaleCode();
 		DateFormat formatter;
-		if (countryCode == "DE"){
+		if (countryCode.equals("DE")){
 			formatter = new SimpleDateFormat("HH:mm", Locale.GERMAN);
 		} else {
 			formatter = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
@@ -40,4 +40,5 @@ public class Utilities {
 		String country = locale.getCountry();
 		return country;
 	}
+
 }
