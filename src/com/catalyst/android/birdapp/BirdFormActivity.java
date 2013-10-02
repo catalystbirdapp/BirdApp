@@ -266,5 +266,11 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		return dbHandler.insertBirdSighting(birdSighting);
 	}
-
+	/**
+	 * pulls up AddNewActivity view
+	 */
+	public void getAddNewActivity(MenuItem menuItem){
+		Intent intent = new Intent(getApplication(), AddNewActivity.class);
+		startActivity(intent);
+	}
 }

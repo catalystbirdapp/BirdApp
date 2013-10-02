@@ -17,7 +17,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static DatabaseHandler INSTANCE;
 	private static final String DATABASE_NAME = "BADB";
 	private static final int DATABASE_VERSION = 1;
-
+	private static String newActivityName = "";
 	private static final String BIRD_SIGHTING = "birdSighting";
 	private static final String BIRD_SIGHTING_ID = "birdSightingId";
 	private static final String BIRD_COMMON_NAME = "birdCommonName";
@@ -172,6 +172,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return affectedColumnId;
 	}
 	
-	
+	public void saveActivity(String activityName){
+		SQLiteDatabase database = this.getWritableDatabase();
+		newActivityName = activityName;
+		String query = "INSERT INTO birdactivities (birdActivity) VALUES ('"+newActivityName+"')";
+		database.execSQL(query);
+	}
 
 }

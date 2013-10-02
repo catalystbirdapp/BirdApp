@@ -42,6 +42,10 @@
             android:name="com.catalyst.android.birdapp.MapActivity"
             android:label="@string/title_activity_map_" >
         </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.AddNewActivity"
+            android:label="@string/title_activity_add_new" >
+        </activity>
     </application>
 
 </manifest>
