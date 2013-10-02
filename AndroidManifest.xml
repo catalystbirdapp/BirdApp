@@ -39,7 +39,7 @@
             android:value="AIzaSyCirCV4Qw4ojiYfRy39uNB6kxVcjng92As" />
 
         <activity
-            android:name="com.catalyst.android.birdapp.Map_Activity"
+            android:name="com.catalyst.android.birdapp.MapActivity"
             android:label="@string/title_activity_map_" >
         </activity>
     </application>

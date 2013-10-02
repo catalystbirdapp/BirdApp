@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp.GPS_Utility;
 
+//import android.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.EditText;
+import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
 	
@@ -82,11 +84,11 @@ public class GPSUtility {
 			AlertDialog alert = new AlertDialog.Builder(context).create();
 			
 			//Sets alert box title and message
-			alert.setTitle("GPS is turned OFF");
-			alert.setMessage("Would you like to activate the GPS?");
+			alert.setTitle(context.getString(R.string.GPS_off));
+			alert.setMessage(context.getString(R.string.would_you_like_to_activate_GPS));
 			
 			//Sets the alert box YES button and listener
-			alert.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new OnClickListener(){
+			alert.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.yes), new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialogInterface, int notUsed) {
 					//Sends the user to the GPS settings
@@ -96,7 +98,7 @@ public class GPSUtility {
 				}
 			});
 			//Sets the alert box NO button and listener
-			alert.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new OnClickListener(){
+			alert.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.no), new OnClickListener(){
 				@Override
 				public void onClick(final DialogInterface dialogInterface, int notUsed) {
 					dialogInterface.cancel();
@@ -111,11 +113,11 @@ public class GPSUtility {
 		AlertDialog alert = new AlertDialog.Builder(context).create();
 		
 		//Sets alert box title and message
-		alert.setTitle("Location Unavailable");
-		alert.setMessage("Your Location is unavailable.");
+		alert.setTitle(context.getString(R.string.location_unavailable));
+		alert.setMessage(context.getString(R.string.your_location_is_unavailable));
 		
 		//Sets the alert box YES button and listener
-		alert.setButton(DialogInterface.BUTTON_NEUTRAL, "OK", new OnClickListener(){
+		alert.setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.ok), new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialogInterface, int notUsed) {
 				dialogInterface.cancel();

@@ -59,5 +59,12 @@
     </string-array>
 
     <string name="title_activity_add">AddActivity</string>
+    <string name="GPS_off">GPS is turned OFF</string>
+    <string name="would_you_like_to_activate_GPS">Would you like to activate the GPS?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="ok">OK</string>
+    <string name="location_unavailable">Location Unavailable</string>
+    <string name="your_location_is_unavailable">Your Location is unavailable.</string>
 
 </resources>
