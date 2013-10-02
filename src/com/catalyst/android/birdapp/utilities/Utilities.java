@@ -9,7 +9,8 @@ import java.text.ParseException;
 
 public class Utilities {
 	
-	private final static String DATE_TIME_FORMAT = "MM/dd/yyyy' 'HH:mm";
+	private final static String DATE_TIME_FORMAT_ENGLISH = "MM/dd/yyyy' 'HH:mm a";
+	private final static String DATE_TIME_FORMAT_GERMAN = "dd/MM/yyyy' 'HH:mm";
 
 	public long currentMillis() {
 		long currentTime = System.currentTimeMillis();
@@ -48,7 +49,13 @@ public class Utilities {
 	
 	
 	public Date getDateObject(String dateString) {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault());
+		String countryCode = getLocaleCode();
+		DateFormat formatter;
+		if (countryCode.equals("DE")){
+			formatter = new SimpleDateFormat(DATE_TIME_FORMAT_GERMAN, Locale.GERMAN);
+		} else {
+			formatter = new SimpleDateFormat(DATE_TIME_FORMAT_ENGLISH, Locale.ENGLISH);
+		}
 		try {
 			Date d = (Date)formatter.parse(dateString);
 			return d;
