@@ -102,8 +102,12 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 			gpsUtility.checkForGPS();
 			Location location = gpsUtility.getCurrentLocation();
 			//Auto fills the form
-			latitudeEditText.setText(Double.toString(location.getLatitude()));
-			longitudeEditText.setText(Double.toString(location.getLongitude()));
+			try{
+				latitudeEditText.setText(Double.toString(location.getLatitude()));
+				longitudeEditText.setText(Double.toString(location.getLongitude()));
+			}catch(NullPointerException e){
+				
+			}
 			//resets the location listener
 			gpsUtility.setFormLocationListener();	
 		}
@@ -161,8 +165,8 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		//Checks if there are any coordinates in the edit text boxes.  If they are empty then the coordinates are unavailable
 		if(latitudeEditText.getText().length() == 0 || longitudeEditText.getText().length() == 0){
 			gpsUtility.noLocationAvailable();
-			latitudeEditText.setText("Coordinates not available");
-			longitudeEditText.setText("Coordinates not available");
+			latitudeEditText.setText(getString(R.string.coordinates_not_available));
+			longitudeEditText.setText(getString(R.string.coordinates_not_available));
 		} else {
 			//If everything is good, this sets the location listener
 			gpsUtility.setFormLocationListener();
@@ -197,7 +201,7 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		{
 			long affectedColumnId = submitBirdSighting();
 			
-			Toast.makeText(this, "Added Bird Sighting :" + affectedColumnId, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.added_bird_sighting_toast) + affectedColumnId, Toast.LENGTH_SHORT).show();
 		}
 		
 	}
