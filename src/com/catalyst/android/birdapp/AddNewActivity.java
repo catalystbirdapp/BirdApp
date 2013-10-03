@@ -1,10 +1,8 @@
 package com.catalyst.android.birdapp;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
-
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -44,14 +42,16 @@ public class AddNewActivity extends Activity {
 	}
 	
 	/**
-	 * Saves the activity name to the database
+	 * Saves the inputed activity name to the database
 	 */
 	public void saveActivity(){
 		activityNameValue = activityName.getText().toString();
 		dbHandler.saveActivity(activityNameValue);
 	}
 	/**
-	 * checks the checkbox to see if it's checked
+	 * checks the "add another" checkbox to see if it is selected. If it is then the fields are 
+	 * reset otherwise it returns to the bird sighting form.
+	 * 
 	 * @param view
 	 */
 	public void checkBox(View view){
@@ -62,20 +62,5 @@ public class AddNewActivity extends Activity {
 			finish();
 		}
 	}
-/**
- * Sends user back to AddNewActivity so they add another activity easily
- * @param view
- */
-	public void getAddNewActivity(View view){
-		Intent intent = new Intent(getApplication(), AddNewActivity.class);
-		startActivity(intent);
-	}
-	/**
-	 * Sends user to the BirdForm screen
-	 * @param view
-	 */
-	public void getBirdForm(View view){
-		Intent intent = new Intent(getApplication(), BirdFormActivity.class);
-		startActivity(intent);
-	}
+
 }
