@@ -56,9 +56,10 @@ public class AddNewActivity extends Activity {
 	 */
 	public void checkBox(View view){
 		if(addAnotherCheckBox.isChecked()){
-			getAddNewActivity(view);
+			activityName.setText("");
+			addAnotherCheckBox.setChecked(false);
 		}else {
-			getBirdForm(view);
+			finish();
 		}
 	}
 /**
