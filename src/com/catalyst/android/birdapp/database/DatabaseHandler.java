@@ -1,5 +1,8 @@
 package com.catalyst.android.birdapp.database;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,11 +12,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.catalyst.android.birdapp.BirdSighting;
+import com.catalyst.android.birdapp.R;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private Cursor cursor;
-	
+	private Context context;
+
 	private static DatabaseHandler INSTANCE;
 	private static final String DATABASE_NAME = "BADB";
 	private static final int DATABASE_VERSION = 1;
@@ -70,10 +75,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private static final String BIRD_ACTIVITIES_CREATE = "create table birdActivities (birdActivityId integer primary key autoincrement, birdActivity text)";
 
+	//Queries
+	private static final String GET_ALL_ACTIVITIES = "SELECT * FROM " + BIRD_ACTIVITIES;
+	private static final String GET_ALL_CATEGORIES = "SELECT * FROM " + BIRD_SIGHTINGS_CATEGORY;
+	
+	//Inserts for Activities and Categories
+	private static final String INSERT_BIRD_ACTIVITY_PART_ONE = "INSERT INTO " + BIRD_ACTIVITIES + " (" + BIRD_ACTIVITY + ") VALUES ( ";
+	private static final String INSERT_BIRD_ACTIVITY_PART_TWO = " )";
+	private static final String INSERT_SIGHTING_CATEGORY_PART_ONE = "INSERT INTO " + BIRD_SIGHTINGS_CATEGORY + " (" + SIGHTING_CATEGORY + ") VALUES ( ";
+	private static final String INSERT_SIGHTING_CATEGORY_PART_TWO = " )";
+		
+	
+	
 	// private Cursor cursor;
 
 	private DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		this.context = context;
 	}
 
 	public static DatabaseHandler getInstance(Context context) {
@@ -93,10 +111,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			db.execSQL(BIRD_PICTURE_CREATE);
 			db.execSQL(BIRD_AUDIO_CREATE);
 			db.execSQL(BIRD_ACTIVITIES_CREATE);
-
+			autoPopulateActivitiesAndCategories(db);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void autoPopulateActivitiesAndCategories(SQLiteDatabase db) {
+		//Activities
+		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.flying) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
+		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.hunting) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
+		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.swimming) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
+		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.mating) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
+		//Categories
+		db.execSQL(INSERT_SIGHTING_CATEGORY_PART_ONE + "'" + context.getString(R.string.nest) + "'" + INSERT_SIGHTING_CATEGORY_PART_TWO);
+		db.execSQL(INSERT_SIGHTING_CATEGORY_PART_ONE + "'" + context.getString(R.string.sighting) + "'" + INSERT_SIGHTING_CATEGORY_PART_TWO);
+		db.execSQL(INSERT_SIGHTING_CATEGORY_PART_ONE + "'" + context.getString(R.string.misc) + "'" + INSERT_SIGHTING_CATEGORY_PART_TWO);
 	}
 
 	@Override
@@ -116,12 +146,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Create tables again
 		onCreate(db);
 	}
-	
+
 	public int getAcivityByActivityName(String activity) {
 		int birdId;
 		SQLiteDatabase db = this.getReadableDatabase();
-		cursor = db.query(BIRD_ACTIVITIES, new String[] { BIRD_ACTIVITY_ID }, BIRD_ACTIVITY
-				+ " = ?", new String[] { activity }, null, null, null);
+		cursor = db.query(BIRD_ACTIVITIES, new String[] { BIRD_ACTIVITY_ID },
+				BIRD_ACTIVITY + " = ?", new String[] { activity }, null, null,
+				null);
 		if (cursor != null && cursor.moveToFirst()) {
 			birdId = cursor.getInt(0);
 		} else {
@@ -130,12 +161,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 		return birdId;
 	}
-	
+
 	public int getCategoryByCategoryName(String category) {
 		int birdId;
 		SQLiteDatabase db = this.getReadableDatabase();
-		cursor = db.query(BIRD_SIGHTINGS_CATEGORY, new String[] { SIGHTING_CATEGORY_ID }, SIGHTING_CATEGORY
-				+ " = ?", new String[] { category }, null, null, null);
+		cursor = db.query(BIRD_SIGHTINGS_CATEGORY,
+				new String[] { SIGHTING_CATEGORY_ID }, SIGHTING_CATEGORY
+						+ " = ?", new String[] { category }, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			birdId = cursor.getInt(0);
 		} else {
@@ -144,38 +176,82 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 		return birdId;
 	}
+
+	/**
+	 * Returns all of the activities that are in the DB
+	 */
+	public ArrayList<String> getAllActivities() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		cursor = db.rawQuery(GET_ALL_ACTIVITIES, null);
+		int birdActivityColumnIndex = cursor.getColumnIndex(BIRD_ACTIVITY);
+		ArrayList<String> allActivities = new ArrayList<String>();
+		if (cursor != null && cursor.moveToFirst()) {	
+			do{
+				allActivities.add(cursor.getString(birdActivityColumnIndex));
+			}while(cursor.moveToNext());
+		}
+		db.close();
+		return allActivities;
+
+	}
 	
-	public long insertBirdSighting(BirdSighting birdSighting) {
+	/**
+	 * Returns all of the categories that are in the DB
+	 */
+	public ArrayList<String> getAllCategories() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		cursor = db.rawQuery(GET_ALL_CATEGORIES, null);
+		int birdActivityColumnIndex = cursor.getColumnIndex(SIGHTING_CATEGORY);
+		ArrayList<String> allCategories = new ArrayList<String>();
+		if (cursor != null && cursor.moveToFirst()) {	
+			do{
+				allCategories.add(cursor.getString(birdActivityColumnIndex));
+			}while(cursor.moveToNext());
+		}
+		db.close();
+		return allCategories;
 		
-		// Perform Readable tasks before trying to write to DB (get foreign Key Ids)
+	}
+
+	public long insertBirdSighting(BirdSighting birdSighting) {
+
+		// Perform Readable tasks before trying to write to DB (get foreign Key
+		// Ids)
 		int activityId = getAcivityByActivityName(birdSighting.getActivity());
 		int categoryId = getCategoryByCategoryName(birdSighting.getCategory());
-		
+
 		SQLiteDatabase database = getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
-		
-		contentValues.put(DatabaseHandler.BIRD_COMMON_NAME, birdSighting.getCommonName());
-		contentValues.put(DatabaseHandler.BIRD_SCIENTIFIC_NAME, birdSighting.getScientificName());
-		contentValues.put(DatabaseHandler.SIGHTING_NOTES, birdSighting.getNotes());
+
+		contentValues.put(DatabaseHandler.BIRD_COMMON_NAME,
+				birdSighting.getCommonName());
+		contentValues.put(DatabaseHandler.BIRD_SCIENTIFIC_NAME,
+				birdSighting.getScientificName());
+		contentValues.put(DatabaseHandler.SIGHTING_NOTES,
+				birdSighting.getNotes());
 		contentValues.put(DatabaseHandler.LATITUDE, birdSighting.getLatitude());
-		contentValues.put(DatabaseHandler.LONGITUDE, birdSighting.getLongitude());
+		contentValues.put(DatabaseHandler.LONGITUDE,
+				birdSighting.getLongitude());
 		contentValues.put(DatabaseHandler.SIGHTING_CATEGORY_ID, categoryId);
 		contentValues.put(DatabaseHandler.BIRD_ACTIVITY_ID, activityId);
 		if (birdSighting.getDateTime() != null) {
-			contentValues.put(DatabaseHandler.DATE_TIME, birdSighting.getDateTime().toString());
+			contentValues.put(DatabaseHandler.DATE_TIME, birdSighting
+					.getDateTime().toString());
 		}
-		
-		long affectedColumnId = database.insert(DatabaseHandler.BIRD_SIGHTING, null, contentValues);
-		
+
+		long affectedColumnId = database.insert(DatabaseHandler.BIRD_SIGHTING,
+				null, contentValues);
+
 		database.close();
-		
+
 		return affectedColumnId;
 	}
-	
-	public void saveActivity(String activityName){
+
+	public void saveActivity(String activityName) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		newActivityName = activityName;
-		String query = "INSERT INTO birdactivities (birdActivity) VALUES ('"+newActivityName+"')";
+		String query = "INSERT INTO birdactivities (birdActivity) VALUES ('"
+				+ newActivityName + "')";
 		database.execSQL(query);
 	}
 

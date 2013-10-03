@@ -73,6 +73,13 @@
     <string name="ok">OK</string>
     <string name="location_unavailable">Location Unavailable</string>
     <string name="your_location_is_unavailable">Your Location is unavailable.</string>
+    <string name="flying">Flying</string>
+    <string name="swimming">Swimming</string>
+    <string name="hunting">Hunting</string>
+    <string name="mating">Mating</string>
+    <string name="nest">Nest</string>
+    <string name="sighting">Sighting</string>
+    <string name="misc">Misc</string>
 
 
 </resources>

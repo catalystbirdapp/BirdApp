@@ -1,23 +1,16 @@
 package com.catalyst.android.birdapp;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +33,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
-	private Spinner amPmSpinner;
 	private CheckBox autoGPS;
 	private GPSUtility gpsUtility;
 	private EditText latitudeEditText, longitudeEditText;
@@ -55,9 +47,11 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
 		setContentView(R.layout.activity_bird_form);
 		//Checks to see if the device has google play services.
-//		GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+		GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 		//Sets up the GPS Utility class
 		gpsUtility = new GPSUtility(this);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
@@ -77,7 +71,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		
 		submitButton = (Button) findViewById(R.id.submit_button);
 		submitButton.setOnClickListener(this);
-		
 	}
 	
 	@Override
@@ -115,6 +108,23 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 			//resets the location listener
 			gpsUtility.setFormLocationListener();	
 		}
+		fillActivitySpinner();
+		fillCategorySpinner();
+	}
+
+	private void fillActivitySpinner() {
+		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
+		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, activitiesFromDB);
+		activitySpinner.setAdapter(adapter);
+		
+	}
+	private void fillCategorySpinner() {
+		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
+		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categoriesFromDB);
+		categorySpinner.setAdapter(adapter);
+		
 	}
 
 	private void intializeGPSfields() {
@@ -140,18 +150,9 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(BirdFormActivity.this,
 		        R.array.category_drop_down_choices, android.R.layout.simple_spinner_item);
 		
-		ArrayAdapter<CharSequence> activityAdapter = ArrayAdapter.createFromResource(BirdFormActivity.this,
-		        R.array.bird_acivity_dropdown_choices, android.R.layout.simple_spinner_item);
-		
-		ArrayAdapter<CharSequence> amPmAdapter = ArrayAdapter.createFromResource(BirdFormActivity.this,
-		        R.array.am_pm_choices, android.R.layout.simple_spinner_item);
-		
-		//amPmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		activityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		categorySpinner.setAdapter(adapter);
-		activitySpinner.setAdapter(activityAdapter);
 		
 	}
 	
