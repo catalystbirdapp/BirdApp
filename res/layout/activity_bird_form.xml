@@ -14,7 +14,6 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        
         tools:context=".BirdFormActivity" >
 
        
@@ -39,6 +38,7 @@
             android:layout_marginTop="26dp"
             android:layout_toRightOf="@+id/scientificName"
             android:ems="10"
+            android:maxLength="35"
             style="@style/textHintColor"
             android:hint="@string/birdNameHint"
             android:maxLines="1" />
@@ -63,6 +63,7 @@
             android:layout_alignRight="@+id/common_name_edit_text"
             android:layout_alignTop="@+id/birdName"
             android:ems="10"
+            android:maxLength="55"
             style="@style/textHintColor"
             android:hint="@string/scientificNameHint"
             android:maxLines="2" >
@@ -103,7 +104,7 @@
             android:layout_alignLeft="@+id/activity_text"
             android:layout_below="@+id/bird_acivity_dropdown"
             android:layout_marginTop="25dp"
-           
+            android:layout_alignParentLeft="true"
             android:background="@drawable/black_button"
             style="@style/ButtonText"
             android:text="@string/addPictureText" />
@@ -149,6 +150,7 @@
             android:layout_alignLeft="@+id/category_drop_down"
             android:layout_alignTop="@+id/dateText"
             android:ems="10"
+            android:maxLength="11"
             style="@style/textHintColor"
             android:text="@string/date" />
 
@@ -170,20 +172,24 @@
             android:layout_alignLeft="@+id/noteText"
             android:layout_below="@+id/hour_edit_text"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="60dp"
             android:textSize="18sp"
             style="@style/textColor"
             android:text="@string/gpsText" />
 
         <EditText
             android:id="@+id/latitude_edit_text"
-            android:layout_width="150dp"
+            style="@style/textHintColor"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/locationText"
             android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/formTitle"
             android:layout_below="@+id/locationText"
             android:ems="10"
-            style="@style/textHintColor"
-            android:hint="@string/latHint" />
+            android:hint="@string/latHint"
+            android:maxLength="20"
+            android:maxLines="2" />
 
         <CheckBox
             android:id="@+id/autofill_checkbox"
@@ -191,7 +197,7 @@
             android:layout_height="30dp"
             android:layout_alignBaseline="@+id/locationText"
             android:layout_alignBottom="@+id/locationText"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="130dp"
             android:text="@string/autofillCheckBox" />
 
         <TextView
@@ -207,13 +213,15 @@
 
         <EditText
             android:id="@+id/longitude_edit_text"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/latitude_edit_text"
             android:layout_alignParentLeft="true"
             android:layout_alignRight="@+id/latitude_edit_text"
             android:layout_below="@+id/latitude_edit_text"
             android:ems="10"
+            android:maxLength="20"
+            android:maxLines="2"
             style="@style/textHintColor"
             android:hint="@string/longHint" >
 
@@ -227,6 +235,7 @@
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
+            android:maxLength="10"
             style="@style/textHintColor"
             android:hint="@string/hourText"
             android:inputType="time" />
@@ -262,6 +271,8 @@
             style="@style/ButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+           
+            android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/picture_button"
             android:layout_alignBottom="@+id/picture_button"
             android:layout_alignRight="@+id/bird_acivity_dropdown"

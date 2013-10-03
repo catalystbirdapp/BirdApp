@@ -20,7 +20,7 @@
     <string name="scientificNameHint">Enter Scientific Name</string>
     <string name="latHint">Latitude</string>
     <string name="longHint">Longitude</string>
-    <string name="notesHint">Enter Notes...</string>
+    <string name="notesHint">Enter Notes</string>
     <string name="camera">Camera Title</string>
     <string name="dateText">Date:</string>
     <string name="map">Map</string>

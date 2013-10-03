@@ -84,7 +84,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String INSERT_BIRD_ACTIVITY_PART_TWO = " )";
 	private static final String INSERT_SIGHTING_CATEGORY_PART_ONE = "INSERT INTO " + BIRD_SIGHTINGS_CATEGORY + " (" + SIGHTING_CATEGORY + ") VALUES ( ";
 	private static final String INSERT_SIGHTING_CATEGORY_PART_TWO = " )";
-		
+	private static final String INSERT_CUSTOM_BIRD_ACTIVITY = "INSERT INTO " + BIRD_ACTIVITIES +"("+BIRD_ACTIVITY+")VALUES ( ";
+	private static final String INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO = " )";
 	
 	
 	// private Cursor cursor;
@@ -249,10 +250,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	public void saveActivity(String activityName) {
 		SQLiteDatabase database = this.getWritableDatabase();
-		newActivityName = activityName;
-		String query = "INSERT INTO birdactivities (birdActivity) VALUES ('"
-				+ newActivityName + "')";
-		database.execSQL(query);
+	newActivityName = activityName;
+		database.execSQL(INSERT_CUSTOM_BIRD_ACTIVITY + "'"+newActivityName+"'"+ INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO);
 	}
 
 }
