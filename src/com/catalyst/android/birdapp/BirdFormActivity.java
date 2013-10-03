@@ -58,7 +58,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
 		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
-		populateSpinners();
 		displayDateAndTime();
 
 		//Grabs the fields needed for gps autofill
@@ -103,8 +102,12 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 			gpsUtility.checkForGPS();
 			Location location = gpsUtility.getCurrentLocation();
 			//Auto fills the form
-			latitudeEditText.setText(Double.toString(location.getLatitude()));
-			longitudeEditText.setText(Double.toString(location.getLongitude()));
+			try{
+				latitudeEditText.setText(Double.toString(location.getLatitude()));
+				longitudeEditText.setText(Double.toString(location.getLongitude()));
+			}catch(NullPointerException e){
+				
+			}
 			//resets the location listener
 			gpsUtility.setFormLocationListener();	
 		}
@@ -141,21 +144,7 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bird_form, menu);
 		return true;
-	}
-	
-
-	
-	public void populateSpinners(){
-		
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(BirdFormActivity.this,
-		        R.array.category_drop_down_choices, android.R.layout.simple_spinner_item);
-		
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
-		categorySpinner.setAdapter(adapter);
-		
-	}
-	
+	}	
 
 	/**
 	 * Takes the user to the google map
@@ -176,8 +165,8 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		//Checks if there are any coordinates in the edit text boxes.  If they are empty then the coordinates are unavailable
 		if(latitudeEditText.getText().length() == 0 || longitudeEditText.getText().length() == 0){
 			gpsUtility.noLocationAvailable();
-			latitudeEditText.setText("Coordinates not available");
-			longitudeEditText.setText("Coordinates not available");
+			latitudeEditText.setText(getString(R.string.coordinates_not_available));
+			longitudeEditText.setText(getString(R.string.coordinates_not_available));
 		} else {
 			//If everything is good, this sets the location listener
 			gpsUtility.setFormLocationListener();
@@ -212,7 +201,7 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		{
 			long affectedColumnId = submitBirdSighting();
 			
-			Toast.makeText(this, "Added Bird Sighting :" + affectedColumnId, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.added_bird_sighting_toast) + affectedColumnId, Toast.LENGTH_SHORT).show();
 		}
 		
 	}
