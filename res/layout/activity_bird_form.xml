@@ -38,10 +38,10 @@
             android:layout_marginTop="26dp"
             android:layout_toRightOf="@+id/scientificName"
             android:ems="10"
-            android:maxLength="35"
+            android:maxLength="55"
             style="@style/textHintColor"
             android:hint="@string/birdNameHint"
-            android:maxLines="1" />
+            android:inputType="textPersonName" />"
    <requestFocus />
         <TextView
             android:id="@+id/birdName"
@@ -66,8 +66,7 @@
             android:maxLength="55"
             style="@style/textHintColor"
             android:hint="@string/scientificNameHint"
-            android:maxLines="2" >
-        </EditText>
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/notes_edit_text"
@@ -188,8 +187,8 @@
             android:layout_below="@+id/locationText"
             android:ems="10"
             android:hint="@string/latHint"
-            android:maxLength="20"
-            android:maxLines="2" />
+            android:maxLength="30"
+            android:inputType="textPersonName" />
 
         <CheckBox
             android:id="@+id/autofill_checkbox"
@@ -220,13 +219,10 @@
             android:layout_alignRight="@+id/latitude_edit_text"
             android:layout_below="@+id/latitude_edit_text"
             android:ems="10"
-            android:maxLength="20"
-            android:maxLines="2"
+            android:maxLength="30"
             style="@style/textHintColor"
-            android:hint="@string/longHint" >
-
-         
-        </EditText>
+            android:hint="@string/longHint"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/hour_edit_text"
