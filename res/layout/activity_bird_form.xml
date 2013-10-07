@@ -2,14 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView01"
     android:layout_width="match_parent"
-    
+    android:focusable="true"
+	android:focusableInTouchMode="true"
     android:layout_height="wrap_content"
     android:fillViewport="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-		android:background="@drawable/form_background"
+        android:background="@drawable/form_background"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -41,8 +42,11 @@
             android:maxLength="55"
             style="@style/textHintColor"
             android:hint="@string/birdNameHint"
-            android:inputType="textPersonName" />"
-   <requestFocus />
+            android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+    
         <TextView
             android:id="@+id/birdName"
             android:layout_width="wrap_content"
@@ -188,7 +192,7 @@
             android:ems="10"
             android:hint="@string/latHint"
             android:maxLength="30"
-            android:inputType="textPersonName" />
+            android:inputType="numberSigned|numberDecimal" />
 
         <CheckBox
             android:id="@+id/autofill_checkbox"
@@ -222,7 +226,7 @@
             android:maxLength="30"
             style="@style/textHintColor"
             android:hint="@string/longHint"
-            android:inputType="textPersonName" />
+            android:inputType="numberSigned|numberDecimal" />
 
         <EditText
             android:id="@+id/hour_edit_text"

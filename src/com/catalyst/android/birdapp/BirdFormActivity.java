@@ -15,6 +15,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -48,7 +49,7 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_bird_form);
 		//Checks to see if the device has google play services.
 		GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
@@ -111,6 +112,7 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 			//resets the location listener
 			gpsUtility.setFormLocationListener();	
 		}
+		displayDateAndTime();
 		fillActivitySpinner();
 		fillCategorySpinner();
 	}
@@ -199,9 +201,10 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		// Onclick event for submit button 
 		if (v.getId() == R.id.submit_button)
 		{
-			long affectedColumnId = submitBirdSighting();
+			submitBirdSighting();
 			
-			Toast.makeText(this, getString(R.string.added_bird_sighting_toast) + affectedColumnId, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.added_bird_sighting_toast) + commonNameEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+			refreshActivity();
 		}
 		
 	}
@@ -262,5 +265,13 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	public void getAddNewActivity(MenuItem menuItem){
 		Intent intent = new Intent(getApplication(), AddNewActivity.class);
 		startActivity(intent);
+	}
+	/**
+	 * Refreshes the current activity
+	 */
+	private void refreshActivity(){
+		Intent i = getIntent();
+		finish();
+	    startActivity(i);
 	}
 }
