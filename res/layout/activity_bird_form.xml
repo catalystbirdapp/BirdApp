@@ -153,9 +153,7 @@
             android:layout_alignLeft="@+id/category_drop_down"
             android:layout_alignTop="@+id/dateText"
             android:ems="10"
-            android:maxLength="11"
-            style="@style/textHintColor"
-            android:text="@string/date" />
+            android:maxLength="11" />
 
         <TextView
             android:id="@+id/dateText"
@@ -235,10 +233,7 @@
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
-            android:maxLength="10"
-            style="@style/textHintColor"
-            android:hint="@string/hourText"
-            android:inputType="time" />
+            android:maxLength="10" />
 
         <TextView
             android:id="@+id/activity_text"
@@ -257,7 +252,9 @@
             android:layout_marginBottom="30dp"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/hour_edit_text"
-            android:layout_alignTop="@+id/activity_text" />
+            android:layout_alignTop="@+id/activity_text"
+            android:prompt="@string/activityPrompt"
+        	android:spinnerMode="dialog" />
 
         <Spinner
             android:id="@+id/category_drop_down"
