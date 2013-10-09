@@ -3,6 +3,7 @@ package com.catalyst.android.birdapp;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,10 +29,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.Utilities;
 
 
-public class BirdFormActivity extends Activity implements android.view.View.OnClickListener {
+public class BirdFormActivity extends Activity implements OnClickListener {
 	
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
@@ -116,7 +119,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		fillActivitySpinner();
 		fillCategorySpinner();
 	}
-
 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
@@ -218,6 +220,9 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	}
 	
 	public long submitBirdSighting() {
+		//Create a list of the user defined field values for submission to FormValidationUtilities class
+		List<String> userDefinedFields = new ArrayList<String>();
+		List<String> missingFieldTitles = new ArrayList<String>();
 		
 		BirdSighting birdSighting = new BirdSighting();
 		
@@ -255,6 +260,11 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		} catch (NumberFormatException e) {
 			birdSighting.setLongitude(null);
 		}
+		userDefinedFields.add(commonNameField);
+		userDefinedFields.add(scientificNameField);
+		userDefinedFields.add(notesField);
+		FormValidationUtilities fvd = new FormValidationUtilities();
+		missingFieldTitles = fvd.validateBirdFormFields(userDefinedFields);
 		
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		return dbHandler.insertBirdSighting(birdSighting);
