@@ -233,6 +233,7 @@
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
+            android:inputType="time"
             android:maxLength="10" />
 
         <TextView
@@ -249,19 +250,21 @@
         <Spinner
             android:id="@+id/bird_acivity_dropdown"
             android:layout_width="210dp"
-            android:layout_marginBottom="30dp"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/hour_edit_text"
             android:layout_alignTop="@+id/activity_text"
+            android:layout_marginBottom="30dp"
             android:prompt="@string/activityPrompt"
-        	android:spinnerMode="dialog" />
+            android:spinnerMode="dialog" />
 
         <Spinner
             android:id="@+id/category_drop_down"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/category_text"
-            android:layout_toRightOf="@+id/category_text" />
+            android:layout_toRightOf="@+id/category_text"
+            android:prompt="@string/categoryPrompt"
+            android:spinnerMode="dialog" />
 
         <Button
             android:id="@+id/audio_button"

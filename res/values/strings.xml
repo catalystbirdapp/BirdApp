@@ -63,5 +63,6 @@
     <string name="coordinates_not_available">Coordinates not available</string>
     <string name="added_bird_sighting_toast">Added Bird Sighting :</string>
 	<string name="activityPrompt">Select the observed activity</string>
+	<string name="categoryPrompt">Select the desired category</string>
     <string name="app_bird_form">Bird Sighting</string>
 </resources>

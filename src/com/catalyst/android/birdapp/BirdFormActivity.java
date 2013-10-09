@@ -120,14 +120,14 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
-		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, activitiesFromDB);
+		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item, R.id.spinnertextview, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
 		
 	}
 	private void fillCategorySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
-		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categoriesFromDB);
+		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item, R.id.spinnertextview, categoriesFromDB);
 		categorySpinner.setAdapter(adapter);
 		
 	}
