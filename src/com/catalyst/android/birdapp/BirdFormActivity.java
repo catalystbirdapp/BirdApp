@@ -32,7 +32,7 @@ import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-public class BirdFormActivity extends Activity implements OnDialogDoneListener{
+public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	public static final String LOGTAG = "DialogFrag";
 
@@ -259,14 +259,20 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener{
 		} catch (NumberFormatException e) {
 			birdSighting.setLongitude(null);
 		}
-		 DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
-		 dbHandler.insertBirdSighting(birdSighting);
-		 if(commonNameField.equals("")){
-			 Toast.makeText(this, getString(R.string.sightingAddedBlankName), Toast.LENGTH_SHORT).show();
-		 } else {
-			 Toast.makeText(this, getString(R.string.added_bird_sighting_toast1) + " " + commonNameField + " " + getString(R.string.added_bird_sighting_toast2), Toast.LENGTH_SHORT).show();
-		 }
-		 refreshActivity();
+		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+		dbHandler.insertBirdSighting(birdSighting);
+		if (commonNameField.equals("")) {
+			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
+					Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(
+					this,
+					getString(R.string.added_bird_sighting_toast1) + " "
+							+ commonNameField + " "
+							+ getString(R.string.added_bird_sighting_toast2),
+					Toast.LENGTH_SHORT).show();
+		}
+		refreshActivity();
 	}
 
 	/**
@@ -285,15 +291,17 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener{
 		finish();
 		startActivity(i);
 	}
-	
+
 	/**
-	 * Called when user taps 'Submit' button.  Checks for missing user defined fields and alerts user if blank
+	 * Called when user taps 'Submit' button. Checks for missing user defined
+	 * fields and alerts user if blank
+	 * 
 	 * @param view
 	 */
-	public void checkFieldsAndNotifyUserOfBlanksBeforeSubmission(View view){
+	public void checkFieldsAndNotifyUserOfBlanksBeforeSubmission(View view) {
 		List<String> userDefinedFields = new ArrayList<String>();
 		List<String> missingFieldTitles = new ArrayList<String>();
-		
+
 		userDefinedFields.add(commonNameEditText.getText().toString());
 		userDefinedFields.add(scientificNameEditText.getText().toString());
 		userDefinedFields.add(notesEditText.getText().toString());
@@ -302,10 +310,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener{
 		if (missingFieldTitles.size() > 0) {
 			submitAlertDialog(missingFieldTitles);
 		} else {
-		submitBirdSighting();
+			submitBirdSighting();
 		}
 	}
-	
+
 	/**
 	 * Launches the confirmation dialog
 	 */
@@ -323,13 +331,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener{
 						+ missFields + "?");
 		adf.show(ft, missFields);
 	}
-	
+
 	/**
-	 * Listens for what the user chose and initiates callback method if the response was positive.
+	 * Listens for what the user chose and initiates callback method if the
+	 * response was positive.
 	 */
-	 public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
-		 if(!cancelled){
-			 submitBirdSighting();
-		 }
-	 }
+	public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
+		if (!cancelled) {
+			submitBirdSighting();
+		}
+	}
 }

@@ -30,10 +30,11 @@
     <string name="nameActivityText">Name of Activity:</string>
     <string name="saveButton">Save</string>
     <string name="addActivityCheckBox">Add Another?</string>
-	<string name = "addActivityPageTitle">Add an Activity</string>
-	<string name = "addActivityPageSubtitle">Name:</string>
-	<string name = "addActivityNameHint">Type Name Here</string>
-	<string name = "addActivitySaveButton">Save</string>
+    <string name="addActivityPageTitle">Add an Activity</string>
+    <string name="addActivityPageSubtitle">Name:</string>
+    <string name="addActivityNameHint">Type Name Here</string>
+    <string name="addActivitySaveButton">Save</string>
+
     <string-array name="category_drop_down_choices" />
     <string-array name="bird_acivity_dropdown_choices" />
     <string-array name="am_pm_choices">
@@ -42,10 +43,7 @@
     </string-array>
 
     <string name="title_activity_add">AddActivity</string>
-
-
     <string name="title_activity_add_new">AddNewActivity</string>
-
     <string name="GPS_off">GPS is turned OFF</string>
     <string name="would_you_like_to_activate_GPS">Would you like to activate the GPS?</string>
     <string name="yes">YES</string>
@@ -64,9 +62,10 @@
     <string name="added_bird_sighting_toast1">Your Sighting Of A</string>
     <string name="added_bird_sighting_toast2">Has Been Saved.</string>
     <string name="sightingAddedBlankName">Your Sighting Has Been Saved.</string>
-	<string name="activityPrompt">Select the Observed Activity</string>
-	<string name="categoryPrompt">Select the Desired Category</string>
+    <string name="activityPrompt">Select the Observed Activity</string>
+    <string name="categoryPrompt">Select the Desired Category</string>
     <string name="app_bird_form">Bird Sighting</string>
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
+
 </resources>

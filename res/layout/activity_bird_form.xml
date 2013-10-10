@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView01"
     android:layout_width="match_parent"
-    android:focusable="true"
-	android:focusableInTouchMode="true"
     android:layout_height="wrap_content"
-    android:fillViewport="true" >
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +17,6 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".BirdFormActivity" >
 
-       
-       
         <TextView
             android:id="@+id/formTitle"
             android:layout_width="wrap_content"
@@ -32,6 +30,7 @@
 
         <EditText
             android:id="@+id/common_name_edit_text"
+            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/submit_button"
@@ -39,41 +38,41 @@
             android:layout_marginTop="26dp"
             android:layout_toRightOf="@+id/scientificName"
             android:ems="10"
-            android:maxLength="55"
-            style="@style/textHintColor"
             android:hint="@string/birdNameHint"
-            android:inputType="textPersonName" >
+            android:inputType="textPersonName"
+            android:maxLength="55" >
 
-        <requestFocus />
-    </EditText>
-    
+            <requestFocus />
+        </EditText>
+
         <TextView
             android:id="@+id/birdName"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/scientificName"
             android:layout_below="@+id/common_name_edit_text"
             android:layout_marginTop="21dp"
             android:layout_toLeftOf="@+id/common_name_edit_text"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/scientificName" />
+            android:text="@string/scientificName"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/scientific_name_edit_text"
+            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/common_name_edit_text"
             android:layout_alignRight="@+id/common_name_edit_text"
             android:layout_alignTop="@+id/birdName"
             android:ems="10"
-            android:maxLength="55"
-            style="@style/textHintColor"
             android:hint="@string/scientificNameHint"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:maxLength="55" />
 
         <EditText
             android:id="@+id/notes_edit_text"
+            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/scientific_name_edit_text"
@@ -81,7 +80,6 @@
             android:layout_below="@+id/scientific_name_edit_text"
             android:layout_marginTop="25dp"
             android:ems="10"
-            style="@style/textHintColor"
             android:hint="@string/notesHint"
             android:inputType="textMultiLine"
             android:maxLines="2"
@@ -89,6 +87,7 @@
 
         <Button
             android:id="@+id/submit_button"
+            style="@style/ButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -96,88 +95,87 @@
             android:layout_below="@+id/picture_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
             android:background="@drawable/black_button"
-            style="@style/ButtonText"
+            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
             android:text="@string/submitButtonText" />
 
         <Button
             android:id="@+id/picture_button"
+            style="@style/ButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/activity_text"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/bird_acivity_dropdown"
             android:layout_marginTop="25dp"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/black_button"
-            style="@style/ButtonText"
             android:text="@string/addPictureText" />
 
         <TextView
             android:id="@+id/scientificName"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/common_name_edit_text"
             android:layout_alignBottom="@+id/common_name_edit_text"
             android:layout_alignParentLeft="true"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/birdName" />
+            android:text="@string/birdName"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/noteText"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/notes_edit_text"
             android:layout_alignBottom="@+id/notes_edit_text"
             android:layout_alignLeft="@+id/birdName"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/noteText" />
+            android:text="@string/noteText"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/time_title"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/dateText"
             android:layout_below="@+id/date_time_edit_text"
             android:layout_marginTop="14dp"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/timeText" />
+            android:text="@string/timeText"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/date_time_edit_text"
-            android:inputType="date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/category_drop_down"
             android:layout_alignTop="@+id/dateText"
             android:ems="10"
+            android:inputType="date"
             android:maxLength="11" />
 
         <TextView
             android:id="@+id/dateText"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/noteText"
             android:layout_below="@+id/notes_edit_text"
             android:layout_marginTop="34dp"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/dateText" />
+            android:text="@string/dateText"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/locationText"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/noteText"
             android:layout_below="@+id/hour_edit_text"
-            android:layout_marginTop="30dp"
             android:layout_marginRight="60dp"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/gpsText" />
+            android:layout_marginTop="30dp"
+            android:text="@string/gpsText"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/latitude_edit_text"
@@ -190,8 +188,8 @@
             android:layout_below="@+id/locationText"
             android:ems="10"
             android:hint="@string/latHint"
-            android:maxLength="30"
-            android:inputType="numberSigned|numberDecimal" />
+            android:inputType="numberSigned|numberDecimal"
+            android:maxLength="30" />
 
         <CheckBox
             android:id="@+id/autofill_checkbox"
@@ -204,17 +202,18 @@
 
         <TextView
             android:id="@+id/category_text"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/latitude_edit_text"
             android:layout_below="@+id/latitude_edit_text"
             android:layout_marginTop="55dp"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/categoryText" />
+            android:text="@string/categoryText"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/longitude_edit_text"
+            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/latitude_edit_text"
@@ -222,10 +221,9 @@
             android:layout_alignRight="@+id/latitude_edit_text"
             android:layout_below="@+id/latitude_edit_text"
             android:ems="10"
-            android:maxLength="30"
-            style="@style/textHintColor"
             android:hint="@string/longHint"
-            android:inputType="numberSigned|numberDecimal" />
+            android:inputType="numberSigned|numberDecimal"
+            android:maxLength="30" />
 
         <EditText
             android:id="@+id/hour_edit_text"
@@ -239,14 +237,14 @@
 
         <TextView
             android:id="@+id/activity_text"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/category_text"
             android:layout_below="@+id/category_drop_down"
             android:layout_marginTop="15dp"
-            android:textSize="18sp"
-            style="@style/textColor"
-            android:text="@string/activityText" />
+            android:text="@string/activityText"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/bird_acivity_dropdown"
@@ -272,14 +270,12 @@
             style="@style/ButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           
-            android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/picture_button"
             android:layout_alignBottom="@+id/picture_button"
+            android:layout_alignParentRight="true"
             android:layout_alignRight="@+id/bird_acivity_dropdown"
             android:background="@drawable/black_button"
             android:text="@string/addAudioText" />
-
     </RelativeLayout>
 
 </ScrollView>
