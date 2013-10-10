@@ -65,4 +65,6 @@
 	<string name="activityPrompt">Select the observed activity</string>
 	<string name="categoryPrompt">Select the desired category</string>
     <string name="app_bird_form">Bird Sighting</string>
+    <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
+    <string name="alert">Alert!!!</string>
 </resources>

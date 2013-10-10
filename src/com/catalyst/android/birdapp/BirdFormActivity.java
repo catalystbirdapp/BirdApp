@@ -12,6 +12,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,11 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.Utilities;
 
 
 public class BirdFormActivity extends Activity implements OnClickListener {
+	
+	public static final String LOGTAG = "DialogFrag";
 	
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
@@ -265,7 +269,9 @@ public class BirdFormActivity extends Activity implements OnClickListener {
 		userDefinedFields.add(notesField);
 		FormValidationUtilities fvd = new FormValidationUtilities();
 		missingFieldTitles = fvd.validateBirdFormFields(userDefinedFields);
-		
+		if(missingFieldTitles.size() > 0){
+			submitAlertDialog(missingFieldTitles);
+		}
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		return dbHandler.insertBirdSighting(birdSighting);
 	}
@@ -284,4 +290,26 @@ public class BirdFormActivity extends Activity implements OnClickListener {
 		finish();
 	    startActivity(i);
 	}
+	
+	/*
+	 * Launches the confirmation dialog 
+	 */
+	public void submitAlertDialog(List<String> missingFieldTitles){
+		StringBuilder sb = new StringBuilder();
+		String sep = ", ";
+		for(String s: missingFieldTitles){
+			sb.append(sep).append(s);
+		}
+		String missFields = sb.toString();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+    	AlertDialogFragment adf = AlertDialogFragment.newInstance(getString(R.string.emptyFieldsWarning) + " " + missFields + "?");
+    	adf.show(ft, missFields);
+    }
+	
+//	public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
+//		if(!cancelled){
+//			deleteCourse(tag);
+//		
+//		}
+//	}
 }
