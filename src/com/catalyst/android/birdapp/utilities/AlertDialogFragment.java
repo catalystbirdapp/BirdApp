@@ -51,8 +51,8 @@ public class AlertDialogFragment extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
-				.setTitle("@string/alert").setPositiveButton("@string/yes", this)
-				.setNegativeButton("@string/no", this)
+				.setTitle("Alert!!!").setPositiveButton("Yes", this)
+				.setNegativeButton("No", this)
 				.setMessage(this.getArguments().getString("alert-message"));
 		return b.create();
 	}

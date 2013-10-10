@@ -96,6 +96,7 @@
             android:layout_below="@+id/picture_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
             android:background="@drawable/black_button"
             style="@style/ButtonText"
             android:text="@string/submitButtonText" />
