@@ -222,57 +222,81 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	public void submitBirdSighting() {
+		int errors = 0;
 		BirdSighting birdSighting = new BirdSighting();
-
+		FormValidationUtilities fvd = new FormValidationUtilities();
 		String commonNameField = commonNameEditText.getText().toString();
+		// If user has provided input validate for proper content
+		if (!commonNameField.isEmpty()) {
+			if (!fvd.isFieldValueFormattedAlphaOnly(commonNameField)) {
+				commonNameEditText
+						.setError("Bird name must be alpha characters only!");
+				errors++;
+			}
+		}
 		String scientificNameField = scientificNameEditText.getText()
 				.toString();
-		String longitudeField = longitudeEditText.getText().toString();
-		String latitudeField = latitudeEditText.getText().toString();
-		String notesField = notesEditText.getText().toString();
-		String categoryField = categorySpinner.getSelectedItem().toString();
-		String activityField = activitySpinner.getSelectedItem().toString();
-		String dateField = dateEditText.getText().toString();
-		String timeField = timeEditText.getText().toString();
-
-		// create Date object from date/time fields
-		String dateTimeString = dateField + " " + timeField;
-		Utilities util = new Utilities();
-		Date dateTime = util.getDateObject(dateTimeString);
-
-		// Set values in BirdSighting object
-		birdSighting.setCommonName(commonNameField);
-		birdSighting.setScientificName(scientificNameField);
-		birdSighting.setNotes(notesField);
-		birdSighting.setActivity(activityField);
-		birdSighting.setCategory(categoryField);
-		birdSighting.setDateTime(dateTime);
-
-		// Check formatting, set field to null if wrong format
-		try {
-			birdSighting.setLatitude(Double.parseDouble(latitudeField));
-		} catch (NumberFormatException e) {
-			birdSighting.setLatitude(null);
+		// If user has provided input validate for proper content
+		if (!scientificNameField.isEmpty()) {
+			if (!fvd.isFieldValueFormattedAlphaOnly(scientificNameField)) {
+				scientificNameEditText
+						.setError("Scientific name must be alpha characters only!");
+				errors++;
+			}
 		}
-		try {
-			birdSighting.setLongitude(Double.parseDouble(longitudeField));
-		} catch (NumberFormatException e) {
-			birdSighting.setLongitude(null);
+		if (errors == 0) {
+			String longitudeField = longitudeEditText.getText().toString();
+			String latitudeField = latitudeEditText.getText().toString();
+			String notesField = notesEditText.getText().toString();
+			String categoryField = categorySpinner.getSelectedItem().toString();
+			String activityField = activitySpinner.getSelectedItem().toString();
+			String dateField = dateEditText.getText().toString();
+			String timeField = timeEditText.getText().toString();
+
+			// create Date object from date/time fields
+			String dateTimeString = dateField + " " + timeField;
+			Utilities util = new Utilities();
+			Date dateTime = util.getDateObject(dateTimeString);
+
+			// Set values in BirdSighting object
+			birdSighting.setCommonName(commonNameField);
+			birdSighting.setScientificName(scientificNameField);
+			birdSighting.setNotes(notesField);
+			birdSighting.setActivity(activityField);
+			birdSighting.setCategory(categoryField);
+			birdSighting.setDateTime(dateTime);
+
+			// Check formatting, set field to null if wrong format
+			try {
+				birdSighting.setLatitude(Double.parseDouble(latitudeField));
+			} catch (NumberFormatException e) {
+				birdSighting.setLatitude(null);
+			}
+			try {
+				birdSighting.setLongitude(Double.parseDouble(longitudeField));
+			} catch (NumberFormatException e) {
+				birdSighting.setLongitude(null);
+			}
+			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+			dbHandler.insertBirdSighting(birdSighting);
+			// Presents a toast with the bird name, or a generic toast if no
+			// bird name is input
+			if (commonNameField.equals("")) {
+				Toast.makeText(this,
+						getString(R.string.sightingAddedBlankName),
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(
+						this,
+						getString(R.string.added_bird_sighting_toast1)
+								+ " "
+								+ commonNameField
+								+ " "
+								+ getString(R.string.added_bird_sighting_toast2),
+						Toast.LENGTH_SHORT).show();
+			}
+			refreshActivity();
 		}
-		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
-		dbHandler.insertBirdSighting(birdSighting);
-		if (commonNameField.equals("")) {
-			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
-					Toast.LENGTH_SHORT).show();
-		} else {
-			Toast.makeText(
-					this,
-					getString(R.string.added_bird_sighting_toast1) + " "
-							+ commonNameField + " "
-							+ getString(R.string.added_bird_sighting_toast2),
-					Toast.LENGTH_SHORT).show();
-		}
-		refreshActivity();
 	}
 
 	/**
