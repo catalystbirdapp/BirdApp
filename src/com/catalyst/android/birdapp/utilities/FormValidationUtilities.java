@@ -10,6 +10,11 @@ public class FormValidationUtilities {
 	private static final List<String> FormFields = Arrays.asList("Bird Name",
 			"Scientific Name", "Notes");
 
+	/**
+	 * Takes in a list of user defined field values, and returns a list of field titles which the user has not supplied input.
+	 * @param fieldValues
+	 * @return missingFields
+	 */
 	public List<String> validateBirdFormFields(List<String> fieldValues) {
 		for (int i = 0; i < fieldValues.size(); i++) {
 			String current = fieldValues.get(i);
