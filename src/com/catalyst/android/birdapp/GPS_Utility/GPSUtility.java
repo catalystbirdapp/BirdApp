@@ -16,7 +16,11 @@ import android.widget.EditText;
 import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
-	
+	private Criteria criteria = new Criteria();
+	public Criteria getCriteria() {
+		return criteria;
+	}
+
 	private Context context;
 	private LocationManager locationManager;
 	private EditText latitudeEditText, longitudeEditText;
@@ -64,7 +68,7 @@ public class GPSUtility {
 	
 	public Location getCurrentLocation(){
 		Location currentLocation = null;
-		String provider = locationManager.getBestProvider(new Criteria(), true);
+		String provider = locationManager.getBestProvider(criteria, true);
 		//Gets the current location
 		if(provider != null)currentLocation = locationManager.getLastKnownLocation(provider);
 		return currentLocation;
