@@ -123,6 +123,10 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
 		}
 	}
 
+	/**
+	 * Auto populates the catagories and activities on DB creation.
+	 * @param db
+	 */
 	private void autoPopulateActivitiesAndCategories(SQLiteDatabase db) {
 		//Activities
 		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.flying) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
@@ -258,7 +262,9 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
 	newActivityName = activityName;
 		database.execSQL(INSERT_CUSTOM_BIRD_ACTIVITY + "'"+newActivityName+"'"+ INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO);
 	}
-
+		/*
+		 * Returns an arraylist of all of the bird sighting that are in the DB
+		 */
 	   public List<BirdSighting> getAllBirdSightings(){
            List<BirdSighting> allBirdSightings = new ArrayList<BirdSighting>();
            utility = new Utilities();
@@ -277,27 +283,24 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
            int birdSightingCategoryIndex = cursor.getColumnIndex(SIGHTING_CATEGORY);
               
            if (cursor != null && cursor.moveToFirst()) {         
-                           do{
-                                           try{
-                                        	 
-                                                           //Maps all of the information to a bird sighting object
-                                                           BirdSighting birdSighting = new BirdSighting();
-                                                           birdSighting.setId(cursor.getInt(birdSightingIdIndex));
-                                                           birdSighting.setCommonName(cursor.getString(birdSightingCommonNameIndex));
-                                                           birdSighting.setScientificName(cursor.getString(birdSightingScientificNameIndex));
-                                                           birdSighting.setNotes(cursor.getString(birdSightingNotesIndex));
-                                                           birdSighting.setLatitude(cursor.getDouble(birdSightingLatitudeIndex));
-                                                           birdSighting.setLongitude(cursor.getDouble(birdSightingLongitudeIndex));                                                   
-                                                           birdSighting.setDateTime(utility.getDateObject(cursor.getString(birdSightingDateIndex)));
-                                                           birdSighting.setActivity(cursor.getString(birdSightingActivityIndex));
-                                                           birdSighting.setCategory(cursor.getString(birdSightingCategoryIndex));
-                                                           allBirdSightings.add(birdSighting);
-                                                           Log.d("debug", birdSighting.toString());
-                                           }catch(Exception e){
-                                                           e.printStackTrace();
-                                                          
-                                           }
-                           }while(cursor.moveToNext());
+        	   do{
+        		   try{
+        			   //Maps all of the information to a bird sighting object
+                       BirdSighting birdSighting = new BirdSighting();
+                       birdSighting.setId(cursor.getInt(birdSightingIdIndex));
+                       birdSighting.setCommonName(cursor.getString(birdSightingCommonNameIndex));
+                       birdSighting.setScientificName(cursor.getString(birdSightingScientificNameIndex));
+                       birdSighting.setNotes(cursor.getString(birdSightingNotesIndex));
+                       birdSighting.setLatitude(cursor.getDouble(birdSightingLatitudeIndex));
+                       birdSighting.setLongitude(cursor.getDouble(birdSightingLongitudeIndex));                                                   
+                       birdSighting.setDateTime(utility.getDateObject(cursor.getString(birdSightingDateIndex)));
+                       birdSighting.setActivity(cursor.getString(birdSightingActivityIndex));
+                       birdSighting.setCategory(cursor.getString(birdSightingCategoryIndex));
+                       allBirdSightings.add(birdSighting);
+        		   }catch(Exception e){
+        			   e.printStackTrace();
+                   }
+        	   }while(cursor.moveToNext());
            }
            db.close();
            
