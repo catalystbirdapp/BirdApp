@@ -9,9 +9,11 @@ public class FormValidationUtilities {
 	private List<String> missingFields = new ArrayList<String>();
 	private static final List<String> FormFields = Arrays.asList("Bird Name",
 			"Scientific Name", "Notes");
-
+	
 	/**
-	 * Takes in a list of user defined field values, and returns a list of field titles which the user has not supplied input.
+	 * Takes in a list of user defined field values, and returns a list of field
+	 * titles which the user has not supplied input.
+	 * 
 	 * @param fieldValues
 	 * @return missingFields
 	 */
@@ -23,5 +25,31 @@ public class FormValidationUtilities {
 			}
 		}
 		return missingFields;
+	}
+	
+	/**
+	 * Compares given string against alpha-only regex
+	 * @param value
+	 * @return
+	 */
+	public boolean isFieldValueFormattedAlphaOnly(String value){
+		String pattern = "^[a-zA-Z]*$";
+		if(value.matches(pattern)){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Compares given string against alpha-numeric regex
+	 * @param value
+	 * @return
+	 */
+	public boolean isFieldValueFormattedAlphaNumeric(String value){
+		String pattern = "^[a-zA-Z0-9]*$";
+		if(value.matches(pattern)){
+			return true;
+		}
+		return false; 
 	}
 }
