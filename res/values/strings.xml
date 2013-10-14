@@ -84,4 +84,15 @@
     <string name="added_bird_sighting_toast">Added Bird Sighting :</string>
 
     <string name="app_bird_form">Bird Sighting</string>
+    <string name = "row1col1">Row 1 Column 1</string>
+    <string name = "row1col2">Row 1 Column 2</string>
+    <string name = "row2col1">Row 2 Column 1</string>
+    <string name = "row2col2">Row 2 Column 2</string>
+    <string name = "row3col1">Row 3 Column 1</string>
+    <string name = "row3col2">Row 3 Column 2</string>
+    <string name = "row4col1">Row 4 Column 1</string>
+    <string name = "row4col2">Row 4 Column 2</string>
+    <string name = "row5col1">Row 5 Column 1</string>
+    <string name = "row5col2">Row 5 Column 2</string>
+    
 </resources>
