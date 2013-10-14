@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp.utilities;
 
+import android.annotation.SuppressLint;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,8 +9,20 @@ import java.util.Locale;
 
 public class Utilities {
 
-	private final static String DATE_TIME_FORMAT_ENGLISH = "MM/dd/yyyy' 'HH:mm a";
+	private final static String DATE_TIME_FORMAT_ENGLISH = "MM/dd/yyyy' 'hh:mm a";
 	private final static String DATE_TIME_FORMAT_GERMAN = "dd/MM/yyyy' 'HH:mm";
+	private final static String DATE_FORMAT_ENGLISH = "MM/dd/yyyy";
+	private final static String DATE_FORMAT_GERMAN = "dd/MM/yyyy";
+	private final static String TIME_FORMAT_ENGLISH = "hh:mm a";
+	private final static String TIME_FORMAT_GERMAN = "HH:mm";
+	private String countryCode;
+	private SimpleDateFormat formatter;
+
+	//Suppressing due to setting the localized pattern below
+	@SuppressLint("SimpleDateFormat")
+	public Utilities() {
+		this.formatter = new SimpleDateFormat();
+	}
 
 	/**
 	 * Returns the current time in milliseconds
@@ -29,14 +42,12 @@ public class Utilities {
 	 * @return formatted date
 	 */
 	public String formatDate(long millis) {
-		String countryCode = getLocaleCode();
-		DateFormat formatter;
+		countryCode = localeCode();
 		if (countryCode.equals("DE")) {
-			formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMAN);
+			formatter.applyPattern(DATE_FORMAT_GERMAN);
 		} else {
-			formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+			formatter.applyPattern(DATE_FORMAT_ENGLISH);
 		}
-
 		return formatter.format(millis);
 	}
 
@@ -48,14 +59,12 @@ public class Utilities {
 	 * @return formatted time
 	 */
 	public String formatTime(long millis) {
-		String countryCode = getLocaleCode();
-		DateFormat formatter;
+		countryCode = localeCode();
 		if (countryCode.equals("DE")) {
-			formatter = new SimpleDateFormat("HH:mm", Locale.GERMAN);
+			formatter.applyPattern(TIME_FORMAT_GERMAN);
 		} else {
-			formatter = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+			formatter.applyPattern(TIME_FORMAT_ENGLISH);
 		}
-
 		return formatter.format(millis);
 	}
 
@@ -64,14 +73,15 @@ public class Utilities {
 	 * 
 	 * @return two digit country code
 	 */
-	protected String getLocaleCode() {
+	public String localeCode() {
 		Locale locale = Locale.getDefault();
 		String country = locale.getCountry();
 		return country;
 	}
 
+	//Scheduled for removal
 	public Date getDateObject(String dateString) {
-		String countryCode = getLocaleCode();
+		String countryCode = localeCode();
 		DateFormat formatter;
 		if (countryCode.equals("DE")) {
 			formatter = new SimpleDateFormat(DATE_TIME_FORMAT_GERMAN,
@@ -87,6 +97,22 @@ public class Utilities {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public SimpleDateFormat getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(SimpleDateFormat formatter) {
+		this.formatter = formatter;
 	}
 
 }
