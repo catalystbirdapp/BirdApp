@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
@@ -7,18 +8,20 @@ import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 public class MapActivity extends Activity {
 	
@@ -31,6 +34,9 @@ public class MapActivity extends Activity {
 	private GPSUtility gpsUtility;
 	
 	private DatabaseHandler dbHandler;
+	
+	private HashMap <Marker, BirdSighting> markerSightingsMap;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,8 +48,35 @@ public class MapActivity extends Activity {
 		//gets the map fragment from the page to modify it
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		dbHandler = DatabaseHandler.getInstance(this);		
+		markerSightingsMap = new HashMap <Marker, BirdSighting>();
+		setMapMarkerInfoWindowAdapter();
 	}
 	
+	/**
+	 * sets the custom window adapter
+	 */
+	private void setMapMarkerInfoWindowAdapter() {
+		map.setInfoWindowAdapter(new InfoWindowAdapter() {
+
+			@Override
+			public View getInfoContents(Marker marker) {
+				return null;
+			}
+
+			@Override
+			public View getInfoWindow(Marker marker) {
+				
+	            View view = getLayoutInflater().inflate(R.layout.map_window_adapter, null);
+
+	           
+	            return view;
+
+			}
+			
+		});
+		
+	}
+
 	/**
 	 * Adds a marker for the person's current location and then adds markers for the past sightings.  Then it zooms the camera in on the person's current location 
 	 */
@@ -65,13 +98,16 @@ public class MapActivity extends Activity {
 	 * Adds the markers to the map for the sightings that have been stored in the DB
 	 */
     private void addMarkersForPreviousSightings() {
+    	//Retrieves all of the bird sightings from the DB
         List<BirdSighting> allBirdSightings = dbHandler.getAllBirdSightings();
       
         for(int index = 0; index < allBirdSightings.size(); index++){
         	BirdSighting birdSighting = allBirdSightings.get(index);
+        	//Gets the LatLng location from the sighting for placement on the map
             LatLng birdSightingLocation = new LatLng(birdSighting.getLatitude(), birdSighting.getLongitude());
-            map.addMarker(new MarkerOptions().position(birdSightingLocation).icon(getMapIcon(birdSighting)));
-            Log.d("debug", birdSighting.getCategory());
+            Marker mapMarker = map.addMarker(new MarkerOptions().position(birdSightingLocation).icon(getMapIcon(birdSighting)));
+            //Adds the birdsighting to the hasmap so that the birdsighting can be retrieved by passing in the marker
+            markerSightingsMap.put(mapMarker, birdSighting);
         }
         
 }
@@ -81,6 +117,7 @@ public class MapActivity extends Activity {
 	 */
 	private BitmapDescriptor getMapIcon(BirdSighting birdSighting) {
 		BitmapDescriptor bitmap = null;
+		//Checks the category of the sighting and returns the proper image for the map marker
 		if(birdSighting.getCategory().equals(getString(R.string.sighting))){
 			bitmap = BitmapDescriptorFactory.fromResource(R.drawable.bird_map_icon);
 		} else if (birdSighting.getCategory().equals(getString(R.string.nest))){
