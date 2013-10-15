@@ -18,7 +18,7 @@ public class Utilities {
 	private String countryCode;
 	private SimpleDateFormat formatter;
 
-	//Suppressing due to setting the localized pattern below
+	// Suppressing due to setting the localized pattern below
 	@SuppressLint("SimpleDateFormat")
 	public Utilities() {
 		this.formatter = new SimpleDateFormat();
@@ -79,7 +79,7 @@ public class Utilities {
 		return country;
 	}
 
-	//Scheduled for removal
+	// TODO Scheduled for removal
 	public Date getDateObject(String dateString) {
 		String countryCode = localeCode();
 		DateFormat formatter;
@@ -98,21 +98,4 @@ public class Utilities {
 			return null;
 		}
 	}
-
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
-	public SimpleDateFormat getFormatter() {
-		return formatter;
-	}
-
-	public void setFormatter(SimpleDateFormat formatter) {
-		this.formatter = formatter;
-	}
-
 }
