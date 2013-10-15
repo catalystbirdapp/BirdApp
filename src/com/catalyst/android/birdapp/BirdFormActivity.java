@@ -2,7 +2,6 @@ package com.catalyst.android.birdapp;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,8 +40,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	private EditText commonNameEditText;
 	private EditText scientificNameEditText;
 	private EditText notesEditText;
-	private EditText dateEditText;
-	private EditText timeEditText;
 	private Button submitButton;
 	
 	@Override
@@ -66,8 +63,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		
 		commonNameEditText = (EditText)findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText)findViewById(R.id.scientific_name_edit_text);
-		dateEditText = (EditText) findViewById(R.id.date_time_edit_text);
-		timeEditText = (EditText) findViewById(R.id.hour_edit_text);
 		
 		submitButton = (Button) findViewById(R.id.submit_button);
 		submitButton.setOnClickListener(this);
@@ -228,13 +223,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		String notesField = notesEditText.getText().toString();
 		String categoryField = categorySpinner.getSelectedItem().toString();
 		String activityField = activitySpinner.getSelectedItem().toString();
-		String dateField = dateEditText.getText().toString();
-		String timeField = timeEditText.getText().toString();
-		
-		// create Date object from date/time fields
-		String dateTimeString = dateField + " " +timeField;
-		Utilities util = new Utilities();
-		Date dateTime = util.getDateObject(dateTimeString);
 		
 		//Set values in BirdSighting object
 		birdSighting.setCommonName(commonNameField);
@@ -242,7 +230,6 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		birdSighting.setNotes(notesField);
 		birdSighting.setActivity(activityField);
 		birdSighting.setCategory(categoryField);
-		birdSighting.setDateTime(dateTime);
 		
 		//Check formatting, set field to null if wrong format
 		try {

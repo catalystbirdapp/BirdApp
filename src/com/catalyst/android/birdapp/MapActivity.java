@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,11 +21,22 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 public class MapActivity extends Activity {
 	
+	private static final int ZERO = 0;
+
+	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
+
+	private static final int INFO_TEXT_VIEW_WIDTH = 300;
+
 	private LocationManager locationManager;
 
 	private GoogleMap map;
@@ -37,6 +49,8 @@ public class MapActivity extends Activity {
 	
 	private HashMap <Marker, BirdSighting> markerSightingsMap;
 	
+	private TableLayout mapInfoWindow;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,30 +61,74 @@ public class MapActivity extends Activity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		//gets the map fragment from the page to modify it
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		dbHandler = DatabaseHandler.getInstance(this);		
+		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
 		setMapMarkerInfoWindowAdapter();
 	}
-	
+
 	/**
-	 * sets the custom window adapter
+	 * sets up the custom window adapter
 	 */
 	private void setMapMarkerInfoWindowAdapter() {
 		map.setInfoWindowAdapter(new InfoWindowAdapter() {
 
+
 			@Override
 			public View getInfoContents(Marker marker) {
-				return null;
+				//Retrieves the bird sighting from the hashmap
+	            BirdSighting birdSighting = markerSightingsMap.get(marker);
+	            
+	            //Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
+	            Date birdSightingDate = birdSighting.getDateTime();
+	           	java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
+	           	String formattedDate = dateFormat.format(birdSightingDate);
+	           	
+	           	//formats the time to the time format that the person has selected for their phone
+	           	java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
+	           	String formattedTime = timeFormat.format(birdSightingDate);
+	            
+	           	//Creates the view to put all of the information into
+	            View view = getLayoutInflater().inflate(R.layout.map_window_adapter, null);
+	            
+	            //Pulls the table layout out of the view so that table rows could be added to it.
+	            mapInfoWindow = (TableLayout) view.findViewById(R.id.map_info_window);
+	            
+	            //calls the method that constructs the table rows and inserts the information into them. The if statements keeps out rows if the information is empty.
+	           	if(birdSighting.getCommonName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
+	           	if(birdSighting.getScientificName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.scientificName), birdSighting.getScientificName());}
+	           	addBirdInfoToMapInfoWindow(getString(R.string.dateText), formattedDate);
+	           	addBirdInfoToMapInfoWindow(getString(R.string.timeText), formattedTime);
+	           	addBirdInfoToMapInfoWindow(getString(R.string.activityText), birdSighting.getActivity());
+	            if(birdSighting.getNotes().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.noteText), birdSighting.getNotes());}
+	            
+				return view;
+			}
+			
+			/**
+			 * Adds info to a table row and puts it in the pop up window for the map.
+			 */
+			private void addBirdInfoToMapInfoWindow(String rowTitle, String info) {
+				TableRow tableRow = new TableRow(getApplicationContext());
+				
+				//Creates the text view for the title of the row
+				TextView titleTextView = new TextView(getApplicationContext());
+				titleTextView.setText(rowTitle);
+				
+				//Creates the text view for the row's information
+				TextView infoTextView = new TextView(getApplicationContext());
+				infoTextView.setText(info);
+				
+				//Sets the padding and width, adds them to the table row, then adds the table row to the view
+				infoTextView.setWidth(INFO_TEXT_VIEW_WIDTH);
+				titleTextView.setPadding(ZERO, ZERO, PADDING_BETWEEN_TITLE_AND_INFO, ZERO);
+				tableRow.addView(titleTextView);
+				tableRow.addView(infoTextView);
+				mapInfoWindow.addView(tableRow);				
 			}
 
 			@Override
 			public View getInfoWindow(Marker marker) {
-				
-	            View view = getLayoutInflater().inflate(R.layout.map_window_adapter, null);
-
-	           
-	            return view;
-
+				return null;
 			}
 			
 		});
