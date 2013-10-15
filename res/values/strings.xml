@@ -34,6 +34,8 @@
     <string name="addActivityPageSubtitle">Name:</string>
     <string name="addActivityNameHint">Type Name Here</string>
     <string name="addActivitySaveButton">Save</string>
+    <string name="submitButton">Submit A Sighting</string>
+    <string name="reviewRecords">Review Past Sightings</string>
 
     <string-array name="category_drop_down_choices" />
     <string-array name="bird_acivity_dropdown_choices" />
@@ -67,5 +69,6 @@
     <string name="app_bird_form">Bird Sighting</string>
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

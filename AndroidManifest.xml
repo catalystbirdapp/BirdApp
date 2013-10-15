@@ -16,7 +16,7 @@
         android:required="true" />
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="13"
         android:targetSdkVersion="18" />
 
     <application
@@ -25,13 +25,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.catalyst.android.birdapp.BirdFormActivity"
-            android:label="@string/app_bird_form" >
+            android:name="com.catalyst.android.birdapp.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.BirdFormActivity"
+            android:label="@string/app_bird_form" >
         </activity>
 
         <meta-data

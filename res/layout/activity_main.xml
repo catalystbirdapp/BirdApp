@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/splash_background" >
+
+    <Button
+        android:id="@+id/button1"
+        style="@style/SplashScreenButtons"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/splash_button_height"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="@dimen/splash_button_left_right_margins"
+        android:layout_marginRight="@dimen/splash_button_left_right_margins"
+        android:background="@drawable/a9p_09_11_00899"
+        android:onClick="navigateToSubmission"
+        android:text="@string/submitButton" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/SplashScreenButtons"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/splash_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="63dp"
+        android:layout_marginLeft="@dimen/splash_button_left_right_margins"
+        android:layout_marginRight="@dimen/splash_button_left_right_margins"
+        android:background="@drawable/a9p_09_11_00899"
+        android:onClick="navigateToRecordsReview"
+        android:text="@string/reviewRecords" />
+
+</RelativeLayout>
