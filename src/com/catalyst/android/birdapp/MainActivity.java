@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +13,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		MediaPlayer mp = MediaPlayer.create(getApplicationContext(),
+				R.raw.dovecooing4302008);
+		mp.start();
 	}
 
 	@Override
@@ -20,14 +24,14 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	public void navigateToSubmission(View v){
+
+	public void navigateToSubmission(View v) {
 		Intent i = new Intent(this, BirdFormActivity.class);
 		startActivity(i);
 	}
-	
-	public void navigateToRecordsReview(View v){
-		
+
+	public void navigateToRecordsReview(View v) {
+
 	}
 
 }
