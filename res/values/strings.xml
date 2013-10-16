@@ -24,48 +24,26 @@
     <string name="camera">Camera Title</string>
     <string name="dateText">Date:</string>
     <string name="map">Map</string>
-    <string name="minuteText">MM</string>
-    <string name="yearText">YYYY</string>
-    <string name="dayText">DD</string>
-    <string name="hourText">HH</string>
-    <string name="dateSeparator">/</string>
     <string name="timeText">Time:</string>
-    <string name="timeSeparator">:</string>
     <string name="autofillCheckBox">Autofill?</string>
     <string name="addActivityTitleText">Add an Activity</string>
     <string name="nameActivityText">Name of Activity:</string>
-    <string name="date">00/00/0000</string>
-	<string name="saveButton">Save</string>
+    <string name="saveButton">Save</string>
     <string name="addActivityCheckBox">Add Another?</string>
-	<string name = "addActivityPageTitle">Add an Activity</string>
-	<string name = "addActivityPageSubtitle">Name:</string>
-	<string name = "addActivityNameHint">Type Name Here</string>
-	<string name = "addActivitySaveButton">Save</string>
-    <string-array name="category_drop_down_choices">
-        <item>None</item>
-        <item>Nest Site</item>
-        <item>Family</item>
-        <item>Rare</item>
-        <item>Unknown</item>
-    </string-array>
-    <string-array name="bird_acivity_dropdown_choices">
-        <item>None</item>
-        <item>Nesting</item>
-        <item>Flying</item>
-        <item>Mating Call</item>
-        <item>Hunting</item>
-        <item>Misc</item>
-    </string-array>
+    <string name="addActivityPageTitle">Add an Activity</string>
+    <string name="addActivityPageSubtitle">Name:</string>
+    <string name="addActivityNameHint">Type Name Here</string>
+    <string name="addActivitySaveButton">Save</string>
+
+    <string-array name="category_drop_down_choices" />
+    <string-array name="bird_acivity_dropdown_choices" />
     <string-array name="am_pm_choices">
         <item>AM</item>
         <item>PM</item>
     </string-array>
 
     <string name="title_activity_add">AddActivity</string>
-
-
     <string name="title_activity_add_new">AddNewActivity</string>
-
     <string name="GPS_off">GPS is turned OFF</string>
     <string name="would_you_like_to_activate_GPS">Would you like to activate the GPS?</string>
     <string name="yes">YES</string>
@@ -81,7 +59,13 @@
     <string name="sighting">Sighting</string>
     <string name="misc">Misc</string>
     <string name="coordinates_not_available">Coordinates not available</string>
-    <string name="added_bird_sighting_toast">Added Bird Sighting :</string>
-
+    <string name="added_bird_sighting_toast1">Your Sighting Of A</string>
+    <string name="added_bird_sighting_toast2">Has Been Saved.</string>
+    <string name="sightingAddedBlankName">Your Sighting Has Been Saved.</string>
+    <string name="activityPrompt">Select the Observed Activity</string>
+    <string name="categoryPrompt">Select the Desired Category</string>
     <string name="app_bird_form">Bird Sighting</string>
+    <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
+    <string name="alert">Alert!!!</string>
+
 </resources>
