@@ -274,4 +274,9 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		finish();
 	    startActivity(i);
 	}
+
+	public void openCamera(MenuItem menuItem){
+		Intent intent = new Intent(getApplication(), CameraActivity.class);
+		startActivity(intent);
+	}
 }
