@@ -69,6 +69,6 @@
     <string name="app_bird_form">Bird Sighting</string>
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Put A Bird On It!!</string>
 
 </resources>
