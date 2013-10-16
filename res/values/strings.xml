@@ -71,8 +71,8 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="ok">OK</string>
-    <string name="location_unavailable">Location Unavailable</string>
-    <string name="your_location_is_unavailable">Your Location is unavailable.</string>
+    <string name="location_unavailable">GPS Location Unavailable</string>
+    <string name="your_location_is_unavailable">GPS will not be used for location.</string>
     <string name="flying">Flying</string>
     <string name="swimming">Swimming</string>
     <string name="hunting">Hunting</string>

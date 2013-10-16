@@ -12,6 +12,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,39 +100,59 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(autoGPS.isChecked()){
+		if(autoGPS.isChecked() && gpsUtility.checkForLocationProvider()){
 			gpsUtility.checkForGPS();
 			Location location = gpsUtility.getCurrentLocation();
-			//Auto fills the form
-			try{
-				latitudeEditText.setText(Double.toString(location.getLatitude()));
-				longitudeEditText.setText(Double.toString(location.getLongitude()));
-			}catch(NullPointerException e){
-				
+			if(location != null){
+				//Auto fills the form
+				try{
+					latitudeEditText.setText(Double.toString(location.getLatitude()));
+					longitudeEditText.setText(Double.toString(location.getLongitude()));
+				}catch(NullPointerException e){
+					setsCoordinatesAsUnavailable();
+				}
+				//resets the location listener
+				gpsUtility.setFormLocationListener();
+			}else{
+				setsCoordinatesAsUnavailable();
 			}
-			//resets the location listener
-			gpsUtility.setFormLocationListener();	
 		}
 		displayDateAndTime();
 		fillActivitySpinner();
 		fillCategorySpinner();
 	}
 
+	/** 
+	 * Sets the coordinates fields to reflect that coordinates are unavailable
+	 */
+	private void setsCoordinatesAsUnavailable() {
+		latitudeEditText.setText(getString(R.string.coordinates_not_available));
+		longitudeEditText.setText(getString(R.string.coordinates_not_available));
+	}
+
+	/**
+	 * Fills the activity spinner with values from the DB
+	 */
 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
 		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
-		
 	}
+	
+	/**
+	 * Fills the category spinner with values from the DB
+	 */
 	private void fillCategorySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
 		ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categoriesFromDB);
-		categorySpinner.setAdapter(adapter);
-		
+		categorySpinner.setAdapter(adapter);	
 	}
 
+	/**
+	 * Initializes the GPS coordinates fields and sets the oncheck changed listener
+	 */
 	private void intializeGPSfields() {
 		//Grabs the edit texts fields from the page so that they can be edited
 		latitudeEditText = (EditText) findViewById(R.id.latitude_edit_text);
@@ -157,21 +178,18 @@ public class BirdFormActivity extends Activity implements android.view.View.OnCl
 		startActivity(intent);
 	}
 	
+	/**
+	 * Autofills the coordinates and sets the location listener
+	 */
 	private void autoFillCoordinates(){
 		Location location = gpsUtility.getCurrentLocation();
 		//Auto fills the form
 		if(location != null){
 			latitudeEditText.setText(Double.toString(location.getLatitude()));
 			longitudeEditText.setText(Double.toString(location.getLongitude()));
-		}
-		//Checks if there are any coordinates in the edit text boxes.  If they are empty then the coordinates are unavailable
-		if(latitudeEditText.getText().length() == 0 || longitudeEditText.getText().length() == 0){
-			gpsUtility.noLocationAvailable();
-			latitudeEditText.setText(getString(R.string.coordinates_not_available));
-			longitudeEditText.setText(getString(R.string.coordinates_not_available));
-		} else {
-			//If everything is good, this sets the location listener
 			gpsUtility.setFormLocationListener();
+		} else {
+			setsCoordinatesAsUnavailable();
 		}
 	}
 	
