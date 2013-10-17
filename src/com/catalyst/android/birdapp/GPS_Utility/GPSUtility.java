@@ -11,16 +11,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
-import android.widget.EditText;
+import android.widget.TextView;
+
 import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
 	
 	private Context context;
 	private LocationManager locationManager;
-	private EditText latitudeEditText, longitudeEditText;
+	private TextView latitudeEditText, longitudeEditText;
 	private Criteria criteria = new Criteria();
+	boolean gpsOn;
 	
 	//Location Listener for the coordinate auto fill boxes
 	private LocationListener formLocationListener = new LocationListener(){
@@ -43,7 +44,25 @@ public class GPSUtility {
 	};
 	
 	/**
+	 * Constructor that brings in the context and latitude and longitude textviews, and sets the location manager
+	 * 
+	 * Used on the main submit form
+	 * 
+	 * @param context
+	 */
+	public GPSUtility(Context context, TextView latitudeEditText, TextView longitudeEditText) {
+		super();
+		this.context = context;
+		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		this.latitudeEditText = latitudeEditText;
+		this.longitudeEditText = longitudeEditText;
+	}
+	
+	/**
 	 * Constructor that brings in the context and sets the location manager
+	 * 
+	 * Used on the google map page
+	 * 
 	 * @param context
 	 */
 	public GPSUtility(Context context) {
@@ -86,7 +105,7 @@ public class GPSUtility {
 	 * to the GPS settings screen
 	 */
 	public boolean checkForGPS() {
-		boolean gpsOn = false;
+		gpsOn = false;
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			
 			AlertDialog alert = new AlertDialog.Builder(context).create();

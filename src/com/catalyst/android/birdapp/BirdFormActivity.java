@@ -11,13 +11,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -39,7 +37,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
-	private CheckBox autoGPS;
 	private GPSUtility gpsUtility;
 	private TextView latitudeEditText, longitudeEditText;
 
@@ -60,7 +57,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getApplicationContext());
 		// Sets up the GPS Utility class
-		gpsUtility = new GPSUtility(this);
+		gpsUtility = new GPSUtility(this, latitudeEditText, longitudeEditText);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
@@ -77,55 +74,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		if (autoGPS.isChecked()) {
-			// Removes the locationListener if the Auto Fill check box is
-			// unchecked
-			gpsUtility.removeFormLocationUpdates();
-		}
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		if (autoGPS.isChecked()) {
-			// Removes the locationListener if the Auto Fill check box is
-			// unchecked
-			gpsUtility.removeFormLocationUpdates();
-		}
-	}
-
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
-		//Checks to see if the gps is on
-		if(gpsUtility.checkForGPS()){
-			Location location = gpsUtility.getCurrentLocation();
-			// Auto fills the form
-			try {
-				latitudeEditText.setText(Double.toString(location.getLatitude()));
-				longitudeEditText.setText(Double.toString(location.getLongitude()));
-			} catch (NullPointerException e) {
-
-			}
-		}
 		displayDateAndTime();
 		fillActivitySpinner();
 		fillCategorySpinner();
-	}
-
-	/** 
-	 * Sets the coordinates fields to reflect that coordinates are unavailable
-	 */
-	private void setsCoordinatesAsUnavailable() {
-		latitudeEditText.setText(getString(R.string.coordinates_not_available));
-		longitudeEditText.setText(getString(R.string.coordinates_not_available));
 	}
 
 	/**
@@ -156,10 +109,35 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		// Grabs the edit texts fields from the page so that they can be edited
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
-		// Grabs the coordinate autofill checkbox from the page and sets the
-		// OnCheckChangeListener
-		autoGPS = (CheckBox) findViewById(R.id.autofill_checkbox);
-		autoGPS.setOnCheckedChangeListener(autoGPSListener);
+		
+		//Checks to see if the GPS is on
+		if(!gpsUtility.checkForGPS()){
+			autoFillCoordinatesSubmitForm();
+		} else {
+			setsCoordinatesAsUnavailable();
+		}
+	}
+	
+	/**
+	 * Autofills the coordinates and sets the location listener
+	 */
+	private void autoFillCoordinatesSubmitForm(){
+		Location location = gpsUtility.getCurrentLocation();
+		// Auto fills the form
+		if (location != null) {
+			latitudeEditText.setText(Double.toString(location.getLatitude()));
+			longitudeEditText.setText(Double.toString(location.getLongitude()));
+		} else {
+			setsCoordinatesAsUnavailable();
+		}
+	}
+	
+	/** 
+	 * Sets the coordinates fields to reflect that coordinates are unavailable
+	 */
+	public void setsCoordinatesAsUnavailable() {
+		latitudeEditText.setText(getString(R.string.coordinates_not_available));
+		longitudeEditText.setText(getString(R.string.coordinates_not_available));
 	}
 
 	@Override
@@ -177,42 +155,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		Intent intent = new Intent(getApplication(), MapActivity.class);
 		startActivity(intent);
 	}
-	
-	/**
-	 * Autofills the coordinates and sets the location listener
-	 */
-	private void autoFillCoordinates(){
-		Location location = gpsUtility.getCurrentLocation();
-		// Auto fills the form
-		if (location != null) {
-			latitudeEditText.setText(Double.toString(location.getLatitude()));
-			longitudeEditText.setText(Double.toString(location.getLongitude()));
-			gpsUtility.setFormLocationListener();
-		} else {
-			setsCoordinatesAsUnavailable();
-		}
-	}
-
-	// OnCheckedChangeListener for the Coordinate autofill checkbox.
-	private OnCheckedChangeListener autoGPSListener = new OnCheckedChangeListener() {
-
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			if (autoGPS.isChecked()) {
-				gpsUtility.checkForGPS();
-				autoFillCoordinates();
-			} else {
-				// If the user is unchecking the box, the latitude and longitude
-				// boxes are cleared, and the location listener is removed.
-				gpsUtility.removeFormLocationUpdates();
-				latitudeEditText.setText("");
-				longitudeEditText.setText("");
-			}
-
-		}
-
-	};
 
 	/**
 	 * Auto populates the date and time fields of the form
