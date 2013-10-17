@@ -1,6 +1,5 @@
 package com.catalyst.android.birdapp.GPS_Utility;
 
-//import android.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,14 +11,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.widget.EditText;
+import android.widget.TextView;
+
 import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
 	
 	private Context context;
 	private LocationManager locationManager;
-	private EditText latitudeEditText, longitudeEditText;
+	private TextView latitudeEditText, longitudeEditText;
+	private Criteria criteria = new Criteria();
+	boolean gpsOn;
 	
 	//Location Listener for the coordinate auto fill boxes
 	private LocationListener formLocationListener = new LocationListener(){
@@ -34,53 +36,78 @@ public class GPSUtility {
 			}
 		}
 		@Override
-		public void onProviderDisabled(String arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onProviderDisabled(String arg0) {}
 		@Override
-		public void onProviderEnabled(String arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onProviderEnabled(String arg0) {}
 		@Override
-		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-			// TODO Auto-generated method stub
-			
-		}		
+		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}		
 	};
 	
-
+	/**
+	 * Constructor that brings in the context and latitude and longitude textviews, and sets the location manager
+	 * 
+	 * Used on the main submit form
+	 * 
+	 * @param context
+	 */
+	public GPSUtility(Context context, TextView latitudeEditText, TextView longitudeEditText) {
+		super();
+		this.context = context;
+		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		this.latitudeEditText = latitudeEditText;
+		this.longitudeEditText = longitudeEditText;
+	}
+	
+	/**
+	 * Constructor that brings in the context and sets the location manager
+	 * 
+	 * Used on the google map page
+	 * 
+	 * @param context
+	 */
 	public GPSUtility(Context context) {
 		super();
 		this.context = context;
 		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 	}
 	
+	/**
+	 * Removes the location listener for the main form page
+	 */
 	public void removeFormLocationUpdates(){
 		//Removes the locationListener if the Auto Fill check box is unchecked
 		locationManager.removeUpdates(formLocationListener);
 	}
 	
+	/**
+	 * Returns the user's current location
+	 * @return
+	 */
 	public Location getCurrentLocation(){
 		Location currentLocation = null;
-		String provider = locationManager.getBestProvider(new Criteria(), true);
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		String provider = locationManager.getBestProvider(criteria, true);
 		//Gets the current location
-		if(provider != null)currentLocation = locationManager.getLastKnownLocation(provider);
+		if(provider != null){currentLocation = locationManager.getLastKnownLocation(provider);}  
 		return currentLocation;
 	}
 	
+	/**
+	 * Sets the location listener for the main form
+	 */
 	public void setFormLocationListener(){
 		String provider = locationManager.getBestProvider(new Criteria(), true);
-		if(provider != null)locationManager.requestLocationUpdates(provider, 0, 0, formLocationListener);
+		if(provider != null){locationManager.requestLocationUpdates(provider, 0, 0, formLocationListener);}
 	}
 	
 	/**
 	 * Checks to see if the GPS is on.  If it is not and the user wants it on, it will take them
 	 * to the GPS settings screen
 	 */
-	public void checkForGPS() {
+	public boolean checkForGPS() {
+		gpsOn = false;
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			
 			AlertDialog alert = new AlertDialog.Builder(context).create();
 			
 			//Sets alert box title and message
@@ -101,14 +128,19 @@ public class GPSUtility {
 			alert.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.no), new OnClickListener(){
 				@Override
 				public void onClick(final DialogInterface dialogInterface, int notUsed) {
+					noLocationAvailable();
 					dialogInterface.cancel();
 				}
 			});
 			//shows the alertbox
 			alert.show();
 		}
+		return gpsOn;
 	}
 	
+	/**
+	 * Pops up an alert box that tells the user that there is no location available
+	 */
 	public void noLocationAvailable(){
 		AlertDialog alert = new AlertDialog.Builder(context).create();
 		
@@ -125,6 +157,11 @@ public class GPSUtility {
 		});
 		//shows the alertbox
 		alert.show();
+	}
+	
+	public boolean checkForLocationProvider(){
+		String provider = locationManager.getBestProvider(new Criteria(), true);
+		return provider.equals(LocationManager.GPS_PROVIDER);
 	}
 
 }
