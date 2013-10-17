@@ -10,10 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/splash_button_height"
         android:layout_above="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="25dp"
         android:layout_marginLeft="@dimen/splash_button_left_right_margins"
         android:layout_marginRight="@dimen/splash_button_left_right_margins"
+        android:layout_marginBottom="22dp"
         android:background="@drawable/a9p_09_11_00899"
         android:onClick="navigateToSubmission"
         android:text="@string/submitButton" />
@@ -24,9 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/splash_button_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="63dp"
         android:layout_marginLeft="@dimen/splash_button_left_right_margins"
         android:layout_marginRight="@dimen/splash_button_left_right_margins"
+        android:layout_marginBottom="74dp"
         android:background="@drawable/a9p_09_11_00899"
         android:onClick="navigateToRecordsReview"
         android:text="@string/reviewRecords" />

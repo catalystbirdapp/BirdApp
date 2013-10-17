@@ -1,10 +1,9 @@
 package com.catalyst.android.birdapp;
 
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends Activity {
@@ -24,7 +23,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void navigateToRecordsReview(View v) {
-
+		Intent i = new Intent(this, RecordsActivity.class);
+		startActivity(i);
 	}
-
 }

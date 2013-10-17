@@ -70,5 +70,6 @@
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
     <string name="title_activity_main">Put A Bird On It!!</string>
+    <string name="title_activity_records">Record Review</string>
 
 </resources>
