@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +26,8 @@ import android.widget.Toast;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
-import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
+import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -48,6 +46,13 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText notesEditText;
 	private EditText dateEditText;
 	private EditText timeEditText;
+	
+	private String sep;
+	private String blk;
+	private String or;
+	private int numOfMissingFields;
+	private StringBuilder sb = new StringBuilder();
+	private String missFields;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -350,14 +355,30 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Launches the confirmation dialog
 	 */
-	@SuppressLint("CommitTransaction")
 	public void submitAlertDialog(List<String> missingFieldTitles) {
-		StringBuilder sb = new StringBuilder();
-		String sep = ", ";
-		for (String s : missingFieldTitles) {
-			sb.append(sep).append(s);
+		sep = ", ";
+		blk = " ";
+		or = " or ";
+		sb.setLength(0);
+		numOfMissingFields = missingFieldTitles.size();
+		switch (numOfMissingFields) {
+		case 1:
+			sb.append(blk).append(missingFieldTitles.get(0));
+			break;
+		case 2:
+			sb.append(blk).append(missingFieldTitles.get(0)).append(or)
+					.append(missingFieldTitles.get(1));
+			break;
+		case 3:
+			sb.append(blk).append(missingFieldTitles.get(0)).append(sep)
+					.append(missingFieldTitles.get(1)).append(or)
+					.append(missingFieldTitles.get(2));
+			break;
+		default:
+			sb.append("Invalid");
+			break;
 		}
-		String missFields = sb.toString();
+		missFields = sb.toString();
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		AlertDialogFragment adf = AlertDialogFragment
 				.newInstance(getString(R.string.emptyFieldsWarning)
