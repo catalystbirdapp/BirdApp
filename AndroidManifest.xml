@@ -28,7 +28,7 @@
         android:icon="@drawable/bird_bar_icon2"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-         <uses-library android:name="android.test.runner" />
+         
         <activity
             android:name="com.catalyst.android.birdapp.BirdFormActivity"
             android:label="@string/app_bird_form" >
@@ -57,7 +57,4 @@
             android:label="@string/title_activity_add_new" >
         </activity>
     </application>
-<instrumentation android:name="android.test.InstrumentationTestRunner"
-    android:targetPackage="com.catalyst.android.birdapp"
-    android:label="your tests label" />
 </manifest>
