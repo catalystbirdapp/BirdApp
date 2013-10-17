@@ -86,4 +86,5 @@
     <string name="app_bird_form">Bird Sighting</string>
     <string name="camera_activity_title">Camera</string>
     <string name = "camera_capture_button">Capture</string>
+    
 </resources>
