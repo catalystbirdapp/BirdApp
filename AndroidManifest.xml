@@ -49,6 +49,7 @@
         </activity>
          <activity
             android:name="com.catalyst.android.birdapp.CameraActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/camera_activity_title" >
         </activity>
         <activity

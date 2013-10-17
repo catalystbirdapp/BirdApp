@@ -1,7 +1,6 @@
 package com.catalyst.android.birdapp.camera;
 
 import java.io.IOException;
-
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
@@ -11,6 +10,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback{
 	private boolean isPreviewRunning;
@@ -27,7 +27,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	        this.mSurfaceHolder.addCallback(this);
 	     
 	    }
-
+/**
+ * creates surface, starts the preview
+ */
 	    @Override
 	    public void surfaceCreated(SurfaceHolder surfaceHolder) {
 	        try {
@@ -37,13 +39,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	            // left blank for now
 	        }
 	    }
-
+/**
+ * stops preview and releases camera
+ */
 	    @Override
 	    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
 	        mCamera.stopPreview();
 	        mCamera.release();
 	    }
 
+	    /**
+	     * on surface change (screen rotation), changes preview display
+	     */
 	    @Override
 	    public void surfaceChanged(SurfaceHolder surfaceHolder, int format,
 	            int width, int height) {
@@ -92,7 +99,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	        previewCamera(); 
 	    }
 	    
+	    /**
+	     * sets camera preview
+	     */
 	  public void previewCamera(){
+	
 		  try 
 		    {           
 		        mCamera.setPreviewDisplay(mSurfaceHolder);          

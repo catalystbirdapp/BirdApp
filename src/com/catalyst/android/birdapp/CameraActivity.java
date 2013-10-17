@@ -15,9 +15,12 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 public class CameraActivity extends Activity {
 
@@ -33,7 +36,9 @@ public class CameraActivity extends Activity {
         mCameraPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mCameraPreview);
-
+        RelativeLayout relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
+        relativeLayoutControls.bringToFront();
+        
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +75,7 @@ public class CameraActivity extends Activity {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
                 fos.close();
-              
+                mCamera.startPreview();
             } catch (FileNotFoundException e) {
 
             } catch (IOException e) {
