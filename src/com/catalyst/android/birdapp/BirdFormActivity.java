@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,14 +47,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText notesEditText;
 	private EditText dateEditText;
 	private EditText timeEditText;
-
-	private String sep;
-	private String blk;
-	private String or;
-	private int numOfMissingFields;
-	private StringBuilder sb = new StringBuilder();
-	private String missFields;
-	public Vibrator vibrator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -288,10 +279,22 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			}
 			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 			dbHandler.insertBirdSighting(birdSighting);
-			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
-					Toast.LENGTH_SHORT).show();
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			vibrator.vibrate(1000);
+			// Presents a toast with the bird name, or a generic toast if no
+			// bird name is input
+			if (commonNameField.equals("")) {
+				Toast.makeText(this,
+						getString(R.string.sightingAddedBlankName),
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(
+						this,
+						getString(R.string.added_bird_sighting_toast1)
+								+ " "
+								+ commonNameField
+								+ " "
+								+ getString(R.string.added_bird_sighting_toast2),
+						Toast.LENGTH_SHORT).show();
+			}
 			refreshActivity();
 		}
 	}
@@ -338,30 +341,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Launches the confirmation dialog
 	 */
+	@SuppressLint("CommitTransaction")
 	public void submitAlertDialog(List<String> missingFieldTitles) {
-		sep = ", ";
-		blk = " ";
-		or = " or ";
-		sb.setLength(0);
-		numOfMissingFields = missingFieldTitles.size();
-		switch (numOfMissingFields) {
-		case 1:
-			sb.append(blk).append(missingFieldTitles.get(0));
-			break;
-		case 2:
-			sb.append(blk).append(missingFieldTitles.get(0)).append(or)
-					.append(missingFieldTitles.get(1));
-			break;
-		case 3:
-			sb.append(blk).append(missingFieldTitles.get(0)).append(sep)
-					.append(missingFieldTitles.get(1)).append(or)
-					.append(missingFieldTitles.get(2));
-			break;
-		default:
-			sb.append("Invalid");
-			break;
+		StringBuilder sb = new StringBuilder();
+		String sep = ", ";
+		for (String s : missingFieldTitles) {
+			sb.append(sep).append(s);
 		}
-		missFields = sb.toString();
+		String missFields = sb.toString();
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		AlertDialogFragment adf = AlertDialogFragment
 				.newInstance(getString(R.string.emptyFieldsWarning)

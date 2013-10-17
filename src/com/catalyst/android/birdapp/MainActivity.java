@@ -24,14 +24,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void navigateToRecordsReview(View v) {
-		Intent i = new Intent(this, RecordsActivity.class);
-		startActivity(i);
-	}
-	
-	public void blockaBird(View v){
-		MediaPlayer mp = MediaPlayer.create(getApplicationContext(),
-				R.raw.dovecooing4302008);
-		mp.start();
+
 	}
 
 }

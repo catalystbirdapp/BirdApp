@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/splash_button_height"
         android:layout_above="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="25dp"
         android:layout_marginLeft="@dimen/splash_button_left_right_margins"
         android:layout_marginRight="@dimen/splash_button_left_right_margins"
         android:background="@drawable/a9p_09_11_00899"
@@ -17,24 +19,14 @@
         android:text="@string/submitButton" />
 
     <Button
-        android:id="@+id/button3"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:onClick="blockaBird"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
-
-    <Button
         android:id="@+id/button2"
         style="@style/SplashScreenButtons"
         android:layout_width="match_parent"
         android:layout_height="@dimen/splash_button_height"
-        android:layout_above="@+id/button3"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="63dp"
         android:layout_marginLeft="@dimen/splash_button_left_right_margins"
         android:layout_marginRight="@dimen/splash_button_left_right_margins"
-        android:layout_marginBottom="17dp"
         android:background="@drawable/a9p_09_11_00899"
         android:onClick="navigateToRecordsReview"
         android:text="@string/reviewRecords" />
