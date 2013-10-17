@@ -165,60 +165,6 @@
             android:text="@string/dateText"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/locationText"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/noteText"
-            android:layout_below="@+id/hour_edit_text"
-            android:layout_marginRight="60dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/gpsText"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/latitude_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/locationText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/formTitle"
-            android:layout_below="@+id/locationText"
-            android:ems="10"
-            android:maxLength="30" />
-
-        <CheckBox
-            android:id="@+id/autofill_checkbox"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_alignBaseline="@+id/locationText"
-            android:layout_alignBottom="@+id/locationText"
-            android:layout_marginLeft="130dp"
-            android:text="@string/autofillCheckBox" />
-
-        <TextView
-            android:id="@+id/category_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/latitude_edit_text"
-            android:layout_below="@+id/latitude_edit_text"
-            android:layout_marginTop="55dp"
-            android:text="@string/categoryText"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/longitude_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/latitude_edit_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/latitude_edit_text"
-            android:layout_below="@+id/latitude_edit_text"
-            android:ems="10"
-            android:maxLength="30" />
-
         <EditText
             android:id="@+id/hour_edit_text"
             android:layout_width="wrap_content"
@@ -270,6 +216,69 @@
             android:layout_alignRight="@+id/bird_acivity_dropdown"
             android:background="@drawable/black_button"
             android:text="@string/addAudioText" />
+
+        <TextView
+            android:id="@+id/longitude_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/longitude_text"
+            android:layout_toRightOf="@+id/birdName"
+            android:ems="10"
+            android:maxLength="30" />
+
+        <TextView
+            android:id="@+id/latitude_title"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/category_text"
+            android:layout_alignTop="@+id/latitude_edit_text"
+            android:text="@string/latitudeTitle"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/longitude_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/noteText"
+            android:layout_below="@+id/latitude_title"
+            android:layout_marginTop="18dp"
+            android:text="@string/longitudeTitle"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/latitude_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/formTitle"
+            android:layout_below="@+id/hour_edit_text"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:maxLength="30" />
+
+        <TextView
+            android:id="@+id/category_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/submit_button"
+            android:layout_below="@+id/refresh_button"
+            android:layout_marginTop="19dp"
+            android:text="@string/categoryText"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/refresh_button"
+            style="@style/CoordinateButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/longitude_edit_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/coordinate_button_red"
+            android:text="@string/coordinateOutOfDate" />
+
     </RelativeLayout>
 
 </ScrollView>
