@@ -41,7 +41,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private Spinner activitySpinner;
 	private CheckBox autoGPS;
 	private GPSUtility gpsUtility;
-	private EditText latitudeEditText, longitudeEditText;
+	private TextView latitudeEditText, longitudeEditText;
 
 	private EditText commonNameEditText;
 	private EditText scientificNameEditText;
@@ -104,21 +104,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		if (autoGPS.isChecked()) {
-			gpsUtility.checkForGPS();
+		//Checks to see if the gps is on
+		if(gpsUtility.checkForGPS()){
 			Location location = gpsUtility.getCurrentLocation();
 			// Auto fills the form
 			try {
-				latitudeEditText
-						.setText(Double.toString(location.getLatitude()));
-				longitudeEditText.setText(Double.toString(location
-						.getLongitude()));
+				latitudeEditText.setText(Double.toString(location.getLatitude()));
+				longitudeEditText.setText(Double.toString(location.getLongitude()));
 			} catch (NullPointerException e) {
 
 			}
-			// resets the location listener
-			gpsUtility.setFormLocationListener();
 		}
 		displayDateAndTime();
 		fillActivitySpinner();
@@ -159,8 +154,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 */
 	private void intializeGPSfields() {
 		// Grabs the edit texts fields from the page so that they can be edited
-		latitudeEditText = (EditText) findViewById(R.id.latitude_edit_text);
-		longitudeEditText = (EditText) findViewById(R.id.longitude_edit_text);
+		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
+		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
 		// Grabs the coordinate autofill checkbox from the page and sets the
 		// OnCheckChangeListener
 		autoGPS = (CheckBox) findViewById(R.id.autofill_checkbox);

@@ -85,8 +85,10 @@ public class GPSUtility {
 	 * Checks to see if the GPS is on.  If it is not and the user wants it on, it will take them
 	 * to the GPS settings screen
 	 */
-	public void checkForGPS() {
+	public boolean checkForGPS() {
+		boolean gpsOn = false;
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			
 			AlertDialog alert = new AlertDialog.Builder(context).create();
 			
 			//Sets alert box title and message
@@ -114,6 +116,7 @@ public class GPSUtility {
 			//shows the alertbox
 			alert.show();
 		}
+		return gpsOn;
 	}
 	
 	/**

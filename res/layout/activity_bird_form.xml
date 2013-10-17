@@ -177,9 +177,8 @@
             android:text="@string/gpsText"
             android:textSize="18sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/latitude_edit_text"
-            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/locationText"
@@ -187,8 +186,6 @@
             android:layout_alignRight="@+id/formTitle"
             android:layout_below="@+id/locationText"
             android:ems="10"
-            android:hint="@string/latHint"
-            android:inputType="numberSigned|numberDecimal"
             android:maxLength="30" />
 
         <CheckBox
@@ -211,9 +208,8 @@
             android:text="@string/categoryText"
             android:textSize="18sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/longitude_edit_text"
-            style="@style/textHintColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/latitude_edit_text"
@@ -221,8 +217,6 @@
             android:layout_alignRight="@+id/latitude_edit_text"
             android:layout_below="@+id/latitude_edit_text"
             android:ems="10"
-            android:hint="@string/longHint"
-            android:inputType="numberSigned|numberDecimal"
             android:maxLength="30" />
 
         <EditText
