@@ -44,7 +44,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText scientificNameEditText;
 	private EditText notesEditText;
 	private EditText dateEditText;
-	private EditText timeEditText;
+	private TextView timeTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateEditText = (EditText) findViewById(R.id.date_time_edit_text);
-		timeEditText = (EditText) findViewById(R.id.hour_edit_text);
+		timeTextView = (TextView) findViewById(R.id.hour_edit_text);
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			String categoryField = categorySpinner.getSelectedItem().toString();
 			String activityField = activitySpinner.getSelectedItem().toString();
 			String dateField = dateEditText.getText().toString();
-			String timeField = timeEditText.getText().toString();
+			String timeField = timeTextView.getText().toString();
 
 			// create Date object from date/time fields
 			String dateTimeString = dateField + " " + timeField;
