@@ -7,9 +7,11 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +39,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	public static final String LOGTAG = "DialogFrag";
 
+	public Vibrator vibrator;
+	
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
 	private CheckBox autoGPS;
@@ -304,6 +308,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 								+ getString(R.string.added_bird_sighting_toast2),
 						Toast.LENGTH_SHORT).show();
 			}
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(1000);
 			refreshActivity();
 		}
 	}
