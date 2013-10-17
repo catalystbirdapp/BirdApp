@@ -288,22 +288,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			}
 			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 			dbHandler.insertBirdSighting(birdSighting);
-			// Presents a toast with the bird name, or a generic toast if no
-			// bird name is input
-			if (commonNameField.equals("")) {
-				Toast.makeText(this,
-						getString(R.string.sightingAddedBlankName),
-						Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(
-						this,
-						getString(R.string.added_bird_sighting_toast1)
-								+ " "
-								+ commonNameField
-								+ " "
-								+ getString(R.string.added_bird_sighting_toast2),
-						Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
+					Toast.LENGTH_SHORT).show();
 			refreshActivity();
 		}
 	}

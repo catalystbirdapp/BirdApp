@@ -59,8 +59,6 @@
     <string name="sighting">Sighting</string>
     <string name="misc">Misc</string>
     <string name="coordinates_not_available">Coordinates not available</string>
-    <string name="added_bird_sighting_toast1">Your Sighting Of A</string>
-    <string name="added_bird_sighting_toast2">Has Been Saved.</string>
     <string name="sightingAddedBlankName">Your Sighting Has Been Saved.</string>
     <string name="activityPrompt">Select the Observed Activity</string>
     <string name="categoryPrompt">Select the Desired Category</string>
