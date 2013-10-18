@@ -67,5 +67,6 @@
     <string name="app_bird_form">Bird Sighting</string>
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
-	<string name="coordinateOutOfDate">Coordinates out of date</string>
+	<string name="coordinateOutOfDate">Coordinates are out-of-date</string>
+	<string name="coordinates_up_to_date">Coordinates are up-to-date.</string>
 </resources>

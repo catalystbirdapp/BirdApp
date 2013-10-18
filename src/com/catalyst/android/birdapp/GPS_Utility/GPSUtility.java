@@ -17,24 +17,16 @@ import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
 	
+	private static final int THIRTY_SECONDS = 30000;
 	private Context context;
 	private LocationManager locationManager;
 	private TextView latitudeEditText, longitudeEditText;
-	private Criteria criteria = new Criteria();
 	boolean gpsOn;
 	
 	//Location Listener for the coordinate auto fill boxes
 	private LocationListener formLocationListener = new LocationListener(){
 		@Override
-		public void onLocationChanged(Location location) {
-			//Updates the auto filled GPS Coordinates on the form whenever your location is changed
-			try{
-				latitudeEditText.setText(Double.toString(location.getLatitude()));
-				longitudeEditText.setText(Double.toString(location.getLongitude()));
-			}catch(NullPointerException e){
-				
-			}
-		}
+		public void onLocationChanged(Location location) {}
 		@Override
 		public void onProviderDisabled(String arg0) {}
 		@Override
@@ -85,8 +77,7 @@ public class GPSUtility {
 	 */
 	public Location getCurrentLocation(){
 		Location currentLocation = null;
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		String provider = locationManager.getBestProvider(criteria, true);
+		String provider = locationManager.getBestProvider(new Criteria(), true);
 		//Gets the current location
 		if(provider != null){currentLocation = locationManager.getLastKnownLocation(provider);}  
 		return currentLocation;
@@ -97,7 +88,7 @@ public class GPSUtility {
 	 */
 	public void setFormLocationListener(){
 		String provider = locationManager.getBestProvider(new Criteria(), true);
-		if(provider != null){locationManager.requestLocationUpdates(provider, 0, 0, formLocationListener);}
+		if(provider != null){locationManager.requestLocationUpdates(provider, THIRTY_SECONDS, 0, formLocationListener);}
 	}
 	
 	/**
