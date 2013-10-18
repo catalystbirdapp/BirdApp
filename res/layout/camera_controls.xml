@@ -9,7 +9,9 @@
         android:layout_width="@dimen/capture_button_width"
         android:layout_height="@dimen/capture_button_height"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        style="@style/ButtonText"
+        android:background="@drawable/black_button"
         android:text="@string/camera_capture_button" />
  
 </RelativeLayout>
