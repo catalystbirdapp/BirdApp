@@ -160,12 +160,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * Refreshes the coordinate timer
 	 */
 	private void refreshCoordinateTimer(){
-		//Checks to see if the refresh button has been clicked before
-		if(coordinateTimerStart == 0){
-			coordinateTimerStart = System.currentTimeMillis();
-		} else {
-			coordinateTimerCurrent = System.currentTimeMillis();
-		}
+		coordinateTimerCurrent = System.currentTimeMillis();
 		
 		setCoordinateButtonToGreen();
 		
@@ -173,10 +168,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		autoFillCoordinatesSubmitForm();
 		
 		//Checks to see if it has been 5 minutes since the button was last clicked
-		if(coordinateTimerCurrent >= (coordinateTimerStart + FIVE_MINUTES)){
-			//sets the new timer start at the system current time
-			coordinateTimerStart = coordinateTimerCurrent;
-			
+		if(coordinateTimerCurrent >= (coordinateTimerStart + FIVE_MINUTES) || coordinateTimerStart == 0){
+			//sets the start time for the timer
+			coordinateTimerStart = System.currentTimeMillis();
+						
 			//Sets the timer
 			coordinateRefreshTimer.schedule(new TimerTask(){
 
