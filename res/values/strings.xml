@@ -18,8 +18,8 @@
     <string name="submitButtonText">Submit</string>
     <string name="birdNameHint">Enter Bird Name</string>
     <string name="scientificNameHint">Enter Scientific Name</string>
-    <string name="latHint">Latitude</string>
-    <string name="longHint">Longitude</string>
+    <string name="latitudeTitle">Latitude:</string>
+    <string name="longitudeTitle">Longitude:</string>
     <string name="notesHint">Enter Notes</string>
     <string name="camera">Camera Title</string>
     <string name="dateText">Date:</string>
@@ -67,5 +67,6 @@
     <string name="app_bird_form">Bird Sighting</string>
     <string name="emptyFieldsWarning">Do you want to submit a sighting without</string>
     <string name="alert">Alert!!!</string>
-
+	<string name="coordinateOutOfDate">Coordinates are out-of-date</string>
+	<string name="coordinates_up_to_date">Coordinates are up-to-date.</string>
 </resources>

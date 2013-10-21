@@ -3,21 +3,24 @@ package com.catalyst.android.birdapp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,6 +36,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
+	private static final int FIVE_MINUTES = 300000;
+
 	public static final String LOGTAG = "DialogFrag";
 
 	private Spinner categorySpinner;
@@ -45,6 +50,13 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText notesEditText;
 	private EditText dateEditText;
 	private EditText timeEditText;
+	
+	private Button coordinateRefreshButton;
+	
+	private Timer coordinateRefreshTimer;
+	
+	long coordinateTimerStart;
+	long coordinateTimerCurrent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +91,19 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		displayDateAndTime();
 		fillActivitySpinner();
 		fillCategorySpinner();
+		gpsUtility.setFormLocationListener();
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		gpsUtility.removeFormLocationUpdates();
 	}
 
 	/**
 	 * Fills the activity spinner with values from the DB
 	 */
-	private void fillActivitySpinner() {
+ 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
 		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
@@ -111,18 +130,91 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
 		
+		//Sets ups the coordinate refresh button and timer
+		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);
+		coordinateRefreshButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				refreshCoordinateTimer();
+				
+			}
+			
+		});
+		//Sets up the time that will be used to change the color of the coordinate refresh button from green to red and back
+		coordinateRefreshTimer = new Timer();
 		//Checks to see if the GPS is on
-		if(!gpsUtility.checkForGPS()){
-			autoFillCoordinatesSubmitForm();
-		} else {
-			setsCoordinatesAsUnavailable();
+		gpsUtility.checkForGPS();
+		
+		autoFillCoordinatesSubmitForm();
+		
+		gpsUtility.setFormLocationListener();
+		
+		//Sets the coordinate timer numbers so that they can later be used to keep the user from continually pressing the coordinate
+		//refresh button and creating a new timer each time
+		coordinateTimerStart = 0;
+		coordinateTimerCurrent = 0;
+		
+	}
+	
+	/**
+	 * Refreshes the coordinate timer
+	 */
+	private void refreshCoordinateTimer(){
+		coordinateTimerCurrent = System.currentTimeMillis();
+		
+		setCoordinateButtonToGreen();
+		
+		//Auto fills the coordinate boxes
+		autoFillCoordinatesSubmitForm();
+		
+		//Checks to see if it has been 5 minutes since the button was last clicked
+		if(coordinateTimerCurrent >= (coordinateTimerStart + FIVE_MINUTES) || coordinateTimerStart == 0){
+			//sets the start time for the timer
+			coordinateTimerStart = System.currentTimeMillis();
+						
+			//Sets the timer
+			coordinateRefreshTimer.schedule(new TimerTask(){
+
+				@Override
+				public void run() {
+					//Has to run on UI thread 
+					runOnUiThread(new Runnable() {
+						@Override  
+						public void run() {
+							setCoordinateButtonToRed();
+						}
+			
+					});
+				}
+				//Sets the duration before activating the thread.
+			}, FIVE_MINUTES);
 		}
+	}
+	
+	/**
+	 * Sets the coordinate button to red and changes the text
+	 */
+	private void setCoordinateButtonToGreen() {
+		coordinateRefreshButton.setBackgroundColor(Color.GREEN);
+		coordinateRefreshButton.setText(getString(R.string.coordinates_up_to_date));
+		
+	}
+
+	/**
+	 * Sets the coordinate button to red and changes the text
+	 */
+	private void setCoordinateButtonToRed() {
+		coordinateRefreshButton.setBackgroundColor(Color.RED);
+		coordinateRefreshButton.setText(getString(R.string.coordinates_not_available));
+		
 	}
 	
 	/**
 	 * Autofills the coordinates and sets the location listener
 	 */
 	private void autoFillCoordinatesSubmitForm(){
+		
 		Location location = gpsUtility.getCurrentLocation();
 		// Auto fills the form
 		if (location != null) {
@@ -132,7 +224,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			setsCoordinatesAsUnavailable();
 		}
 	}
-	
+		
 	/** 
 	 * Sets the coordinates fields to reflect that coordinates are unavailable
 	 */
