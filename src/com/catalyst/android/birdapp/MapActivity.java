@@ -75,32 +75,38 @@ public class MapActivity extends Activity {
 
 			@Override
 			public View getInfoContents(Marker marker) {
-				//Retrieves the bird sighting from the hashmap
-	            BirdSighting birdSighting = markerSightingsMap.get(marker);
+				//Creates the view to put all of the information into
+				View view = getLayoutInflater().inflate(R.layout.map_window_adapter, null);
 	            
-	            //Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
-	            Date birdSightingDate = birdSighting.getDateTime();
-	           	java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
-	           	String formattedDate = dateFormat.format(birdSightingDate);
+				//Pulls the table layout out of the view so that table rows could be added to it.
+				mapInfoWindow = (TableLayout) view.findViewById(R.id.map_info_window);
+				
+				try{
+					//Retrieves the bird sighting from the hashmap
+					BirdSighting birdSighting = markerSightingsMap.get(marker);
+	            
+					//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
+					Date birdSightingDate = birdSighting.getDateTime();
+					java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
+					String formattedDate = dateFormat.format(birdSightingDate);
 	           	
-	           	//formats the time to the time format that the person has selected for their phone
-	           	java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
-	           	String formattedTime = timeFormat.format(birdSightingDate);
-	            
-	           	//Creates the view to put all of the information into
-	            View view = getLayoutInflater().inflate(R.layout.map_window_adapter, null);
-	            
-	            //Pulls the table layout out of the view so that table rows could be added to it.
-	            mapInfoWindow = (TableLayout) view.findViewById(R.id.map_info_window);
-	            
-	            //calls the method that constructs the table rows and inserts the information into them. The if statements keeps out rows if the information is empty.
-	           	if(birdSighting.getCommonName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
-	           	if(birdSighting.getScientificName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.scientificName), birdSighting.getScientificName());}
-	           	addBirdInfoToMapInfoWindow(getString(R.string.dateText), formattedDate);
-	           	addBirdInfoToMapInfoWindow(getString(R.string.timeText), formattedTime);
-	           	addBirdInfoToMapInfoWindow(getString(R.string.activityText), birdSighting.getActivity());
-	            if(birdSighting.getNotes().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.noteText), birdSighting.getNotes());}
-	            
+					//formats the time to the time format that the person has selected for their phone
+					java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
+					String formattedTime = timeFormat.format(birdSightingDate);
+	           
+					//calls the method that constructs the table rows and inserts the information into them. The if statements keeps out rows if the information is empty.
+					if(birdSighting.getCommonName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
+					if(birdSighting.getScientificName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.scientificName), birdSighting.getScientificName());}
+					addBirdInfoToMapInfoWindow(getString(R.string.dateText), formattedDate);
+					addBirdInfoToMapInfoWindow(getString(R.string.timeText), formattedTime);
+					addBirdInfoToMapInfoWindow(getString(R.string.activityText), birdSighting.getActivity());
+					if(birdSighting.getNotes().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.noteText), birdSighting.getNotes());}
+				}catch (NullPointerException e){
+					//This is thrown when clicking on the default marker for current location
+					TextView currentLocationTextView = new TextView(getApplicationContext());
+					currentLocationTextView.setText(getString(R.string.current_location));
+					mapInfoWindow.addView(currentLocationTextView);
+				}
 				return view;
 			}
 			
