@@ -5,14 +5,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.content.Context;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private static final int FIVE_MINUTES = 300000;
 
 	public static final String LOGTAG = "DialogFrag";
+	
+	public Vibrator vibrator;
 
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
@@ -335,6 +339,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 								+ getString(R.string.added_bird_sighting_toast2),
 						Toast.LENGTH_SHORT).show();
 			}
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(1000);
 			refreshActivity();
 		}
 	}
