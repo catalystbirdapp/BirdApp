@@ -3,6 +3,7 @@
     <item android:id="@+id/action_camera"
           android:icon="@drawable/ic_camera2"
           android:title="@string/camera"
+          android:onClick="openCamera"
           android:showAsAction="ifRoom" />
       
     <item android:id="@+id/action_map"

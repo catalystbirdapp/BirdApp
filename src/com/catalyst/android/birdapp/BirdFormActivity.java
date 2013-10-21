@@ -404,4 +404,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			submitBirdSighting();
 		}
 	}
+
+	public void openCamera(MenuItem menuItem){
+		Intent intent = new Intent(getApplication(), CameraActivity.class);
+		startActivity(intent);
+	}
 }
