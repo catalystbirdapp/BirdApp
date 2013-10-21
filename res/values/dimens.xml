@@ -7,5 +7,7 @@
 	<dimen name = "capture_button_height">45dp</dimen>
 	
 	<dimen name="table_padding">10dp</dimen>
+	<dimen name="splash_button_height">65dp</dimen>
+    <dimen name="splash_button_left_right_margins">10dp</dimen>
 
 </resources>

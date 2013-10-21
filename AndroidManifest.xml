@@ -16,7 +16,7 @@
         android:required="true" />
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="13"
         android:targetSdkVersion="18" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -30,13 +30,19 @@
         android:theme="@style/AppTheme" >
          
         <activity
-            android:name="com.catalyst.android.birdapp.BirdFormActivity"
-            android:label="@string/app_bird_form" >
+            android:name="com.catalyst.android.birdapp.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.BirdFormActivity"
+            android:label="@string/app_bird_form" >
         </activity>
 
         <meta-data
@@ -55,6 +61,10 @@
         <activity
             android:name="com.catalyst.android.birdapp.AddNewActivity"
             android:label="@string/title_activity_add_new" >
+        </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.RecordsActivity"
+            android:label="@string/title_activity_records" >
         </activity>
     </application>
 </manifest>
