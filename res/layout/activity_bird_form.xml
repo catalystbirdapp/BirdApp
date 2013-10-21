@@ -172,7 +172,8 @@
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/activity_text"

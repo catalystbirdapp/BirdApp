@@ -49,7 +49,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText scientificNameEditText;
 	private EditText notesEditText;
 	private TextView dateTextView;
-	private EditText timeEditText;
+	private TextView timeEditText;
 	
 	private Button coordinateRefreshButton;
 	
@@ -82,7 +82,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateTextView = (TextView) findViewById(R.id.date_time_edit_text);
-		timeEditText = (EditText) findViewById(R.id.hour_edit_text);
+		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 	}
 
 	@Override
