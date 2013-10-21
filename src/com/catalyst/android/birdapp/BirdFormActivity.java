@@ -5,11 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import android.content.Context;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.FragmentTransaction;
-
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -41,7 +40,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private static final int FIVE_MINUTES = 300000;
 
 	public static final String LOGTAG = "DialogFrag";
-	
+
 	public Vibrator vibrator;
 
 	private Spinner categorySpinner;
@@ -54,10 +53,15 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText notesEditText;
 	private TextView dateTextView;
 	private TextView timeEditText;
-	private Button submitButton;
 	private Button coordinateRefreshButton;
 	private Timer coordinateRefreshTimer;
-	
+	private String sep;
+	private String blk;
+	private String or;
+	private int numOfMissingFields;
+	private StringBuilder sb = new StringBuilder();
+	private String missFields;
+
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
 
@@ -85,17 +89,17 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateTextView = (TextView) findViewById(R.id.date_time_edit_text);
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
-		commonNameEditText = (EditText)findViewById(R.id.common_name_edit_text);
-		scientificNameEditText = (EditText)findViewById(R.id.scientific_name_edit_text);
-				
+		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
+		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
+
 	}
-	
+
 	@Override
-	protected void onPause(){
+	protected void onPause() {
 		super.onPause();
 		gpsUtility.removeFormLocationUpdates();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -104,18 +108,18 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		fillCategorySpinner();
 		gpsUtility.setFormLocationListener();
 	}
-	
+
 	/**
 	 * Fills the activity spinner with values from the DB
 	 */
- 	private void fillActivitySpinner() {
+	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
 		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
 	}
-	
+
 	/**
 	 * Fills the category spinner with values from the DB
 	 */
@@ -124,86 +128,92 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
 		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, categoriesFromDB);
-		categorySpinner.setAdapter(adapter);	
+		categorySpinner.setAdapter(adapter);
 	}
 
 	/**
-	 * Initializes the GPS coordinates fields and sets the oncheck changed listener
+	 * Initializes the GPS coordinates fields and sets the oncheck changed
+	 * listener
 	 */
 	private void intializeGPSfields() {
 		// Grabs the edit texts fields from the page so that they can be edited
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
-		
-		//Sets ups the coordinate refresh button and timer
+
+		// Sets ups the coordinate refresh button and timer
 		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);
-		coordinateRefreshButton.setOnClickListener(new OnClickListener(){
+		coordinateRefreshButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				refreshCoordinateTimer();
-				
+
 			}
-			
+
 		});
-		//Sets up the time that will be used to change the color of the coordinate refresh button from green to red and back
+		// Sets up the time that will be used to change the color of the
+		// coordinate refresh button from green to red and back
 		coordinateRefreshTimer = new Timer();
-		//Checks to see if the GPS is on
+		// Checks to see if the GPS is on
 		gpsUtility.checkForGPS();
-		
+
 		autoFillCoordinatesSubmitForm();
-		
+
 		gpsUtility.setFormLocationListener();
-		
-		//Sets the coordinate timer numbers so that they can later be used to keep the user from continually pressing the coordinate
-		//refresh button and creating a new timer each time
+
+		// Sets the coordinate timer numbers so that they can later be used to
+		// keep the user from continually pressing the coordinate
+		// refresh button and creating a new timer each time
 		coordinateTimerStart = 0;
 		coordinateTimerCurrent = 0;
-		
+
 	}
-	
+
 	/**
 	 * Refreshes the coordinate timer
 	 */
-	private void refreshCoordinateTimer(){
+	private void refreshCoordinateTimer() {
 		coordinateTimerCurrent = System.currentTimeMillis();
-		
+
 		setCoordinateButtonToGreen();
-		
-		//Auto fills the coordinate boxes
+
+		// Auto fills the coordinate boxes
 		autoFillCoordinatesSubmitForm();
-		
-		//Checks to see if it has been 5 minutes since the button was last clicked
-		if(coordinateTimerCurrent >= (coordinateTimerStart + FIVE_MINUTES) || coordinateTimerStart == 0){
-			//sets the start time for the timer
+
+		// Checks to see if it has been 5 minutes since the button was last
+		// clicked
+		if (coordinateTimerCurrent >= (coordinateTimerStart + FIVE_MINUTES)
+				|| coordinateTimerStart == 0) {
+			// sets the start time for the timer
 			coordinateTimerStart = System.currentTimeMillis();
-						
-			//Sets the timer
-			coordinateRefreshTimer.schedule(new TimerTask(){
+
+			// Sets the timer
+			coordinateRefreshTimer.schedule(new TimerTask() {
 
 				@Override
 				public void run() {
-					//Has to run on UI thread 
+					// Has to run on UI thread
 					runOnUiThread(new Runnable() {
-						@Override  
+						@Override
 						public void run() {
 							setCoordinateButtonToRed();
 						}
-			
+
 					});
 				}
-				//Sets the duration before activating the thread.
+				// Sets the duration before activating the thread.
 			}, FIVE_MINUTES);
 		}
 	}
-	
+
 	/**
 	 * Sets the coordinate button to red and changes the text
 	 */
 	private void setCoordinateButtonToGreen() {
 		coordinateRefreshButton.setBackgroundColor(Color.GREEN);
-		coordinateRefreshButton.setText(getString(R.string.coordinates_up_to_date));
-		
+		coordinateRefreshButton
+				.setText(getString(R.string.coordinates_up_to_date));
+
 	}
 
 	/**
@@ -211,15 +221,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 */
 	private void setCoordinateButtonToRed() {
 		coordinateRefreshButton.setBackgroundColor(Color.RED);
-		coordinateRefreshButton.setText(getString(R.string.coordinates_not_available));
-		
+		coordinateRefreshButton
+				.setText(getString(R.string.coordinates_not_available));
+
 	}
-	
+
 	/**
 	 * Autofills the coordinates and sets the location listener
 	 */
-	private void autoFillCoordinatesSubmitForm(){
-		
+	private void autoFillCoordinatesSubmitForm() {
+
 		Location location = gpsUtility.getCurrentLocation();
 		// Auto fills the form
 		if (location != null) {
@@ -229,13 +240,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			setsCoordinatesAsUnavailable();
 		}
 	}
-		
-	/** 
+
+	/**
 	 * Sets the coordinates fields to reflect that coordinates are unavailable
 	 */
 	public void setsCoordinatesAsUnavailable() {
 		latitudeEditText.setText(getString(R.string.coordinates_not_available));
-		longitudeEditText.setText(getString(R.string.coordinates_not_available));
+		longitudeEditText
+				.setText(getString(R.string.coordinates_not_available));
 	}
 
 	@Override
@@ -339,7 +351,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 								+ getString(R.string.added_bird_sighting_toast2),
 						Toast.LENGTH_SHORT).show();
 			}
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(1000);
 			refreshActivity();
 		}
@@ -387,14 +399,30 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Launches the confirmation dialog
 	 */
-	@SuppressLint("CommitTransaction")
 	public void submitAlertDialog(List<String> missingFieldTitles) {
-		StringBuilder sb = new StringBuilder();
-		String sep = ", ";
-		for (String s : missingFieldTitles) {
-			sb.append(sep).append(s);
+		sep = ", ";
+		blk = " ";
+		or = " or ";
+		sb.setLength(0);
+		numOfMissingFields = missingFieldTitles.size();
+		switch (numOfMissingFields) {
+		case 1:
+			sb.append(blk).append(missingFieldTitles.get(0));
+			break;
+		case 2:
+			sb.append(blk).append(missingFieldTitles.get(0)).append(or)
+					.append(missingFieldTitles.get(1));
+			break;
+		case 3:
+			sb.append(blk).append(missingFieldTitles.get(0)).append(sep)
+					.append(missingFieldTitles.get(1)).append(sep).append(or)
+					.append(missingFieldTitles.get(2));
+			break;
+		default:
+			sb.append("Invalid");
+			break;
 		}
-		String missFields = sb.toString();
+		missFields = sb.toString();
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		AlertDialogFragment adf = AlertDialogFragment
 				.newInstance(getString(R.string.emptyFieldsWarning)
@@ -412,7 +440,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 	}
 
-	public void openCamera(MenuItem menuItem){
+	public void openCamera(MenuItem menuItem) {
 		Intent intent = new Intent(getApplication(), CameraActivity.class);
 		startActivity(intent);
 	}
