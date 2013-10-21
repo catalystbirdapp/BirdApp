@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp.database;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,13 @@ import android.util.Log;
 
 import com.catalyst.android.birdapp.BirdSighting;
 import com.catalyst.android.birdapp.R;
+import com.catalyst.android.birdapp.utilities.Utilities;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private Cursor cursor;
 	private Context context;
-
+	private Utilities utility;
 	private static DatabaseHandler INSTANCE;
 	private static final String DATABASE_NAME = "BADB";
 	private static final int DATABASE_VERSION = 1;
@@ -87,6 +89,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String INSERT_CUSTOM_BIRD_ACTIVITY = "INSERT INTO " + BIRD_ACTIVITIES +"("+BIRD_ACTIVITY+")VALUES ( ";
 	private static final String INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO = " )";
 	
+    //Queries for bird sightings
+private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
+
 	
 	// private Cursor cursor;
 
@@ -118,6 +123,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		}
 	}
 
+	/**
+	 * Auto populates the catagories and activities on DB creation.
+	 * @param db
+	 */
 	private void autoPopulateActivitiesAndCategories(SQLiteDatabase db) {
 		//Activities
 		db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'" + context.getString(R.string.flying) + "'" + INSERT_BIRD_ACTIVITY_PART_TWO);
@@ -253,5 +262,49 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	newActivityName = activityName;
 		database.execSQL(INSERT_CUSTOM_BIRD_ACTIVITY + "'"+newActivityName+"'"+ INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO);
 	}
+		/*
+		 * Returns an arraylist of all of the bird sighting that are in the DB
+		 */
+	   public List<BirdSighting> getAllBirdSightings(){
+           List<BirdSighting> allBirdSightings = new ArrayList<BirdSighting>();
+           utility = new Utilities();
+           SQLiteDatabase db = this.getReadableDatabase();
+           cursor = db.rawQuery(GET_ALL_BIRD_SIGHTINGS, null);
+           
+           //Gets all of the column indexes to map the values to a bird sighting object
+           int birdSightingIdIndex = cursor.getColumnIndex(BIRD_SIGHTING_ID);
+           int birdSightingCommonNameIndex = cursor.getColumnIndex(BIRD_COMMON_NAME);
+           int birdSightingScientificNameIndex = cursor.getColumnIndex(BIRD_SCIENTIFIC_NAME);
+           int birdSightingNotesIndex = cursor.getColumnIndex(SIGHTING_NOTES);
+           int birdSightingLatitudeIndex = cursor.getColumnIndex(LATITUDE);
+           int birdSightingLongitudeIndex = cursor.getColumnIndex(LONGITUDE);
+           int birdSightingDateIndex = cursor.getColumnIndex(DATE_TIME);
+           int birdSightingActivityIndex = cursor.getColumnIndex(BIRD_ACTIVITY);
+           int birdSightingCategoryIndex = cursor.getColumnIndex(SIGHTING_CATEGORY);
+              
+           if (cursor != null && cursor.moveToFirst()) {         
+        	   do{
+        		   try{
+        			   //Maps all of the information to a bird sighting object
+                       BirdSighting birdSighting = new BirdSighting();
+                       birdSighting.setId(cursor.getInt(birdSightingIdIndex));
+                       birdSighting.setCommonName(cursor.getString(birdSightingCommonNameIndex));
+                       birdSighting.setScientificName(cursor.getString(birdSightingScientificNameIndex));
+                       birdSighting.setNotes(cursor.getString(birdSightingNotesIndex));
+                       birdSighting.setLatitude(cursor.getDouble(birdSightingLatitudeIndex));
+                       birdSighting.setLongitude(cursor.getDouble(birdSightingLongitudeIndex));                                                   
+                       birdSighting.setDateTime(utility.getDateObject(cursor.getString(birdSightingDateIndex)));
+                       birdSighting.setActivity(cursor.getString(birdSightingActivityIndex));
+                       birdSighting.setCategory(cursor.getString(birdSightingCategoryIndex));
+                       allBirdSightings.add(birdSighting);
+        		   }catch(Exception e){
+        			   e.printStackTrace();
+                   }
+        	   }while(cursor.moveToNext());
+           }
+           db.close();
+           
+           return allBirdSightings;
+}
 
 }

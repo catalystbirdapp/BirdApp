@@ -69,7 +69,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getApplicationContext());
 		// Sets up the GPS Utility class
-		gpsUtility = new GPSUtility(this, latitudeEditText, longitudeEditText);
+		gpsUtility = new GPSUtility(this);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
