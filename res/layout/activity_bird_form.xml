@@ -148,7 +148,7 @@
             android:id="@+id/date_time_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_drop_down"
+            android:layout_alignLeft="@+id/dateText"
             android:layout_alignTop="@+id/dateText"
             android:ems="10"
             android:maxLength="11"
@@ -165,15 +165,69 @@
             android:text="@string/dateText"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/hour_edit_text"
+        <TextView
+            android:id="@+id/locationText"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/noteText"
+            android:layout_below="@+id/hour_edit_text"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/gpsText"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/latitude_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/locationText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/formTitle"
+            android:layout_below="@+id/locationText"
+            android:ems="10"
+            android:maxLength="30" />
+
+        <CheckBox
+            android:id="@+id/autofill_checkbox"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/locationText"
+            android:layout_alignBottom="@+id/locationText"
+            android:layout_marginLeft="130dp"
+            android:text="@string/autofillCheckBox" />
+
+        <TextView
+            android:id="@+id/category_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/latitude_edit_text"
+            android:layout_below="@+id/latitude_edit_text"
+            android:layout_marginTop="55dp"
+            android:text="@string/categoryText"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/longitude_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/latitude_edit_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/latitude_edit_text"
+            android:layout_below="@+id/latitude_edit_text"
+            android:ems="10"
+            android:maxLength="30" />
+
+        <TextView
+			android:id="@+id/hour_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
-            android:inputType="time"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/activity_text"
