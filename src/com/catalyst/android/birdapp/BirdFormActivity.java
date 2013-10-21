@@ -29,8 +29,8 @@ import android.widget.Toast;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
-import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
+import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -50,9 +50,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private EditText notesEditText;
 	private TextView dateTextView;
 	private TextView timeEditText;
-	
+	private Button submitButton;
 	private Button coordinateRefreshButton;
-	
 	private Timer coordinateRefreshTimer;
 	
 	long coordinateTimerStart;
@@ -78,13 +77,21 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 		// Grabs the fields needed for gps autofill
 		intializeGPSfields();
-
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateTextView = (TextView) findViewById(R.id.date_time_edit_text);
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
+		commonNameEditText = (EditText)findViewById(R.id.common_name_edit_text);
+		scientificNameEditText = (EditText)findViewById(R.id.scientific_name_edit_text);
+				
 	}
-
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		gpsUtility.removeFormLocationUpdates();
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -94,12 +101,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		gpsUtility.setFormLocationListener();
 	}
 	
-	@Override
-	protected void onPause(){
-		super.onPause();
-		gpsUtility.removeFormLocationUpdates();
-	}
-
 	/**
 	 * Fills the activity spinner with values from the DB
 	 */

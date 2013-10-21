@@ -71,5 +71,6 @@
 	<string name="coordinates_up_to_date">Coordinates are up-to-date.</string>
     <string name="camera_activity_title">Camera</string>
     <string name = "camera_capture_button">Capture</string>
+	<string name="current_location">Current Location</string>
     
 </resources>

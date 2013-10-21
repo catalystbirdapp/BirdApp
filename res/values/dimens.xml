@@ -6,4 +6,6 @@
 	<dimen name = "capture_button_width">150dp</dimen>
 	<dimen name = "capture_button_height">45dp</dimen>
 	
+	<dimen name="table_padding">10dp</dimen>
+
 </resources>
