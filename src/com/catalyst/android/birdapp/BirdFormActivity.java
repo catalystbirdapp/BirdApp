@@ -61,6 +61,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private int numOfMissingFields;
 	private StringBuilder sb = new StringBuilder();
 	private String missFields;
+	private ArrayAdapter adapter;
+	private Utilities util = new Utilities();
 
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
@@ -115,7 +117,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
-		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
+		adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
 	}
@@ -126,7 +128,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void fillCategorySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
-		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
+		adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, categoriesFromDB);
 		categorySpinner.setAdapter(adapter);
 	}
@@ -268,9 +270,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	/**
 	 * Auto populates the date and time fields of the form
+	 * 
+	 * @author mhowell
 	 */
 	private void displayDateAndTime() {
-		Utilities util = new Utilities();
 		TextView date = (TextView) findViewById(R.id.date_time_edit_text);
 		TextView time = (TextView) findViewById(R.id.hour_edit_text);
 		date.setText(util.formatDate(util.currentMillis()));
@@ -336,7 +339,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 			dbHandler.insertBirdSighting(birdSighting);
 			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
-                    Toast.LENGTH_SHORT).show();
+					Toast.LENGTH_SHORT).show();
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(1000);
 			refreshActivity();
@@ -353,6 +356,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	/**
 	 * Refreshes the current activity
+	 * @author mhowell
 	 */
 	private void refreshActivity() {
 		Intent i = getIntent();
@@ -363,6 +367,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Called when user taps 'Submit' button. Checks for missing user defined
 	 * fields and alerts user if blank
+	 * 
+	 * @author mhowell
 	 * 
 	 * @param view
 	 */
@@ -383,7 +389,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	/**
-	 * Launches the confirmation dialog
+	 * Launches the confirmation dialog, provides applicable string relating to
+	 * fields where no user input has been supplied
+	 * @author mhowell
+	 * 
+	 * @param missingFieldsTitles
 	 */
 	public void submitAlertDialog(List<String> missingFieldTitles) {
 		sep = ", ";
@@ -405,7 +415,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 					.append(missingFieldTitles.get(2));
 			break;
 		default:
-			sb.append("Invalid");
+			sb.append(getString(R.string.invalid));
 			break;
 		}
 		missFields = sb.toString();
@@ -419,6 +429,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Listens for what the user chose and initiates callback method if the
 	 * response was positive.
+	 * @author mhowell
 	 */
 	public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
 		if (!cancelled) {

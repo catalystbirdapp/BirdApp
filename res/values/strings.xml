@@ -74,5 +74,6 @@
 	<string name="current_location">Current Location</string>
     <string name="title_activity_main">Put A Bird On It!!</string>
     <string name="title_activity_records">Record Review</string>
+    <string name="invalid">Invalid</string>
 
 </resources>

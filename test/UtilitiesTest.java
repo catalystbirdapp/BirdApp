@@ -12,8 +12,9 @@ import com.catalyst.android.birdapp.utilities.Utilities;
 @RunWith(JUnit4.class)
 public class UtilitiesTest {
 
-	private static final long BOTTOM_VALUE = 1380582000000L;// 9/30/2013
+	private static final long BOTTOM_VALUE = 1380582000000L;// 9/30/2013 16:00hrs
 	private static final long TOP_VALUE = 4102401599000L;// 12/31/2099
+	private static final long OTHER_VALUE = 1380538800000L;// 9/30/2013 04:00hrs
 	Utilities utils = new Utilities();
 
 	@Test
@@ -43,16 +44,20 @@ public class UtilitiesTest {
 	public void timeFormatDisplaysCorrectlyForGermanLocale() {
 		Locale.setDefault(Locale.GERMANY);
 		assertEquals("16:00", utils.formatTime(BOTTOM_VALUE));
+		assertEquals("04:00", utils.formatTime(OTHER_VALUE));
 	}
 
 	@Test
 	public void timeFormatDisplaysCorrectlyForForLocalesOtherThanGermany() {
 		Locale.setDefault(Locale.CANADA);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
+		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
 		Locale.setDefault(Locale.UK);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
+		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
 		Locale.setDefault(Locale.US);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
+		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
 	}
 
 }
