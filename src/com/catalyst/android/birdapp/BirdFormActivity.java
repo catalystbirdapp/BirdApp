@@ -61,7 +61,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private int numOfMissingFields;
 	private StringBuilder sb = new StringBuilder();
 	private String missFields;
-	private ArrayAdapter adapter;
 	private Utilities util = new Utilities();
 	private List<String> userDefinedFields = new ArrayList<String>();
 	private List<String> missingFieldTitles = new ArrayList<String>();
@@ -120,7 +119,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void fillActivitySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> activitiesFromDB = dbHandler.getAllActivities();
-		adapter = new ArrayAdapter(this, R.layout.spinner_item,
+		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
 	}
@@ -131,7 +130,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void fillCategorySpinner() {
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
-		adapter = new ArrayAdapter(this, R.layout.spinner_item,
+		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, categoriesFromDB);
 		categorySpinner.setAdapter(adapter);
 	}
