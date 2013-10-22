@@ -63,6 +63,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private String missFields;
 	private ArrayAdapter adapter;
 	private Utilities util = new Utilities();
+	private List<String> userDefinedFields = new ArrayList<String>();
+	private List<String> missingFieldTitles = new ArrayList<String>();
+	private FormValidationUtilities fvd = new FormValidationUtilities();
 
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
@@ -356,6 +359,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	/**
 	 * Refreshes the current activity
+	 * 
 	 * @author mhowell
 	 */
 	private void refreshActivity() {
@@ -373,13 +377,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * @param view
 	 */
 	public void checkFieldsAndNotifyUserOfBlanksBeforeSubmission(View view) {
-		List<String> userDefinedFields = new ArrayList<String>();
-		List<String> missingFieldTitles = new ArrayList<String>();
-
 		userDefinedFields.add(commonNameEditText.getText().toString());
 		userDefinedFields.add(scientificNameEditText.getText().toString());
 		userDefinedFields.add(notesEditText.getText().toString());
-		FormValidationUtilities fvd = new FormValidationUtilities();
 		missingFieldTitles = fvd.validateBirdFormFields(userDefinedFields);
 		if (missingFieldTitles.size() > 0) {
 			submitAlertDialog(missingFieldTitles);
@@ -391,6 +391,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Launches the confirmation dialog, provides applicable string relating to
 	 * fields where no user input has been supplied
+	 * 
 	 * @author mhowell
 	 * 
 	 * @param missingFieldsTitles
@@ -429,6 +430,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	/**
 	 * Listens for what the user chose and initiates callback method if the
 	 * response was positive.
+	 * 
 	 * @author mhowell
 	 */
 	public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
