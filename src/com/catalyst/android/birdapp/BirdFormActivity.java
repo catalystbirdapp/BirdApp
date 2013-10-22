@@ -375,6 +375,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * @param view
 	 */
 	public void checkFieldsAndNotifyUserOfBlanksBeforeSubmission(View view) {
+		userDefinedFields.clear();
 		userDefinedFields.add(commonNameEditText.getText().toString());
 		userDefinedFields.add(scientificNameEditText.getText().toString());
 		userDefinedFields.add(notesEditText.getText().toString());
