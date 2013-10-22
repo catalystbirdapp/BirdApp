@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_activity_map_">Map_Activity</string>
-    <string name="app_name">BirdApp</string>
+    <string name="app_name">Put A Bird On It!</string>
     <string name="action_settings">Settings</string>
     <string name="action_activity">Add Activity</string>
     <string name="hello_world">Hello world!</string>
