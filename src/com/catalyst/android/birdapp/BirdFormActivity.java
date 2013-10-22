@@ -289,22 +289,20 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		FormValidationUtilities fvd = new FormValidationUtilities();
 		String commonNameField = commonNameEditText.getText().toString();
 		// If user has provided input validate for proper content
-		if (!commonNameField.isEmpty()) {
-			if (!fvd.isFieldValueFormattedAlphaOnly(commonNameField)) {
-				commonNameEditText
-						.setError("Bird name must be alpha characters only!");
-				errors++;
-			}
+		if (!commonNameField.isEmpty()
+				&& !fvd.isFieldValueFormattedAlphaOnly(commonNameField)) {
+			commonNameEditText
+					.setError("Bird name must be alpha characters only!");
+			errors++;
 		}
 		String scientificNameField = scientificNameEditText.getText()
 				.toString();
 		// If user has provided input validate for proper content
-		if (!scientificNameField.isEmpty()) {
-			if (!fvd.isFieldValueFormattedAlphaOnly(scientificNameField)) {
-				scientificNameEditText
-						.setError("Scientific name must be alpha characters only!");
-				errors++;
-			}
+		if (!scientificNameField.isEmpty()
+				&& !fvd.isFieldValueFormattedAlphaOnly(scientificNameField)) {
+			scientificNameEditText
+					.setError("Scientific name must be alpha characters only!");
+			errors++;
 		}
 		if (errors == 0) {
 			String longitudeField = longitudeEditText.getText().toString();

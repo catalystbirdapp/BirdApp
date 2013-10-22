@@ -4,6 +4,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.google.android.gms.maps.CameraUpdate;
@@ -16,18 +28,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.Context;
-import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 public class MapActivity extends Activity {
 	
