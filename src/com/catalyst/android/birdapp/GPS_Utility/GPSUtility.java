@@ -1,4 +1,4 @@
-package com.catalyst.android.birdapp.GPS_Utility;
+package com.catalyst.android.birdapp.gps_utility;
 
 //import android.R;
 import android.app.AlertDialog;
