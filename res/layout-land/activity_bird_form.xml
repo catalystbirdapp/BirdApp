@@ -143,7 +143,7 @@
             android:layout_below="@+id/date_time_edit_text"
             android:layout_marginTop="14dp"
             android:text="@string/timeText"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/date_time_edit_text"
@@ -151,9 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/category_drop_down"
             android:layout_alignTop="@+id/dateText"
-            android:ems="10"
-            android:maxLength="11"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/dateText"
@@ -219,34 +217,11 @@
             android:text="@string/addAudioText" />
 
         <TextView
-            android:id="@+id/latitude_title"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_text"
-            android:layout_alignTop="@+id/latitude_edit_text"
-            android:text="@string/latitudeTitle"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/longitude_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/noteText"
-            android:layout_below="@+id/latitude_title"
-            android:layout_marginBottom="18dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/longitudeTitle"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/latitude_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/notes_edit_text"
-            android:layout_alignRight="@+id/refresh_button"
-            android:layout_below="@+id/hour_edit_text"
+            android:layout_below="@+id/notes_edit_text"
+            android:layout_toRightOf="@id/latitude_title"
             android:layout_marginTop="30dp"
             android:ems="10"
             android:maxLength="30"
@@ -267,9 +242,9 @@
             android:id="@+id/longitude_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/time_title"
             android:layout_alignLeft="@+id/latitude_edit_text"
-            android:layout_alignRight="@+id/refresh_button"
-            android:layout_alignTop="@+id/longitude_text"
+            android:layout_toRightOf="@+id/longitude_text"
             android:ems="10"
             android:maxLength="30"
             android:textSize="18sp" />
@@ -281,9 +256,31 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/longitude_text"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="23dp"
             android:background="@drawable/coordinate_button_red"
             android:text="@string/coordinateOutOfDate" />
+
+        <TextView
+            android:id="@+id/latitude_title"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/date_time_edit_text"
+            android:layout_alignBottom="@+id/date_time_edit_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/latitudeTitle"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/longitude_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/latitude_title"
+            android:layout_alignBaseline="@+id/time_title"
+            android:layout_alignRight="@+id/latitude_title"
+            android:text="@string/longitudeTitle"
+            android:textSize="18sp" />
+
     </RelativeLayout>
 
 </ScrollView>

@@ -9,5 +9,6 @@
 	<dimen name="table_padding">10dp</dimen>
 	<dimen name="splash_button_height">65dp</dimen>
     <dimen name="splash_button_left_right_margins">10dp</dimen>
+    <dimen name="formTextSize">18sp</dimen>
 
 </resources>
