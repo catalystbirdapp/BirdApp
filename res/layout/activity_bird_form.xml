@@ -193,6 +193,7 @@
             android:layout_toRightOf="@+id/activity_text"
             android:layout_below="@+id/category_drop_down"
             android:prompt="@string/activityPrompt"
+            android:focusable="true"
             android:spinnerMode="dialog" />
 
         <Spinner
@@ -202,6 +203,7 @@
             android:layout_toRightOf="@+id/category_text"
             android:layout_below="@+id/refresh_button"
             android:prompt="@string/categoryPrompt"
+            android:focusable="true"
             android:spinnerMode="dialog" />
 
         <Button
@@ -276,6 +278,7 @@
             style="@style/CoordinateButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:layout_below="@+id/longitude_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"

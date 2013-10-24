@@ -193,6 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/longitude_text"
             android:layout_centerHorizontal="true"
+            android:focusableInTouchMode="true"
             android:background="@drawable/coordinate_button_red"
             android:text="@string/coordinateOutOfDate" />
 
