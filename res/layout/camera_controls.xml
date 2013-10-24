@@ -13,5 +13,14 @@
         style="@style/ButtonText"
         android:background="@drawable/black_button"
         android:text="@string/camera_capture_button" />
+
+    <ImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/gear_icon_small" />
  
 </RelativeLayout>
