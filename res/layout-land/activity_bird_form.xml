@@ -32,19 +32,15 @@
         <EditText
             android:id="@+id/common_name_edit_text"
             style="@style/textHintColor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/submit_button"
             android:layout_below="@+id/formTitle"
             android:layout_marginTop="26dp"
             android:layout_toRightOf="@+id/scientificName"
             android:ems="10"
             android:hint="@string/birdNameHint"
             android:inputType="textPersonName"
-            android:maxLength="55" >
-
-            <requestFocus />
-        </EditText>
+            android:maxLength="55" />
 
         <TextView
             android:id="@+id/birdName"
@@ -56,7 +52,7 @@
             android:layout_marginTop="21dp"
             android:layout_toLeftOf="@+id/common_name_edit_text"
             android:text="@string/scientificName"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <EditText
             android:id="@+id/scientific_name_edit_text"
@@ -86,32 +82,6 @@
             android:maxLines="2"
             android:scrollbars="vertical" />
 
-        <Button
-            android:id="@+id/submit_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/picture_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/black_button"
-            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
-            android:text="@string/submitButtonText" />
-
-        <Button
-            android:id="@+id/picture_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/activity_text"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/bird_acivity_dropdown"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/black_button"
-            android:text="@string/addPictureText" />
-
         <TextView
             android:id="@+id/scientificName"
             style="@style/textColor"
@@ -121,7 +91,7 @@
             android:layout_alignBottom="@+id/common_name_edit_text"
             android:layout_alignParentLeft="true"
             android:text="@string/birdName"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/noteText"
@@ -132,14 +102,14 @@
             android:layout_alignBottom="@+id/notes_edit_text"
             android:layout_alignLeft="@+id/birdName"
             android:text="@string/noteText"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/time_title"
             style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/dateText"
+            android:layout_alignRight="@+id/dateText"
             android:layout_below="@+id/date_time_edit_text"
             android:layout_marginTop="14dp"
             android:text="@string/timeText"
@@ -162,7 +132,7 @@
             android:layout_below="@+id/notes_edit_text"
             android:layout_marginTop="34dp"
             android:text="@string/dateText"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/hour_edit_text"
@@ -171,50 +141,7 @@
             android:layout_alignLeft="@+id/date_time_edit_text"
             android:layout_alignTop="@+id/time_title"
             android:ems="10"
-            android:maxLength="10"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_text"
-            android:layout_below="@+id/category_drop_down"
-            android:layout_marginTop="15dp"
-            android:text="@string/activityText"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/bird_acivity_dropdown"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/hour_edit_text"
-            android:layout_alignTop="@+id/activity_text"
-            android:layout_marginBottom="30dp"
-            android:prompt="@string/activityPrompt"
-            android:spinnerMode="dialog" />
-
-        <Spinner
-            android:id="@+id/category_drop_down"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/category_text"
-            android:layout_toRightOf="@+id/category_text"
-            android:prompt="@string/categoryPrompt"
-            android:spinnerMode="dialog" />
-
-        <Button
-            android:id="@+id/audio_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/picture_button"
-            android:layout_alignBottom="@+id/picture_button"
-            android:layout_alignParentRight="true"
-            android:layout_alignRight="@+id/bird_acivity_dropdown"
-            android:background="@drawable/black_button"
-            android:text="@string/addAudioText" />
+            android:textSize="@dimen/formTextSize" />
 
         <TextView
             android:id="@+id/latitude_edit_text"
@@ -222,22 +149,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/notes_edit_text"
             android:layout_toRightOf="@id/latitude_title"
-            android:layout_marginTop="30dp"
+            android:layout_alignBaseline="@+id/dateText"
+            android:layout_marginLeft="20dp"
             android:ems="10"
-            android:maxLength="30"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/category_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/submit_button"
-            android:layout_below="@+id/refresh_button"
-            android:layout_marginTop="19dp"
-            android:text="@string/categoryText"
-            android:textSize="18sp" />
-
+            android:textSize="@dimen/formTextSize" />
+        
         <TextView
             android:id="@+id/longitude_edit_text"
             android:layout_width="wrap_content"
@@ -246,8 +162,29 @@
             android:layout_alignLeft="@+id/latitude_edit_text"
             android:layout_toRightOf="@+id/longitude_text"
             android:ems="10"
-            android:maxLength="30"
-            android:textSize="18sp" />
+            android:textSize="@dimen/formTextSize" />
+        
+        <TextView
+            android:id="@+id/latitude_title"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/date_time_edit_text"
+            android:layout_alignBottom="@+id/date_time_edit_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/latitudeTitle"
+            android:textSize="@dimen/formTextSize" />
+
+        <TextView
+            android:id="@+id/longitude_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/latitude_title"
+            android:layout_alignBaseline="@+id/time_title"
+            android:layout_alignRight="@+id/latitude_title"
+            android:text="@string/longitudeTitle"
+            android:textSize="@dimen/formTextSize" />
 
         <Button
             android:id="@+id/refresh_button"
@@ -260,26 +197,44 @@
             android:text="@string/coordinateOutOfDate" />
 
         <TextView
-            android:id="@+id/latitude_title"
+            android:id="@+id/activity_text"
             style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/date_time_edit_text"
-            android:layout_alignBottom="@+id/date_time_edit_text"
-            android:layout_centerHorizontal="true"
-            android:text="@string/latitudeTitle"
-            android:textSize="18sp" />
+            android:layout_toRightOf="@+id/category_drop_down"
+            android:layout_alignBaseline="@+id/category_text"
+            android:layout_marginLeft="20dp"
+            android:text="@string/activityText"
+            android:textSize="@dimen/formTextSize" />
+
+        <Spinner
+            android:id="@+id/bird_acivity_dropdown"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/refresh_button"
+            android:layout_toRightOf="@+id/activity_text"
+            android:layout_marginBottom="30dp"
+            android:prompt="@string/activityPrompt"
+            android:spinnerMode="dialog" />
 
         <TextView
-            android:id="@+id/longitude_text"
+            android:id="@+id/category_text"
             style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/latitude_title"
-            android:layout_alignBaseline="@+id/time_title"
-            android:layout_alignRight="@+id/latitude_title"
-            android:text="@string/longitudeTitle"
-            android:textSize="18sp" />
+            android:layout_below="@+id/refresh_button"
+            android:layout_marginTop="19dp"
+            android:text="@string/categoryText"
+            android:textSize="@dimen/formTextSize" />
+        
+        <Spinner
+            android:id="@+id/category_drop_down"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/refresh_button"
+            android:layout_toRightOf="@+id/category_text"
+            android:prompt="@string/categoryPrompt"
+            android:spinnerMode="dialog" />
 
     </RelativeLayout>
 
