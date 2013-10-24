@@ -235,6 +235,39 @@
             android:layout_toRightOf="@+id/category_text"
             android:prompt="@string/categoryPrompt"
             android:spinnerMode="dialog" />
+        
+        <Button
+            android:id="@+id/picture_button"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/category_drop_down"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/black_button"
+            android:text="@string/addPictureText" />
+        
+        <Button
+            android:id="@+id/audio_button"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/picture_button"
+            android:layout_alignBottom="@+id/picture_button"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/black_button"
+            android:text="@string/addAudioText" />
+        
+        <Button
+            android:id="@+id/submit_button"
+            style="@style/ButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/picture_button"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/black_button"
+            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
+            android:text="@string/submitButtonText" />
 
     </RelativeLayout>
 
