@@ -190,9 +190,8 @@
             android:id="@+id/bird_acivity_dropdown"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/hour_edit_text"
-            android:layout_alignTop="@+id/activity_text"
-            android:layout_marginBottom="30dp"
+            android:layout_toRightOf="@+id/activity_text"
+            android:layout_below="@+id/category_drop_down"
             android:prompt="@string/activityPrompt"
             android:spinnerMode="dialog" />
 
@@ -200,8 +199,8 @@
             android:id="@+id/category_drop_down"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/category_text"
             android:layout_toRightOf="@+id/category_text"
+            android:layout_below="@+id/refresh_button"
             android:prompt="@string/categoryPrompt"
             android:spinnerMode="dialog" />
 
@@ -235,7 +234,6 @@
             android:layout_alignLeft="@+id/noteText"
             android:layout_below="@+id/latitude_title"
             android:layout_marginTop="18dp"
-             android:layout_marginBottom="18dp"
             android:text="@string/longitudeTitle"
             android:textSize="18sp" />
 
