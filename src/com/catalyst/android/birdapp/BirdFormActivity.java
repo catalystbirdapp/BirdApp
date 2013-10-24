@@ -64,6 +64,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private Utilities util = new Utilities();
 	private List<String> userDefinedFields = new ArrayList<String>();
 	private List<String> missingFieldTitles = new ArrayList<String>();
+	private List<String> activitiesList = new ArrayList<String>();
+	private List<String> categoriesList = new ArrayList<String>();
 	private FormValidationUtilities fvd = new FormValidationUtilities();
 
 	long coordinateTimerStart;
@@ -441,5 +443,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void openCamera(MenuItem menuItem) {
 		Intent intent = new Intent(getApplication(), CameraActivity.class);
 		startActivity(intent);
+	}
+	
+	public void addItemsToCategorySpinner(){
+		categoriesList.add(getString(R.string.categorySelect));
+		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+		
+		
+	}
+	
+	public void addItemsToActivitySpinner(){
+		
 	}
 }
