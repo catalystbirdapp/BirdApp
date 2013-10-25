@@ -40,10 +40,7 @@
             android:ems="10"
             android:hint="@string/birdNameHint"
             android:inputType="textPersonName"
-            android:maxLength="55" >
-
-            <requestFocus />
-        </EditText>
+            android:maxLength="55" />
 
         <TextView
             android:id="@+id/birdName"
@@ -175,35 +172,26 @@
             android:maxLength="10"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/activity_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_text"
-            android:layout_below="@+id/category_drop_down"
-            android:layout_marginTop="15dp"
-            android:text="@string/activityText"
-            android:textSize="18sp" />
-
         <Spinner
-            android:id="@+id/bird_acivity_dropdown"
-            android:layout_width="210dp"
+            android:id="@+id/category_drop_down"
+            style="@style/SpinnerText"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/activity_text"
-            android:layout_below="@+id/category_drop_down"
-            android:prompt="@string/activityPrompt"
+            android:layout_below="@+id/refresh_button"
+            android:layout_centerHorizontal="true"
             android:focusable="true"
+            android:prompt="@string/categoryPrompt"
             android:spinnerMode="dialog" />
 
         <Spinner
-            android:id="@+id/category_drop_down"
-            android:layout_width="210dp"
+            android:id="@+id/bird_acivity_dropdown"
+            style="@style/SpinnerText"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/category_text"
-            android:layout_below="@+id/refresh_button"
-            android:prompt="@string/categoryPrompt"
+            android:layout_below="@+id/category_drop_down"
+            android:layout_centerHorizontal="true"
             android:focusable="true"
+            android:prompt="@string/activityPrompt"
             android:spinnerMode="dialog" />
 
         <Button
@@ -252,17 +240,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/category_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/submit_button"
-            android:layout_below="@+id/refresh_button"
-            android:layout_marginTop="19dp"
-            android:text="@string/categoryText"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/longitude_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -278,13 +255,12 @@
             style="@style/CoordinateButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
             android:layout_below="@+id/longitude_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"
             android:background="@drawable/coordinate_button_red"
+            android:focusableInTouchMode="true"
             android:text="@string/coordinateOutOfDate" />
-
     </RelativeLayout>
 
 </ScrollView>

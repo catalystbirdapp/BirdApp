@@ -33,6 +33,7 @@ import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
+import com.catalyst.android.birdapp.utilities.CustomAdapter;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
@@ -42,6 +43,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public static final String LOGTAG = "DialogFrag";
 
 	public Vibrator vibrator;
+	private CustomAdapter adapterForSpinner;
 
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
@@ -66,6 +68,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private List<String> missingFieldTitles = new ArrayList<String>();
 	private List<String> activitiesList = new ArrayList<String>();
 	private List<String> categoriesList = new ArrayList<String>();
+	private List<String> categoriesFromDB = new ArrayList<String>();	
 	private FormValidationUtilities fvd = new FormValidationUtilities();
 
 	long coordinateTimerStart;
@@ -111,7 +114,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		super.onResume();
 		displayDateAndTime();
 		fillActivitySpinner();
-		fillCategorySpinner();
+		addItemsToCategorySpinner();
 		gpsUtility.setFormLocationListener();
 	}
 
@@ -126,16 +129,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		activitySpinner.setAdapter(adapter);
 	}
 
-	/**
-	 * Fills the category spinner with values from the DB
-	 */
-	private void fillCategorySpinner() {
-		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
-		ArrayList<String> categoriesFromDB = dbHandler.getAllCategories();
-		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
-				R.id.spinnertextview, categoriesFromDB);
-		categorySpinner.setAdapter(adapter);
-	}
+//	/**
+//	 * Fills the category spinner with values from the DB
+//	 */
+//	private void fillCategorySpinner() {
+//		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
+//		categoriesFromDB = dbHandler.getAllCategories();
+//		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
+//				R.id.spinnertextview, categoriesFromDB);
+//		categorySpinner.setAdapter(adapter);
+//	}
 
 	/**
 	 * Initializes the GPS coordinates fields and sets the oncheck changed
@@ -446,9 +449,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 	
 	public void addItemsToCategorySpinner(){
-		categoriesList.add(getString(R.string.categorySelect));
+		categoriesList.clear();
 		DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
-		
+		categoriesFromDB = dbHandler.getAllCategories();
+		for(String s : categoriesFromDB){
+			categoriesList.add(s);
+		}
+		categoriesList.add(getString(R.string.categorySelect));
+		adapterForSpinner= new CustomAdapter(this, R.id.category_drop_down, categoriesList);
+		categorySpinner.setAdapter(adapterForSpinner);
+		categorySpinner.setSelection(adapterForSpinner.getCount());
 		
 	}
 	
