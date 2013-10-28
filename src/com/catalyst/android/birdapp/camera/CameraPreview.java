@@ -114,7 +114,7 @@ public class CameraPreview extends SurfaceView implements
 			mCamera.startPreview();
 			isPreviewRunning = true;
 		} catch (Exception e) {
-			Log.d("message", "Cannot start preview", e);
+			e.printStackTrace();
 		}
 	}
 

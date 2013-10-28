@@ -93,8 +93,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //Queries for bird sightings
 private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
 
-	
-	// private Cursor cursor;
 
 	private DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
