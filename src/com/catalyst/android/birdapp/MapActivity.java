@@ -6,10 +6,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TableLayout;
@@ -33,6 +36,7 @@ public class MapActivity extends Activity {
 	
 	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
 	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
+	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
 
 	private static final int ZERO = 0;
 
@@ -72,17 +76,21 @@ public class MapActivity extends Activity {
 		setMapMarkerInfoWindowAdapter();
 		
 		//Gets the saved preferences
-		String savedLocationLatitude = getPreferences(MODE_PRIVATE).getString(LATITUDE_KEY, null);
-		String savedLocationLongitude = getPreferences(MODE_PRIVATE).getString(LONGITUDE_KEY, null);
+		SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+		String savedLocationLatitude = preferenses.getString(LATITUDE_KEY, null);
+		String savedLocationLongitude = preferenses.getString(LONGITUDE_KEY, null);
+		float savedZoom = preferenses.getFloat(ZOOM_KEY, 0);
 		
-		//Centers the camera over beaverton if the GPS is not enabled
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-               CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE), 15);
-               map.animateCamera(update);
+		
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && savedLocationLatitude == null){
+        	//Centers the camera over beaverton if the GPS is not enabled and there was no saved location
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(beavertonLatLng, 15);
+            map.animateCamera(update);
         } else if (savedLocationLatitude != null){
+        	//Loads the last location if the GPS provider is disabled and there is a place to start from
         	double savedLatitude = Double.parseDouble(savedLocationLatitude);
         	double savedLongitude = Double.parseDouble(savedLocationLongitude);
-        	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), 17);
+        	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), savedZoom);
             map.animateCamera(update);
         }
 
@@ -216,16 +224,21 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onPause(){
 		super.onPause();
-		
+				
 	}
 	
 	@Override
 	protected void onStop(){
 		super.onStop();
-		Location currentMapLocation = map.getMyLocation();
 		
-		getPreferences(MODE_PRIVATE).edit().putString(LATITUDE_KEY, Double.toString(currentMapLocation.getLatitude())).commit();
-		getPreferences(MODE_PRIVATE).edit().putString(LONGITUDE_KEY, Double.toString(currentMapLocation.getLongitude())).commit();
+		//Saves the map data so that the map can be updated to the ame place if it is reopened and the gps is off
+		LatLng currentMapLocation = map.getCameraPosition().target;
+		float zoomLevel = map.getCameraPosition().zoom;
+		Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+		preferencesEditor.putString(LATITUDE_KEY, Double.toString(currentMapLocation.latitude)).
+			putString(LONGITUDE_KEY, Double.toString(currentMapLocation.longitude)).
+			putFloat(ZOOM_KEY, zoomLevel).
+			commit();
 		
 	}
 	
