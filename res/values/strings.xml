@@ -75,5 +75,6 @@
     <string name="title_activity_main">Put A Bird On It!!</string>
     <string name="title_activity_records">Record Review</string>
     <string name="invalid">Invalid</string>
+    <string name="my_location">My Location</string>
 
 </resources>

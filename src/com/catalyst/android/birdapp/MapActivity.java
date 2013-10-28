@@ -31,11 +31,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
 	
+	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
+	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
+
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
-
 	private static final int INFO_TEXT_VIEW_WIDTH = 300;
+	
+	private static final double BEAVERTON_LATITUDE = 45.4869;
+	private static final double BEAVERTON_LONGITUDE = -122.8036;
+	private LatLng beavertonLatLng = new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE);
 
 	private LocationManager locationManager;
 
@@ -64,6 +70,22 @@ public class MapActivity extends Activity {
 		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
 		setMapMarkerInfoWindowAdapter();
+		
+		//Gets the saved preferences
+		String savedLocationLatitude = getPreferences(MODE_PRIVATE).getString(LATITUDE_KEY, null);
+		String savedLocationLongitude = getPreferences(MODE_PRIVATE).getString(LONGITUDE_KEY, null);
+		
+		//Centers the camera over beaverton if the GPS is not enabled
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+               CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE), 15);
+               map.animateCamera(update);
+        } else if (savedLocationLatitude != null){
+        	double savedLatitude = Double.parseDouble(savedLocationLatitude);
+        	double savedLongitude = Double.parseDouble(savedLocationLongitude);
+        	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), 17);
+            map.animateCamera(update);
+        }
+
 	}
 
 	/**
@@ -150,8 +172,7 @@ public class MapActivity extends Activity {
 			//Updates the map to your location and zooms in.  The number is the amount of zoom
 			location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
-			map.addMarker(new MarkerOptions().position(location).title("My Location"));
-			addMarkersForPreviousSightings();
+			map.addMarker(new MarkerOptions().position(location).title(getString(R.string.my_location)));
 			map.animateCamera(update);
 		} catch(NullPointerException e){
 			gpsUtility.noLocationAvailable();
@@ -201,6 +222,10 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onStop(){
 		super.onStop();
+		Location currentMapLocation = map.getMyLocation();
+		
+		getPreferences(MODE_PRIVATE).edit().putString(LATITUDE_KEY, Double.toString(currentMapLocation.getLatitude())).commit();
+		getPreferences(MODE_PRIVATE).edit().putString(LONGITUDE_KEY, Double.toString(currentMapLocation.getLongitude())).commit();
 		
 	}
 	
@@ -212,7 +237,10 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) updateMap();
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			updateMap();
+		}
+		addMarkersForPreviousSightings();
 	}
 	
 	
