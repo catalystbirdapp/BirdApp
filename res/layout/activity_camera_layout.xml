@@ -10,12 +10,6 @@
  <include
         android:id="@+id/controls_layout"
         layout="@layout/camera_controls" />
-
-
-        
-        
-<!--     </FrameLayout> -->
- 
  
     </FrameLayout>
 

@@ -45,21 +45,22 @@ public class CameraActivity extends Activity {
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settings_button);  
         view = getLayoutInflater().inflate(R.layout.activity_camera_settings, null);
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
+        settingsButton.setOnClickListener(new View.OnClickListener() { //sets on click listener for settings button
 
 			@Override
 			public void onClick(View v) {
-				 
+				 //on click adds layout to preview
 				if(click){
 					preview.addView(view);
-					setSaveButton();
+					setSaveButton(); 
+					//populates all the spinners for the menu
 					populateZoomSpinner();
 					populateResolutionSpinner();
 					populatePictureSizeSpinner();
 					populateWhiteBalanceSpinner();
 					click = false;
 				}else{
-					preview.removeView(view);
+					preview.removeView(view); //removes preview on click and resumes camera preview
                     click = true;
 				}
 			}
