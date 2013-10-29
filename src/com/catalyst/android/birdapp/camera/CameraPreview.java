@@ -34,11 +34,11 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-		
+
 		try {
 			mCamera.setPreviewDisplay(surfaceHolder);
 			mCamera.startPreview();
-			
+
 		} catch (IOException e) {
 
 		}
