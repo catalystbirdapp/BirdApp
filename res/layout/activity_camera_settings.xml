@@ -1,63 +1,147 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/settings_window"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    
+    android:background="#77000000"
+    android:gravity="center_horizontal"
     tools:context=".CameraSettingsActivity" >
 
-    <Button
-        android:id="@+id/button1"
+   <TableRow
+        android:id="@+id/title_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Restore Defaults" />
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TextView
-        android:id="@+id/textView2"
+        <TextView
+            style="@style/settings_title_style"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/settings_title" >
+
+        </TextView>
+
+ 
+    </TableRow>
+    
+    
+    
+    <TableRow
+        android:id="@+id/zoom_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_marginBottom="32dp"
-        android:text="Resolution" />
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TextView
-        android:id="@+id/textView4"
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/zoom_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/zoom_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/zoom_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/resolution_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_centerVertical="true"
-        android:text="Picture Size" />
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TextView
-        android:id="@+id/textView5"
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/resolution_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/resolution_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/resolution_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/picture_size_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="44dp"
-        android:text="White Balance" />
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TextView
-        android:id="@+id/textView3"
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/picture_size_title" />
+
+        <Spinner
+            android:id="@+id/picture_size_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/picture_size_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/white_balance_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView4"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_marginBottom="36dp"
-        android:text="F-Stop" />
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TextView
-        android:id="@+id/textView1"
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/white_balance_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/white_balance_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/whitebalance_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/button_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
-        android:text="Zoom" />
+        android:layout_marginTop="@dimen/button_table_row_margin_top"
+        android:gravity="center" >
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/save_button"
+            style="@style/specialButton"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="@string/save_button" />
+
+        <Button
+            android:id="@+id/restore_defults_button"
+            style="@style/specialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/restore_defaults" />
+    </TableRow>
+
+</TableLayout>

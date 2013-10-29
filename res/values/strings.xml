@@ -77,5 +77,39 @@
     <string name="invalid">Invalid</string>
     <string name="camera_settings">Camera Settings</string>
     <string name="title_activity_camera_settings">CameraSettingsActivity</string>
+    <string name = "zoom_title">Zoom:</string>
+    <string name = "white_balance_title">White Balance:</string>
+    <string name = "resolution_title">Resolution:</string>
+    <string name = "picture_size_title">Picture Size:</string>
+    <string name = "restore_defaults">Restore Defaults</string>
+    <string name = "save_button">Save</string>
+    
+    <string name = "settings_title">Settings</string>
+	<string-array name = "resolution_settings">
+	    <item>640 X 480</item>
+	    <item>800 X 480</item>
+	    
+	</string-array>
 	
+	<string-array name="zoom_settings">
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	    
+	</string-array>
+	
+	<string-array name="whitebalance_settings">
+	    <item>Auto</item>
+	    <item>Daylight</item>
+	    <item>Cloudy</item>
+	    <item>Fluorescent</item>
+	    <item>Incadescent</item>
+	    
+	</string-array>
+	
+	<string-array name="picture_size_settings">
+	    <item>None</item>
+	    
+	</string-array>
 </resources>
