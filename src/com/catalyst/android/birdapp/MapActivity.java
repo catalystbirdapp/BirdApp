@@ -6,12 +6,20 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,6 +38,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
+	
+	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
 	
 	private static final int ZERO = 0;
 
@@ -51,6 +61,16 @@ public class MapActivity extends Activity {
 	
 	private TableLayout mapInfoWindow;
 	
+	private ImageButton mapSettingsButton;
+	
+	private boolean settingsOnScreen = false;
+	
+	private RelativeLayout mapLayout;
+	
+	private View mapSettingsView;
+	private Spinner mapTypeSpinner;
+	private Button mapSettingsSaveButton;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +83,36 @@ public class MapActivity extends Activity {
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
-		setMapMarkerInfoWindowAdapter();
+		mapSettingsButton = (ImageButton) findViewById(R.id.map_settings_button);
+		mapLayout = (RelativeLayout) findViewById(R.id.mapLayout);
+		mapSettingsView = getLayoutInflater().inflate(R.layout.map_settings, mapLayout, false);
+		setMapSettingsButtonOnClickListener();
+		//Sets the custom pop up windows for the map
+		setMapMarkerInfoWindowAdapter();	
+		
+		
+		
+		//Gets the saved preferences for map type
+        SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+        String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
+        setMapType(savedMapType);
+			
+	}
+
+	/**
+	 * sets the map type to the one that the user saved
+	 */
+	private void setMapType(String savedMapType) {
+		if(savedMapType.equals(getString(R.string.normal))){
+			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		} else if (savedMapType.equals(getString(R.string.satellite))){
+			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		} else if (savedMapType.equals(getString(R.string.terrain))){
+			map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+		} else if (savedMapType.equals(getString(R.string.hybrid))){
+			map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+		}
+		
 	}
 
 	/**
@@ -147,11 +196,12 @@ public class MapActivity extends Activity {
 	private void updateMap(){
 		Location currentLocation = gpsUtility.getCurrentLocation();
 		try{
+			//Clears the map for updating
+			map.clear();
 			//Updates the map to your location and zooms in.  The number is the amount of zoom
 			location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
 			map.addMarker(new MarkerOptions().position(location).title("My Location"));
-			addMarkersForPreviousSightings();
 			map.animateCamera(update);
 		} catch(NullPointerException e){
 			gpsUtility.noLocationAvailable();
@@ -191,6 +241,67 @@ public class MapActivity extends Activity {
 		}
 		return bitmap;
 	}
+	
+	/**
+	 * Sets the on click listener for the settings button
+	 */
+	private void setMapSettingsButtonOnClickListener() {
+		mapSettingsButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View view) {
+				if(!settingsOnScreen){
+					mapLayout.addView(mapSettingsView);
+					setSaveButtonOnClickListener();
+					mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
+					mapTypeSpinner.setAdapter(adapter);
+					settingsOnScreen = true;
+				}else{
+					mapLayout.removeView(mapSettingsView); 
+					settingsOnScreen = false;
+				}
+				
+			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Sets the on click listener for the save button
+	 */
+	private void setSaveButtonOnClickListener() {
+		mapSettingsSaveButton = (Button) findViewById(R.id.map_settings_save_button);
+		
+		mapSettingsSaveButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View view) {
+				if(settingsOnScreen){
+					String mapTypeSelected = mapTypeSpinner.getSelectedItem().toString();
+					
+					if(mapTypeSelected.equals(getString(R.string.normal))){
+						map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+					} else if (mapTypeSelected.equals(getString(R.string.satellite))){
+						map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+					} else if (mapTypeSelected.equals(getString(R.string.terrain))){
+						map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+					} else if (mapTypeSelected.equals(getString(R.string.hybrid))){
+						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+					}
+					Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+	                preferencesEditor.putString(MAP_TYPE_PREFERENCE_KEY, mapTypeSelected).commit();
+					settingsOnScreen = false;
+					mapLayout.removeView(mapSettingsView);
+				}
+				
+				
+			}
+			
+		});
+		
+	}
 
 	@Override
 	protected void onPause(){
@@ -212,7 +323,10 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) updateMap();
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			updateMap();
+		}
+		addMarkersForPreviousSightings();		
 	}
 	
 	
