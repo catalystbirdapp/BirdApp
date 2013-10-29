@@ -40,7 +40,7 @@
             android:ems="10"
             android:hint="@string/birdNameHint"
             android:inputType="textPersonName"
-            android:maxLength="55" >
+            android:maxLength="75" >
 
             <requestFocus />
         </EditText>
@@ -234,8 +234,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/noteText"
             android:layout_below="@+id/latitude_title"
+            android:layout_marginBottom="18dp"
             android:layout_marginTop="18dp"
-             android:layout_marginBottom="18dp"
             android:text="@string/longitudeTitle"
             android:textSize="18sp" />
 
@@ -283,7 +283,6 @@
             android:layout_marginTop="23dp"
             android:background="@drawable/coordinate_button_red"
             android:text="@string/coordinateOutOfDate" />
-
     </RelativeLayout>
 
 </ScrollView>
