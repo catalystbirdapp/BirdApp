@@ -114,7 +114,7 @@ public class CameraActivity extends Activity {
  */
     public void populateZoomSpinner(){
     	 zoomSpinner = (Spinner)findViewById(R.id.zoom_spinner);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.zoom_settings));
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_layout, R.id.spinner_custom, getResources().getStringArray(R.array.zoom_settings));
 		zoomSpinner.setAdapter(adapter);
     	
     }
@@ -123,7 +123,7 @@ public class CameraActivity extends Activity {
      */
     public void populateResolutionSpinner(){
     	 resolutionSpinner = (Spinner)findViewById(R.id.resolution_spinner);
-    	 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.resolution_settings));
+    	 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_layout, R.id.spinner_custom, getResources().getStringArray(R.array.resolution_settings));
     	 resolutionSpinner.setAdapter(adapter);
     }
     /**
@@ -131,7 +131,7 @@ public class CameraActivity extends Activity {
      */
     public void populatePictureSizeSpinner(){
     	 pictureSizeSpinner = (Spinner)findViewById(R.id.picture_size_spinner);
-    	 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.picture_size_settings));
+    	 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_layout, R.id.spinner_custom, getResources().getStringArray(R.array.picture_size_settings));
     	 pictureSizeSpinner.setAdapter(adapter);
     }
 
@@ -140,7 +140,7 @@ public class CameraActivity extends Activity {
      */
     public void populateWhiteBalanceSpinner(){
     	whiteBalanceSpinner = (Spinner)findViewById(R.id.white_balance_spinner);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.whitebalance_settings));
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom_layout, R.id.spinner_custom, getResources().getStringArray(R.array.whitebalance_settings));
     	whiteBalanceSpinner.setAdapter(adapter);
     }
 
