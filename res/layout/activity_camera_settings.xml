@@ -3,11 +3,11 @@
     android:id="@+id/settings_window"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#88000000"
+    android:background="#77000000"
     android:gravity="center_horizontal"
     tools:context=".CameraSettingsActivity" >
 
-    <TableRow
+   <TableRow
         android:id="@+id/title_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,16 +15,19 @@
 
         <TextView
             style="@style/settings_title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_margin_left"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/settings_margin_top"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/settings_title" >
-        </TextView>
-    </TableRow>
 
+        </TextView>
+
+ 
+    </TableRow>
+    
+    
+    
     <TableRow
         android:id="@+id/zoom_row"
         android:layout_width="wrap_content"
@@ -33,16 +36,18 @@
 
         <TextView
             style="@style/textSize"
-            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/settings_margin_left"
             android:layout_marginTop="@dimen/settings_margin_top"
-            android:text="@string/zoom_title" />
+            android:layout_weight="2"
+            android:text="@string/zoom_title" >
+        </TextView>
 
         <Spinner
             android:id="@+id/zoom_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
             android:entries="@array/zoom_settings" />
     </TableRow>
 
@@ -54,9 +59,9 @@
 
         <TextView
             style="@style/textSize"
-            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/settings_margin_left"
             android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
             android:text="@string/resolution_title" >
         </TextView>
 
@@ -65,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
             android:entries="@array/resolution_settings" />
     </TableRow>
 
@@ -76,9 +82,9 @@
 
         <TextView
             style="@style/textSize"
-            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/settings_margin_left"
             android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
             android:text="@string/picture_size_title" />
 
         <Spinner
@@ -86,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
             android:entries="@array/picture_size_settings" />
     </TableRow>
 
@@ -97,9 +104,9 @@
 
         <TextView
             style="@style/textSize"
-            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/settings_margin_left"
             android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
             android:text="@string/white_balance_title" >
         </TextView>
 
@@ -108,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
             android:entries="@array/whitebalance_settings" />
     </TableRow>
 
