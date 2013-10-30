@@ -102,8 +102,14 @@ public class CameraActivity extends Activity {
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
 				.format(new Date());
 		File mediaFile;
-		mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
-				+ timeStamp + ".jpg");
+		if (bird != null) {
+			mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
+					+ timeStamp + ".jpg");
+		} else {
+			String bird = "Bird";
+			mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
+					+ timeStamp + ".jpg");
+		}
 		return mediaFile;
 
 	}

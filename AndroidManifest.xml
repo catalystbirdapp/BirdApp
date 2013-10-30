@@ -50,11 +50,6 @@
             android:name="com.catalyst.android.birdapp.BirdFormActivity"
             android:label="@string/app_bird_form" >
         </activity>
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCirCV4Qw4ojiYfRy39uNB6kxVcjng92As" />
-
         <activity
             android:name="com.catalyst.android.birdapp.MapActivity"
             android:label="@string/title_activity_map_" >
@@ -72,6 +67,10 @@
             android:name="com.catalyst.android.birdapp.RecordsActivity"
             android:label="@string/title_activity_records" >
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAd0HerTAt9cgr7kcMsGMOXP67JvHTdY6Q" />
     </application>
 
 </manifest>
