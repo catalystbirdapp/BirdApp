@@ -23,12 +23,15 @@ public class CameraActivity extends Activity {
     private boolean click = true;
     private RelativeLayout relativeLayoutControls;
     private View view;
+    private View buttonView;
     private Spinner zoomSpinner;
     private Spinner resolutionSpinner;
     private Spinner pictureSizeSpinner;
     private Spinner whiteBalanceSpinner;
     private Button saveButton;
-    
+    private Button captureButton;
+    private ImageButton settingsButton;
+    private ImageButton settingsButtonView;
     /** Called when the activity is first created. */
     
     @Override
@@ -41,18 +44,21 @@ public class CameraActivity extends Activity {
         preview.addView(mCameraPreview); //calls CameraPreview class which starts the preview(aka the camera display)
         relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
         relativeLayoutControls.bringToFront(); //used to bring the capture button the front so that it overlays the preview display
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        ImageButton settingsButton = (ImageButton) findViewById(R.id.settings_button);  
+        captureButton = (Button) findViewById(R.id.button_capture);
+        settingsButton = (ImageButton) findViewById(R.id.settings_button);  
         view = getLayoutInflater().inflate(R.layout.activity_camera_settings, null);
-
+        buttonView = getLayoutInflater().inflate(R.layout.camera_settings_button, null);
         settingsButton.setOnClickListener(new View.OnClickListener() { //sets on click listener for settings button
 
                         @Override
                         public void onClick(View v) {
                                  //on click adds layout to preview
                                 if(click){
+                                		captureButton.setVisibility(View.GONE);
                                         preview.addView(view);
-                                        setSaveButton(); 
+                                        preview.addView(buttonView);
+                                        setSaveButton();
+                                        setSettingsButton();
                                         //populates all the spinners for the menu
                                         populateZoomSpinner();
                                         populateResolutionSpinner();
@@ -61,6 +67,8 @@ public class CameraActivity extends Activity {
                                         click = false;
                                 }else{
                                         preview.removeView(view); //removes preview on click and resumes camera preview
+                                        preview.removeView(buttonView);
+                                        captureButton.setVisibility(View.VISIBLE); //removes capture button on setting screen
                     click = true;
                                 }
                         }
@@ -70,7 +78,7 @@ public class CameraActivity extends Activity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //TODO implement saving photo on click here
+             
             }
         });
     }
@@ -87,13 +95,36 @@ public class CameraActivity extends Activity {
                         @Override
                         public void onClick(View v) {
                                 if(!click){
-                                        preview.removeView(view);
+                                        preview.removeView(view); //removes setting screen on click
+                                        preview.removeView(buttonView);
+                                        captureButton.setVisibility(View.VISIBLE); //un-hides capture button when setting screen is cleared
                     click = true;
                                 }
                                 
                         }
                 });
     }
+    
+    /**
+     * sets the settings button when the setting screen comes up
+     */
+    public void setSettingsButton(){
+        //TODO save functionality will go here
+        settingsButtonView = (ImageButton)findViewById(R.id.camera_settings_button_2);
+        settingsButtonView.setOnClickListener(new View.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                            if(!click){
+                                    preview.removeView(view);//removes setting screen on click
+                                    preview.removeView(buttonView);
+                                    captureButton.setVisibility(View.VISIBLE);//un-hides capture button when setting screen is cleared
+                click = true;
+                            }
+                            
+                    }
+            });
+}
     /**
      * Helper method to access the camera returns null if it cannot get the
      * camera or does not exist
