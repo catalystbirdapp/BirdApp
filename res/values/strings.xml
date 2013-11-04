@@ -76,6 +76,7 @@
     <string name="title_activity_records">Record Review</string>
     <string name="invalid">Invalid</string>
     <string name="camera_settings">Camera Settings</string>
+    <string name="map_settings">Map Settings</string>
     <string name="title_activity_camera_settings">CameraSettingsActivity</string>
     <string name = "zoom_title">Zoom:</string>
     <string name = "white_balance_title">White Balance:</string>
@@ -83,6 +84,18 @@
     <string name = "picture_size_title">Picture Size:</string>
     <string name = "restore_defaults">Restore Defaults</string>
     <string name = "save_button">Save</string>
+    
+    <string name="map_type">Map Type:</string>
+    <string-array name="map_types_array">
+        <item>@string/normal</item>
+        <item>@string/satellite</item>
+        <item>@string/terrain</item>
+        <item>@string/hybrid</item>
+    </string-array>
+    <string name="normal">Normal</string>
+    <string name="satellite">Satellite</string>
+    <string name="terrain">Terrain</string>
+    <string name="hybrid">Hybrid</string>
     
     <string name = "settings_title">Settings</string>
 	<string-array name = "resolution_settings">
