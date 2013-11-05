@@ -5,7 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name = "capture_button_width">150dp</dimen>
 	<dimen name = "capture_button_height">45dp</dimen>
-	<dimen name = "setting_table_top_margin">10dp</dimen>
+	<dimen name = "setting_table_top_margin">5dp</dimen>
 	<dimen name="table_padding">10dp</dimen>
 	<dimen name="splash_button_height">65dp</dimen>
     <dimen name="splash_button_left_right_margins">10dp</dimen>
