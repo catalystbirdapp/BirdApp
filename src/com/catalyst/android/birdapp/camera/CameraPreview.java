@@ -98,6 +98,7 @@ public class CameraPreview extends SurfaceView implements
 			mCamera.getParameters().setZoom(3);
 			mCamera.setPreviewDisplay(mSurfaceHolder);
 		} catch (IOException e) {
+			Log.d(VIEW_LOG_TAG, "Log");
 
 			e.printStackTrace();
 		}
