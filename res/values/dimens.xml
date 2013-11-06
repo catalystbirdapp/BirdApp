@@ -5,9 +5,13 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name = "capture_button_width">150dp</dimen>
 	<dimen name = "capture_button_height">45dp</dimen>
-	
+	<dimen name = "setting_table_top_margin">5dp</dimen>
 	<dimen name="table_padding">10dp</dimen>
 	<dimen name="splash_button_height">65dp</dimen>
     <dimen name="splash_button_left_right_margins">10dp</dimen>
-
+	<dimen name="camera_settings_text_size">20dp</dimen>
+	<dimen name = "settings_margin_top">27dp</dimen>
+	<dimen name = "settings_margin_left">20dp</dimen>
+	<dimen name = "settings_spinner_margin_top">20dp</dimen>
+	<dimen name = "button_table_row_margin_top">30dp</dimen>
 </resources>

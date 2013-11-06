@@ -1,0 +1,160 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+
+<TableLayout 
+ 
+    android:id="@+id/settings_window"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#77000000"
+    android:gravity="center_horizontal"
+    tools:context=".CameraSettingsActivity" >
+ 
+
+    
+   <TableRow
+        android:id="@+id/title_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
+
+        <TextView
+            style="@style/settings_title_style"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/settings_title" >
+
+        </TextView>
+
+ 
+    </TableRow>
+    
+    
+    
+    <TableRow
+        android:id="@+id/zoom_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
+
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/zoom_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/zoom_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/zoom_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/resolution_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
+
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/resolution_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/resolution_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/resolution_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/picture_size_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
+
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/picture_size_title" />
+
+        <Spinner
+            android:id="@+id/picture_size_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/picture_size_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/white_balance_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_table_top_margin" >
+
+        <TextView
+            style="@style/textSize"
+            android:layout_marginLeft="@dimen/settings_margin_left"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:layout_weight="2"
+            android:text="@string/white_balance_title" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/white_balance_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_spinner_margin_top"
+            android:layout_weight="2"
+            android:entries="@array/whitebalance_settings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/button_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_table_row_margin_top"
+       
+        android:gravity="bottom" >
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/specialButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+           
+            android:text="@string/save_button" />
+
+        <Button
+            android:id="@+id/restore_defults_button"
+            style="@style/specialButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/restore_defaults" />
+    </TableRow>
+
+</TableLayout>
+</ScrollView>
