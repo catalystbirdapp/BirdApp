@@ -1,17 +1,23 @@
 package com.catalyst.android.birdapp;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +37,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
 	
+	public static final int IMAGE_VIEW_DIMENSION = 200;
+
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
@@ -84,6 +92,9 @@ public class MapActivity extends Activity {
 				try{
 					//Retrieves the bird sighting from the hashmap
 					BirdSighting birdSighting = markerSightingsMap.get(marker);
+					
+					//Gets the path t the default picture for the sighting
+					String picturePath = dbHandler.getDefaultPicture(birdSighting.getId());
 	            
 					//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
 					Date birdSightingDate = birdSighting.getDateTime();
@@ -95,7 +106,9 @@ public class MapActivity extends Activity {
 					String formattedTime = timeFormat.format(birdSightingDate);
 	           
 					//calls the method that constructs the table rows and inserts the information into them. The if statements keeps out rows if the information is empty.
-					if(birdSighting.getCommonName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
+					if(picturePath.length()>0){addPictureToMapInfoWindow(picturePath);}
+					if(birdSighting.getCommonName().length()>0)
+					{addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
 					if(birdSighting.getScientificName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.scientificName), birdSighting.getScientificName());}
 					addBirdInfoToMapInfoWindow(getString(R.string.dateText), formattedDate);
 					addBirdInfoToMapInfoWindow(getString(R.string.timeText), formattedTime);
@@ -110,6 +123,46 @@ public class MapActivity extends Activity {
 				return view;
 			}
 			
+			/**
+			 * Adds the sighting's default picture to the map info window
+			 */
+			private void addPictureToMapInfoWindow(String picturePath) {
+				
+				File imgFile = new  File(picturePath);
+				if(imgFile.exists()){
+				    Bitmap birdPictureBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+				    ImageView birdImage = new ImageView(getApplicationContext());
+				    birdImage.setImageBitmap(birdPictureBitmap);
+				    birdImage.getLayoutParams().height = IMAGE_VIEW_DIMENSION;
+				    birdImage.getLayoutParams().width = IMAGE_VIEW_DIMENSION;
+				    mapInfoWindow.addView(birdImage);	
+				    setBirdImageOnClickListener(birdImage);
+				}
+				
+			}
+			
+			/**
+			 * Sets the on click listener for the image to show a full image view
+			 * @param birdImage
+			 */
+			private void setBirdImageOnClickListener(final ImageView birdImage) {
+				birdImage.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View arg0) {
+						if(birdImage.getLayoutParams().height == LayoutParams.MATCH_PARENT){
+							birdImage.getLayoutParams().height = IMAGE_VIEW_DIMENSION;
+						    birdImage.getLayoutParams().width = IMAGE_VIEW_DIMENSION;
+						} else {
+							birdImage.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+						}
+						
+					}
+					
+				});
+				
+			}
+
 			/**
 			 * Adds info to a table row and puts it in the pop up window for the map.
 			 */
