@@ -80,19 +80,9 @@ public class CameraPreview extends SurfaceView implements
 			mCamera.stopPreview();
 			
 		}
-		//SharedPreferences preferences =	context.getSharedPreferences("CameraActivity", Context.MODE_PRIVATE);
+
 		Parameters parameters = mCamera.getParameters();
 
-//		String zoom = preferences.getString("ZoomPreference", "1");
-//		
-//		String test = zoom.substring(0, 1);
-//		int zoomNumber = (Integer.parseInt(test) * 10) - 1;
-//		parameters.setZoom(zoomNumber);
-	
-	
-		
-		
-		
 		Display display = ((WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
@@ -104,17 +94,17 @@ public class CameraPreview extends SurfaceView implements
 		}
 
 		if (display.getRotation() == Surface.ROTATION_90) {
-			parameters.setPreviewSize(width, height);
+			parameters.setPreviewSize(parameters.getPreviewSize().width, parameters.getPreviewSize().height);
 
 		}
 
 		if (display.getRotation() == Surface.ROTATION_180) {
-			parameters.setPreviewSize(height, width);
+			parameters.setPreviewSize( parameters.getPreviewSize().height, parameters.getPreviewSize().width);
 
 		}
 
 		if (display.getRotation() == Surface.ROTATION_270) {
-			parameters.setPreviewSize(width, height);
+			parameters.setPreviewSize(parameters.getPreviewSize().width,  parameters.getPreviewSize().height);
 			mCamera.setDisplayOrientation(90);
 
 		}
@@ -125,18 +115,6 @@ public class CameraPreview extends SurfaceView implements
 	}
 
 
-//	public void setPreferences(Parameters parameters){
-//		
-//		
-//		
-//		String resolution = preferences.getString("ResolutionPreferences","640X480");
-//		String pictureSize = preferences.getString("PictureSizePreference", "None");
-//		String whiteBlanace = preferences.getString("WhiteBalanceResoltion", "Daylight");
-//		
-//		
-//		}
-		
-//	}
 	
 	/**
 	 * sets the camera preview display and then starts the preview.
