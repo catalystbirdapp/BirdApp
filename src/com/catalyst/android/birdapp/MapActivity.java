@@ -250,10 +250,11 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
+		map.clear();
+		addMarkersForPreviousSightings();
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			updateMap();
 		}
-		addMarkersForPreviousSightings();
 	}
 	
 	
