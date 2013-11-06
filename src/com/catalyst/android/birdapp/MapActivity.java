@@ -249,9 +249,18 @@ public class MapActivity extends Activity {
 	         if(!settingsOnScreen){
 	           mapLayout.addView(mapSettingsView);
 	           setSaveButtonOnClickListener();
-	           mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
-	           ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
-	           mapTypeSpinner.setAdapter(adapter);
+	         //get map type preference
+               SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+                                       String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
+                                       //grab the spinner and populate it
+               mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
+               ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
+               mapTypeSpinner.setAdapter(adapter);
+               //get position of saved preference from the adapter
+               int mapTypePosition = adapter.getPosition(savedMapType);
+               //Set the position
+               mapTypeSpinner.setSelection(mapTypePosition);
+	           
 	           settingsOnScreen = true;
 	         }else{
 	           mapLayout.removeView(mapSettingsView); 
