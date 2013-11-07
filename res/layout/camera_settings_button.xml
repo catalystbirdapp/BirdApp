@@ -5,18 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
  
-    <Button
-        android:id="@+id/button_capture"
-        android:layout_width="@dimen/capture_button_width"
-        android:layout_height="@dimen/capture_button_height"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        style="@style/ButtonText"
-        android:background="@drawable/black_button"
-        android:text="@string/camera_capture_button" />
 
     <ImageButton
-        android:id="@+id/settings_button"
+        android:id="@+id/camera_settings_button_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
