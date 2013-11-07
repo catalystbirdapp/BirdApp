@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import com.catalyst.android.birdapp.camera.CameraPreview;
 import com.catalyst.android.birdapp.utilities.CameraUtilities;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
-import android.hardware.Camera.Size;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,10 +39,10 @@ public class CameraActivity extends Activity {
 	private ImageButton settingsButton;
     private ImageButton settingsButtonView;
 	private String DEFAULT_VALUE = "None";
-	private ArrayList<String> zoomLevel;
-	private ArrayList<String> supportedWhiteBalance;
-	private ArrayList<String>resolutions;
-	private ArrayList<String>previewSizes;
+	private List<String> zoomLevel;
+	private List<String> supportedWhiteBalance;
+	private List<String>resolutions;
+	private List<String>previewSizes;
     private Parameters parameters;
    
 	/** Called when the activity is first created. */
@@ -83,12 +80,10 @@ public class CameraActivity extends Activity {
                                         preview.addView(buttonView);
                                         setSaveButton();
                                         setSettingsButton();
-                                        zoomLevel = cameraUtilities.getSupportedCameraZoom(parameters, zoomLevel);
-                                   
-                                        supportedWhiteBalance = cameraUtilities.getSupportedWhiteBalanceSettings(parameters, supportedWhiteBalance);
-                                        resolutions = cameraUtilities.getSupportedCameraResolution(parameters, resolutions);
-                                        previewSizes = cameraUtilities.getSupportedPreviewSize(parameters, previewSizes);
-                                        Log.d("message2", previewSizes.toString());
+                                        zoomLevel = cameraUtilities.getSupportedCameraZoom(parameters);
+                                        supportedWhiteBalance = cameraUtilities.getSupportedWhiteBalanceSettings(parameters);
+                                        resolutions = cameraUtilities.getSupportedCameraResolution(parameters);
+                                        previewSizes = cameraUtilities.getSupportedPreviewSize(parameters);
                                         populateZoomSpinner();
                                         populateResolutionSpinner();
                                         populatePictureSizeSpinner();
@@ -172,7 +167,7 @@ public class CameraActivity extends Activity {
                                     preview.removeView(view);//removes setting screen on click
                                     preview.removeView(buttonView);
                                     captureButton.setVisibility(View.VISIBLE);//un-hides capture button when setting screen is cleared
-                click = true;
+                                    click = true;
                             }
                             
                     }
@@ -255,14 +250,15 @@ public class CameraActivity extends Activity {
 			parameters.setPreviewSize(previewSizeWidth, previewSizeHeight);
 			parameters.setWhiteBalance(whiteBalance);
 			parameters.setZoom(zoomNumber);
-			
 			mCamera.startPreview();
 			mCamera.setParameters(parameters);
 		
 			
 		}
 
-
+/**
+ * on resume, reset the camera settings
+ */
 
 	@Override
 	public void onResume(){

@@ -6,13 +6,8 @@ package com.catalyst.android.birdapp.utilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.catalyst.android.birdapp.CameraActivity;
-
-import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
-import android.util.Log;
 
 /**
  * @author hyoung
@@ -48,21 +43,20 @@ public class CameraUtilities {
 	 * white balance spinner
 	 * @return 
 	 */
-	public ArrayList<String> getSupportedWhiteBalanceSettings(Parameters parameters, ArrayList<String> supportedWhiteBalance){
-		//parameters = mCamera.getParameters();
-		supportedWhiteBalance = (ArrayList<String>) parameters.getSupportedWhiteBalance();
+	public List<String> getSupportedWhiteBalanceSettings(Parameters parameters){
+		List<String> supportedWhiteBalance = new ArrayList<String>();
+		List<String>whiteBalanceParams = parameters.getSupportedWhiteBalance();
 		
-		for(int i = 0; i<supportedWhiteBalance.size(); i ++){
-			String word = supportedWhiteBalance.get(i);
+		for(int i = 0; i<whiteBalanceParams.size(); i ++){
+			String word = whiteBalanceParams.get(i);
 			String output = word.substring(0,1).toUpperCase(Locale.US) + word.substring(1);
 			for(int j = 0; j<output.length() - 2; j++){
 				
 				if(output.substring(j, j+1).equals("-")){
 					output = output.substring(0, j+1) + output.substring(j+1, j+2).toUpperCase(Locale.US) + output.substring(j+2);
-					
 				}
 			}
-			supportedWhiteBalance.set(i, output);
+			supportedWhiteBalance.add(output);
 		}
 		
 		return supportedWhiteBalance;
@@ -74,24 +68,18 @@ public class CameraUtilities {
 	 * @return 
 	 */
 	
-	public ArrayList<String> getSupportedCameraResolution(Parameters parameters, ArrayList<String> resolutions){
+	public List<String> getSupportedCameraResolution(Parameters parameters){
 		List<Size> pictureSize = parameters.getSupportedPictureSizes();
-		resolutions = new ArrayList<String>();
+		List<String> resolutions = new ArrayList<String>();
 		
 		if(pictureSize.size() != 0){
 		for(int i = 0; i<pictureSize.size(); i++){
 			int height = pictureSize.get(i).height;
-			Log.d("message20", String.valueOf(height));
 			int width = pictureSize.get(i).width;
 			String resolution = String.valueOf(height +" X "+ width);
-			Log.d("message14", resolution);
 			resolutions.add(resolution);
 		}
-		}else {
-			resolutions.add("640 X 480");
-			resolutions.add("1200 X 600");
 		}
-		
 		return resolutions;
 	}
 	
@@ -99,21 +87,16 @@ public class CameraUtilities {
 	 * gets supported preview sizes and puts them in an array
 	 * @return 
 	 */
-	public ArrayList<String> getSupportedPreviewSize(Parameters parameters, ArrayList<String>previewSizes){
+	public List<String> getSupportedPreviewSize(Parameters parameters){
+		List<String>previewSizes =  new ArrayList<String>();
+		List<Size> previewSizeParameters = parameters.getSupportedPreviewSizes();
+	
 		
-		List<Size> previewSize = parameters.getSupportedPreviewSizes();
-		Log.d("message13", String.valueOf(parameters.getSupportedPreviewSizes().size()));
-		previewSizes = new ArrayList<String>();
-		
-		for(int i = 0; i<previewSize.size() - 1; i++){
-			Log.d("message5", String.valueOf(previewSize.size()));
-			int height = previewSize.get(i).height;
-			int width = previewSize.get(i).width;
+		for(int i = 0; i<previewSizeParameters.size(); i++){
+			int height = previewSizeParameters.get(i).height;
+			int width = previewSizeParameters.get(i).width;
 			String preview = String.valueOf(height +" X "+width);
-			Log.d("message4", preview);
 			previewSizes.add(preview);
-		
-		
 		}
 		
 		return previewSizes;
@@ -124,10 +107,10 @@ public class CameraUtilities {
 	 * Also adds .0x to the end of the zoom levels
 	 * @return 
 	 */
-	public ArrayList<String> getSupportedCameraZoom(Parameters parameters, ArrayList<String>zoomLevel){
+	public List<String> getSupportedCameraZoom(Parameters parameters){
 		int maxZoom = parameters.getMaxZoom() + 1;
 		int count = 0;
-		Log.d("message12", String.valueOf(parameters.getMaxZoom()));
+		ArrayList<String> zoomLevel = new ArrayList<String>();
 		if(maxZoom > 0){
 		for(int i = 10; i<=maxZoom; i=i+10){
 			count++;
@@ -135,8 +118,7 @@ public class CameraUtilities {
 			zoomLevel.add(test);
 		}
 		}else {
-		zoomLevel.add("1.0x");
-		zoomLevel.add("2.0x");
+			
 		}
 		return zoomLevel;
 	}

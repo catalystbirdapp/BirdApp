@@ -89,7 +89,7 @@ public class CameraPreview extends SurfaceView implements
 		
 		
 		if (display.getRotation() == Surface.ROTATION_0) {
-
+			parameters.setPreviewSize(parameters.getPreviewSize().width, parameters.getPreviewSize().height);
 			mCamera.setDisplayOrientation(90);
 		}
 
