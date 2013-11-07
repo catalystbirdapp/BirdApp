@@ -4,6 +4,8 @@
 package com.catalyst.android.birdapp.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import android.hardware.Camera;
@@ -43,7 +45,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	
 	
 	public void testGetSupportedWhiteBalanceSettings(){
-		ArrayList<String> whiteBalance = new ArrayList<String>();
+		List<String> whiteBalance = new ArrayList<String>();
 		ArrayList<String> supportedWhiteBalance = new ArrayList<String>();
 		supportedWhiteBalance.add("auto");
 		when(camera.getParameters()).thenReturn(params);
@@ -55,7 +57,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	}
 	
 	public void testGetSupportedCameraResolution(){
-		ArrayList<String> resolutions = new ArrayList<String>();
+		List<String> resolutions = new ArrayList<String>();
 		ArrayList<Size> supportedCameraResolution = new ArrayList<Size>();
 		Size size = camera.new Size(480, 640);
 		supportedCameraResolution.add(size);
@@ -66,7 +68,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	}
 	
 	public void testGetSupportedPreviewSizes(){
-		ArrayList<String> previewSizes = new ArrayList<String>();
+		List<String> previewSizes = new ArrayList<String>();
 		ArrayList<Size> supportedPreviewSizes = new ArrayList<Size>();
 		Size size = camera.new Size(480, 640);
 		supportedPreviewSizes.add(size);
@@ -77,7 +79,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	}
 	
 	public void testGetSupportedCameraZoom(){
-		ArrayList<String> zoomLevel = new ArrayList<String>();
+		List<String> zoomLevel = new ArrayList<String>();
 		when(camera.getParameters()).thenReturn(params);
 		when(params.getMaxZoom()).thenReturn(59);
 		zoomLevel = cUtils.getSupportedCameraZoom(params);
