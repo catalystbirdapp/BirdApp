@@ -82,6 +82,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String GET_ALL_ACTIVITIES = "SELECT * FROM " + BIRD_ACTIVITIES;
 	private static final String GET_ALL_CATEGORIES = "SELECT * FROM " + BIRD_SIGHTINGS_CATEGORY;
 	
+	//Query for the default picture for a sighting
+    private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdPicture INNER JOIN sightingPictureMap ON birdPicture.pictureId=sightingPictureMap.sightingPictureId WHERE sightingPictureMap.birdSightingId=? AND sightingPictureMap.isDefaultPicture=1";
+	
 	//Inserts for Activities and Categories
 	private static final String INSERT_BIRD_ACTIVITY_PART_ONE = "INSERT INTO " + BIRD_ACTIVITIES + " (" + BIRD_ACTIVITY + ") VALUES ( ";
 	private static final String INSERT_BIRD_ACTIVITY_PART_TWO = " )";
@@ -310,5 +313,22 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
            
            return allBirdSightings;
 }
+	   
+	   /**
+        * Returns the default picture path for a sighting
+        */
+       public String getDefaultPicture(int sightingId)  {
+               String picturePath = "";
+               SQLiteDatabase db = this.getReadableDatabase();
+               cursor = db.rawQuery(GET_DEFAULT_PICTURE, new String[] {Integer.toString(sightingId)} );
+               int picturePathColumnIndex = cursor.getColumnIndex(PICTURE_PATH);
+               if (cursor != null && cursor.moveToFirst()) {        
+                       picturePath = cursor.getString(picturePathColumnIndex);
+               }
+               db.close();
+               return picturePath;
+
+       }
+
 
 }
