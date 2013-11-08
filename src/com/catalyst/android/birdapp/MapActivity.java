@@ -323,73 +323,61 @@ public class MapActivity extends Activity {
 	 * Sets the on click listener for the settings button
 	 */
 	private void setMapSettingsButtonOnClickListener() {
-
-		mapSettingsButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				if (!settingsOnScreen) {
-					mapLayout.addView(mapSettingsView);
-					setSaveButtonOnClickListener();
-					mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-							getApplicationContext(), R.layout.spinner_item,
-							R.id.spinnertextview, getResources()
-									.getStringArray(R.array.map_types_array));
-					mapTypeSpinner.setAdapter(adapter);
-					settingsOnScreen = true;
-				} else {
-					mapLayout.removeView(mapSettingsView);
-					settingsOnScreen = false;
-				}
-
-			}
-
-		});
-
-	}
-
-	/**
-	 * Sets the on click listener for the save button
-	 */
-	private void setSaveButtonOnClickListener() {
-		mapSettingsSaveButton = (Button) findViewById(R.id.map_settings_save_button);
-
-		mapSettingsSaveButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				if (settingsOnScreen) {
-					String mapTypeSelected = mapTypeSpinner.getSelectedItem()
-							.toString();
-
-					if (mapTypeSelected.equals(getString(R.string.normal))) {
-						map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-					} else if (mapTypeSelected
-							.equals(getString(R.string.satellite))) {
-						map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-					} else if (mapTypeSelected
-							.equals(getString(R.string.terrain))) {
-						map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-					} else if (mapTypeSelected
-							.equals(getString(R.string.hybrid))) {
-						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-					}
-					Editor preferencesEditor = getPreferences(MODE_PRIVATE)
-							.edit();
-					preferencesEditor.putString(MAP_TYPE_PREFERENCE_KEY,
-							mapTypeSelected).commit();
-					settingsOnScreen = false;
-					mapLayout.removeView(mapSettingsView);
-				}
-
-			}
-
-		});
-
-	}
-
-
+		mapSettingsButton.setOnClickListener(new OnClickListener(){
+	       @Override
+	       public void onClick(View view) {
+	         if(!settingsOnScreen){
+	           mapLayout.addView(mapSettingsView);
+	           setSaveButtonOnClickListener();
+	           mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
+	           ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
+	           mapTypeSpinner.setAdapter(adapter);
+	           settingsOnScreen = true;
+	         }else{
+	           mapLayout.removeView(mapSettingsView); 
+	           settingsOnScreen = false;
+	         }
+	         
+	       }
+	       
+	     });
+	     
+	   }
+	   
+	   /**
+	    * Sets the on click listener for the save button
+	    */
+	   private void setSaveButtonOnClickListener() {
+	     mapSettingsSaveButton = (Button) findViewById(R.id.map_settings_save_button);
+	     
+	     mapSettingsSaveButton.setOnClickListener(new OnClickListener(){
+	 
+	       @Override
+	       public void onClick(View view) {
+	         if(settingsOnScreen){
+	           String mapTypeSelected = mapTypeSpinner.getSelectedItem().toString();
+	           
+	           if(mapTypeSelected.equals(getString(R.string.normal))){
+	             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	           } else if (mapTypeSelected.equals(getString(R.string.satellite))){
+	             map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+	           } else if (mapTypeSelected.equals(getString(R.string.terrain))){
+	             map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+	           } else if (mapTypeSelected.equals(getString(R.string.hybrid))){
+	             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+	           }
+	           Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+	                   preferencesEditor.putString(MAP_TYPE_PREFERENCE_KEY, mapTypeSelected).commit();
+	           settingsOnScreen = false;
+	           mapLayout.removeView(mapSettingsView);
+	         }
+	         
+	         
+	       }
+	       
+	     });
+	     
+	   }
 	
 
 	@Override
