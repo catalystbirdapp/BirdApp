@@ -75,6 +75,7 @@
     <string name="title_activity_main">Put A Bird On It!!</string>
     <string name="title_activity_records">Record Review</string>
     <string name="invalid">Invalid</string>
+
     <string name="camera_settings">Camera Settings</string>
     <string name="title_activity_camera_settings">CameraSettingsActivity</string>
     <string name = "zoom_title">Zoom:</string>
@@ -112,4 +113,8 @@
 	    <item>None</item>
 	    
 	</string-array>
+
+    <string name="my_location">My Location</string>
+
+
 </resources>
