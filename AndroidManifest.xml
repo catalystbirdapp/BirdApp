@@ -67,9 +67,8 @@
             android:name="com.catalyst.android.birdapp.RecordsActivity"
             android:label="@string/title_activity_records" >
         </activity>
-        <activity
-            android:name="com.catalyst.android.birdapp.PictureConfirmationActivity"
-            android:label="@string/title_activity_picture_confirmation" >
+        <activity android:name="com.catalyst.android.birdapp.PictureConfirmationActivity" 
+            android:label="@string/title_activity_picture_confirmation">
             <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyAd0HerTAt9cgr7kcMsGMOXP67JvHTdY6Q" />

@@ -440,10 +440,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	public void openCamera(MenuItem menuItem) {
 		Intent intent = new Intent(getApplication(), CameraActivity.class);
+		String birdName = commonNameEditText.getText().toString();
+		intent.putExtra("birdName", birdName);
 		startActivity(intent);
 	}
-	public void getCameraSettings(MenuItem menuItem){
-		Intent intent = new Intent(getApplication(), CameraSettingsActivity.class);
+
+	public void getCameraSettings(MenuItem menuItem) {
+		Intent intent = new Intent(getApplication(),
+				CameraSettingsActivity.class);
 		startActivity(intent);
 	}
 }

@@ -30,14 +30,14 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 public class CameraActivity extends Activity {
-	private Context context = this;
+
 	private Camera mCamera;
 	private CameraPreview mCameraPreview;
 
 	public static int count = 0;
 	int TAKE_PHOTO_CODE = 0;
 	private Bitmap mPhoto;
-	static String bird;
+	static EditText bird;
 
 	/** Called when the activity is first created. */
 
@@ -70,25 +70,54 @@ public class CameraActivity extends Activity {
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			File file = null;
+			File pictureFile = getOutputMediaFile();
+			if (pictureFile == null) {
+				return;
+			}
 			try {
-				String fileName = Uri.parse(data.toString())
-						.getLastPathSegment();
-				file = File.createTempFile(fileName, ".jpg",
-						context.getCacheDir());
+				FileOutputStream fos = new FileOutputStream(pictureFile);
+				fos.write(data);
+				fos.close();
+			} catch (FileNotFoundException e) {
+
 			} catch (IOException e) {
 
 			}
 			Intent intent = new Intent(CameraActivity.this,
 					PictureConfirmationActivity.class);
-			String ap = file.getAbsolutePath();
-			Uri fileName = Uri.fromFile(file);
-			intent.putExtra("fileName", ap);
+			intent.putExtra("fileName", pictureFile.getPath());
 			startActivity(intent);
 		}
 	};
 
-	// Creates directory birdAppPictures, if it doesn't exist.
+	private File getOutputMediaFile() {
+		Intent intent = getIntent();
+		Bundle bundle = intent.getExtras();
+		String birdName = bundle.getString("birdName");
+		File mediaStorageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+						+ "/birdAppPictures/");
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				Log.d("birdAppPictures", "failed to create directory");
+				return null;
+			}
+		}
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+				.format(new Date());
+		File mediaFile;
+		if (birdName != null) {
+			mediaFile = new File(mediaStorageDir.getPath() + birdName
+					+ timeStamp + ".jpg");
+		} else {
+			String bird = "Bird";
+			mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
+					+ timeStamp + ".jpg");
+		}
+		return mediaFile;
+
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -114,8 +143,3 @@ public class CameraActivity extends Activity {
 		return camera;
 	}
 }
-
-/**
- * sets the save button on click listener on the dynamic settings view
- */
-
