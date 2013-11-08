@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.catalyst.android.birdapp.BirdFormActivity;
+import com.catalyst.android.birdapp.R;
 
 public class AlertDialogFragment extends DialogFragment implements
 		DialogInterface.OnClickListener {
@@ -51,8 +52,8 @@ public class AlertDialogFragment extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
-				.setTitle("Alert!!!").setPositiveButton("Yes", this)
-				.setNegativeButton("No", this)
+				.setTitle(getString(R.string.alert)).setPositiveButton(getString(R.string.yes), this)
+				.setNegativeButton(getString(R.string.no), this)
 				.setMessage(this.getArguments().getString("alert-message"));
 		return b.create();
 	}
@@ -62,10 +63,10 @@ public class AlertDialogFragment extends DialogFragment implements
 		boolean cancelled = false;
 		if (which == AlertDialog.BUTTON_NEGATIVE) {
 			cancelled = true;
-			act.onDialogDone(getTag(), cancelled, "Alert dismissed");
+			act.onDialogDone(getTag(), cancelled, getString(R.string.alert_dismissed));
 		} else {
 
-			act.onDialogDone(getTag(), cancelled, "Sighting will be submitted");
+			act.onDialogDone(getTag(), cancelled, getString(R.string.sighting_will_be_submitted));
 		}
 	}
 }

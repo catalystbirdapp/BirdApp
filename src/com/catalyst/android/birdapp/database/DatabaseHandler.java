@@ -15,6 +15,7 @@ import android.util.Log;
 
 
 import com.catalyst.android.birdapp.BirdSighting;
+import com.catalyst.android.birdapp.Picture;
 import com.catalyst.android.birdapp.R;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -79,11 +80,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String BIRD_ACTIVITIES_CREATE = "create table birdActivities (birdActivityId integer primary key autoincrement, birdActivity text)";
 
 	//Queries
+	 private static final String INSERT_BIRD_PICTURE = "INSERT INTO " + BIRD_PICTURE + "PICTURE_PATH";
 	private static final String GET_ALL_ACTIVITIES = "SELECT * FROM " + BIRD_ACTIVITIES;
 	private static final String GET_ALL_CATEGORIES = "SELECT * FROM " + BIRD_SIGHTINGS_CATEGORY;
 	
 	//Query for the default picture for a sighting
-    private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdPicture INNER JOIN sightingPictureMap ON birdPicture.pictureId=sightingPictureMap.sightingPictureId WHERE sightingPictureMap.birdSightingId=? AND sightingPictureMap.isDefaultPicture=1";
+    private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdPicture INNER JOIN sightingPictureMap ON birdPicture.pictureId=sightingPictureMap.sightingPictureId WHERE sightingPictureMap.birdSightingId=?";  // AND sightingPictureMap.isDefaultPicture=1
 	
 	//Inserts for Activities and Categories
 	private static final String INSERT_BIRD_ACTIVITY_PART_ONE = "INSERT INTO " + BIRD_ACTIVITIES + " (" + BIRD_ACTIVITY + ") VALUES ( ";
@@ -94,10 +96,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO = " )";
 	
     //Queries for bird sightings
-private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
-
-	
-	// private Cursor cursor;
+	private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
+	private static final String GET_ALL_BIRD_PICTURES = "SELECT * FROM " + BIRD_PICTURE;
 
 	private DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -227,6 +227,15 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
 		
 	}
 
+	public void insertBirdPictureData(Picture picture) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHandler.PICTURE_PATH,
+                        picture.getPicturePath());
+        db.insert(DatabaseHandler.BIRD_PICTURE, null, contentValues);
+        db.close();
+}
+	
 	public long insertBirdSighting(BirdSighting birdSighting) {
 
 		// Perform Readable tasks before trying to write to DB (get foreign Key
@@ -267,6 +276,29 @@ private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIG
 	newActivityName = activityName;
 		database.execSQL(INSERT_CUSTOM_BIRD_ACTIVITY + "'"+newActivityName+"'"+ INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO);
 	}
+	
+	public List<Picture> getAllBirdPictures() {
+        List<Picture> birdPictures = new ArrayList<Picture>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        cursor = db.rawQuery(GET_ALL_BIRD_PICTURES, null);
+        int pictureIdIndex = cursor.getColumnIndex(PICTURE_ID);
+        int picturePathIndex = cursor.getColumnIndex(PICTURE_PATH);
+        if (cursor != null && cursor.moveToFirst()) {
+                do {
+                        try {
+                                Picture picture = new Picture();
+                                picture.setId(cursor.getInt(pictureIdIndex));
+                                picture.setPicturePath(cursor.getString(picturePathIndex));
+                                birdPictures.add(picture);
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+                } while (cursor.moveToNext());
+        }
+        db.close();
+        return birdPictures;
+}
+
 	
 		/**
 		 * Returns an arraylist of all of the bird sighting that are in the DB

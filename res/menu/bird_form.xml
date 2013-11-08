@@ -27,7 +27,7 @@
         android:title="@string/action_activity"/>
     
      <item
-        android:id="@+id/cmaera_settings"
+        android:id="@+id/camera_settings"
         android:showAsAction="never"
         android:onClick="getCameraSettings"
         android:title="@string/camera_settings"/>

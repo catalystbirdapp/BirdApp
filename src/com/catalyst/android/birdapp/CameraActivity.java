@@ -31,115 +31,115 @@ import android.widget.Spinner;
 
 public class CameraActivity extends Activity {
 
-	private Camera mCamera;
-	private CameraPreview mCameraPreview;
+        private Camera mCamera;
+        private CameraPreview mCameraPreview;
 
-	public static int count = 0;
-	int TAKE_PHOTO_CODE = 0;
-	private Bitmap mPhoto;
-	static EditText bird;
+        public static int count = 0;
+        int TAKE_PHOTO_CODE = 0;
+        private Bitmap mPhoto;
+        static EditText bird;
 
-	/** Called when the activity is first created. */
+        /** Called when the activity is first created. */
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_camera_layout);
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_camera_layout);
 
-		mCamera = getCameraInstance();
-		mCameraPreview = new CameraPreview(this, mCamera);
-		FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-		preview.addView(mCameraPreview); // calls CameraPreview class which
-											// starts the preview(aka the camera
-											// display)
-		RelativeLayout relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
-		relativeLayoutControls.bringToFront(); // used to bring the capture
-												// button the front so that it
-												// overlays the preview display
+                mCamera = getCameraInstance();
+                mCameraPreview = new CameraPreview(this, mCamera);
+                FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+                preview.addView(mCameraPreview); // calls CameraPreview class which
+                                                                                        // starts the preview(aka the camera
+                                                                                        // display)
+                RelativeLayout relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
+                relativeLayoutControls.bringToFront(); // used to bring the capture
+                                                                                                // button the front so that it
+                                                                                                // overlays the preview display
 
-		Button captureButton = (Button) findViewById(R.id.button_capture);
-		captureButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mCamera.takePicture(null, null, mPicture);
-			}
-		});
-	}
+                Button captureButton = (Button) findViewById(R.id.button_capture);
+                captureButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                mCamera.takePicture(null, null, mPicture);
+                        }
+                });
+        }
 
-	PictureCallback mPicture = new PictureCallback() {
+        PictureCallback mPicture = new PictureCallback() {
 
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-			File pictureFile = getOutputMediaFile();
-			if (pictureFile == null) {
-				return;
-			}
-			try {
-				FileOutputStream fos = new FileOutputStream(pictureFile);
-				fos.write(data);
-				fos.close();
-			} catch (FileNotFoundException e) {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
+                        File pictureFile = getOutputMediaFile();
+                        if (pictureFile == null) {
+                                return;
+                        }
+                        try {
+                                FileOutputStream fos = new FileOutputStream(pictureFile);
+                                fos.write(data);
+                                fos.close();
+                        } catch (FileNotFoundException e) {
 
-			} catch (IOException e) {
+                        } catch (IOException e) {
 
-			}
-		}
-	};
+                        }
+                        Intent intent = new Intent(CameraActivity.this,
+                                        PictureConfirmationActivity.class);
+                        intent.putExtra("fileName", pictureFile.getPath());
+                        startActivity(intent);
+                }
+        };
 
-	private File getOutputMediaFile() {
+        private File getOutputMediaFile() {
+                Intent intent = getIntent();
+                Bundle bundle = intent.getExtras();
+                String birdName = bundle.getString("birdName");
+                File mediaStorageDir = new File(
+                                Environment
+                                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                                                + "/birdAppPictures/");
+                if (!mediaStorageDir.exists()) {
+                        if (!mediaStorageDir.mkdirs()) {
+                                Log.d("birdAppPictures", "failed to create directory");
+                                return null;
+                        }
+                }
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                                .format(new Date());
+                File mediaFile;
+                if (birdName != null) {
+                        mediaFile = new File(mediaStorageDir.getPath() + birdName
+                                        + timeStamp + ".jpg");
+                } else {
+                        String bird = "Bird";
+                        mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
+                                        + timeStamp + ".jpg");
+                }
+                return mediaFile;
 
-		File mediaStorageDir = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-						+ "/birdAppPictures/");
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
-				Log.d("birdAppPictures", "failed to create directory");
-				return null;
-			}
-		}
-		bird = (EditText) findViewById(R.id.common_name_edit_text);
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-				.format(new Date());
-		File mediaFile;
-		if (bird != null) {
-			mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
-					+ timeStamp + ".jpg");
-		} else {
-			String bird = "Bird";
-			mediaFile = new File(mediaStorageDir.getPath() + bird.toString()
-					+ timeStamp + ".jpg");
-		}
-		return mediaFile;
+        }
 
-	}
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                super.onActivityResult(requestCode, resultCode, data);
+                if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
+                        Log.d("Camera", "Pic saved");
+                }
+        }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
-			Log.d("Camera", "Pic saved");
-		}
-	}
+        /**
+         * Helper method to access the camera returns null if it cannot get the
+         * camera or does not exist
+         * 
+         * @return
+         */
+        private Camera getCameraInstance() {
+                Camera camera = null;
+                try {
+                        camera = Camera.open();
+                } catch (Exception e) {
 
-	/**
-	 * Helper method to access the camera returns null if it cannot get the
-	 * camera or does not exist
-	 * 
-	 * @return
-	 */
-	private Camera getCameraInstance() {
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception e) {
-
-		}
-		return camera;
-	}
+                }
+                return camera;
+        }
 }
-
-/**
- * sets the save button on click listener on the dynamic settings view
- */
-
