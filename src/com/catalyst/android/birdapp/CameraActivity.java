@@ -36,6 +36,7 @@ public class CameraActivity extends Activity {
 	private Spinner whiteBalanceSpinner;
 	private Button saveButton;
 	private Button captureButton;
+	private Button restoreButton;
 	private ImageButton settingsButton;
     private ImageButton settingsButtonView;
 	private String DEFAULT_VALUE = "None";
@@ -64,19 +65,21 @@ public class CameraActivity extends Activity {
 		view = getLayoutInflater().inflate(R.layout.activity_camera_settings,null);
 		buttonView = getLayoutInflater().inflate(R.layout.camera_settings_button, null);
 		setCameraSettings();
-
+		
+		
 		settingsButton.setOnClickListener(new View.OnClickListener() { 
 
 					 @Override
                         public void onClick(View v) {
                                  //on click adds layout to preview
 						 	if(click){
-                                	
+						 		
                                 	captureButton.setVisibility(View.GONE);
                                     preview.addView(view);
                                     preview.addView(buttonView);
                                     setSaveButton();
                                     setSettingsButton();
+                                    setRestoreButton();
                                     //calls a utility class to get the supported phone settings
                                     zoomLevel = cameraUtilities.getSupportedCameraZoom(parameters);
                                     supportedWhiteBalance = cameraUtilities.getSupportedWhiteBalanceSettings(parameters);
@@ -89,6 +92,7 @@ public class CameraActivity extends Activity {
                                     populateWhiteBalanceSpinner();
                                     populatePreferences();
                                     click = false;
+                                    
                                 }else{
                                     preview.removeView(view); //removes preview on click and resumes camera preview
                                     preview.removeView(buttonView);
@@ -105,8 +109,43 @@ public class CameraActivity extends Activity {
              
             }
         });
+        
+       
     }
 
+	
+	public void setRestoreButton(){
+		restoreButton = (Button)findViewById(R.id.restore_defults_button);
+		 restoreButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					
+					zoomSpinner.setSelection(0);
+					resolutionSpinner.setSelection(0);
+					pictureSizeSpinner.setSelection(0);
+					whiteBalanceSpinner.setSelection(0);
+					String zoom = zoomSpinner.getSelectedItem().toString();
+					String resolution = resolutionSpinner.getSelectedItem().toString();
+					String previewSize = pictureSizeSpinner.getSelectedItem().toString();
+					String whiteBalance = whiteBalanceSpinner.getSelectedItem().toString();
+				
+					//sets the new camera settings to shared preferences
+					Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+					preferencesEditor.putString("ZoomPreference", zoom)
+							.putString("ResolutionPreference", resolution)
+							.putString("PictureSizePreference", previewSize)
+							.putString("WhiteBalancePreference", whiteBalance)
+							.commit();
+					
+					 preview.removeView(view); //removes preview on click and resumes camera preview
+	                 preview.removeView(buttonView);
+	                 captureButton.setVisibility(View.VISIBLE); //removes capture button on setting screen
+	                 click = true;
+					
+				}
+			});
+	}
     /**
      * sets the save button on click listener on the dynamic settings view
      */

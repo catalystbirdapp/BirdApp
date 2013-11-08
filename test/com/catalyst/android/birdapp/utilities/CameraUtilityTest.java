@@ -23,8 +23,11 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	private CameraUtilities cUtils = new CameraUtilities();
 	private Camera camera;
 	private Parameters params;
-	
-	
+	private static final String SETTING_480 = "480";
+	private static final String SETTING_640 = "640";
+	private static final String SETTING_640_X_480 = "640 X 480";
+	private static final String SETTLING_480_X_640 = "480 X 640";
+	private static final String ZOOM_1 = "1.0x";
 	protected void setUp() throws Exception {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		camera = Mockito.mock(Camera.class);
@@ -33,14 +36,14 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	
 	
 	public void testGetResolutionAndPreviewSize(){
-		String resolution = "480 X 640";
-		String preview = "640 X 480";
+		String resolution = SETTLING_480_X_640;
+		String preview = SETTING_640_X_480;
 		String[] resolutionAndPreview = cUtils.getResolutionAndPreviewSize(resolution, preview);
 		
-		assertEquals(resolutionAndPreview[0], "480");
-		assertEquals(resolutionAndPreview[1], "640");
-		assertEquals(resolutionAndPreview[2], "640");
-		assertEquals(resolutionAndPreview[3], "480");
+		assertEquals(resolutionAndPreview[0], SETTING_480);
+		assertEquals(resolutionAndPreview[1], SETTING_640);
+		assertEquals(resolutionAndPreview[2], SETTING_640);
+		assertEquals(resolutionAndPreview[3], SETTING_480);
 	}
 	
 	
@@ -64,7 +67,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 		when(camera.getParameters()).thenReturn(params);
 		when(params.getSupportedPictureSizes()).thenReturn(supportedCameraResolution);
 		resolutions = cUtils.getSupportedCameraResolution(params);
-		assertEquals(resolutions.get(0), "640 X 480");
+		assertEquals(resolutions.get(0), SETTING_640_X_480);
 	}
 	
 	public void testGetSupportedPreviewSizes(){
@@ -75,7 +78,7 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 		when(camera.getParameters()).thenReturn(params);
 		when(params.getSupportedPreviewSizes()).thenReturn(supportedPreviewSizes);
 		previewSizes = cUtils.getSupportedPreviewSize(params);
-		assertEquals(previewSizes.get(0), "640 X 480");
+		assertEquals(previewSizes.get(0), SETTING_640_X_480);
 	}
 	
 	public void testGetSupportedCameraZoom(){
@@ -83,16 +86,15 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 		when(camera.getParameters()).thenReturn(params);
 		when(params.getMaxZoom()).thenReturn(59);
 		zoomLevel = cUtils.getSupportedCameraZoom(params);
-		assertEquals(zoomLevel.get(0), "1.0x");
+		assertEquals(zoomLevel.get(0), ZOOM_1);
 	}
 	
 	public void testGetCameraZoom(){
-		String savedZoom = "1.0x";
 		int zoom = 0;
 		when(camera.getParameters()).thenReturn(params);
 		when(params.isZoomSupported()).thenReturn(true);
 		when(params.getMaxZoom()).thenReturn(59);
-		zoom = cUtils.getCameraZoom(params, savedZoom);
+		zoom = cUtils.getCameraZoom(params, ZOOM_1);
 		assertEquals(10, zoom);
 		
 	}
