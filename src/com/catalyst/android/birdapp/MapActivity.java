@@ -323,6 +323,7 @@ public class MapActivity extends Activity {
 	 * Sets the on click listener for the settings button
 	 */
 	private void setMapSettingsButtonOnClickListener() {
+
 		mapSettingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -387,6 +388,9 @@ public class MapActivity extends Activity {
 		});
 
 	}
+
+
+	
 
 	@Override
 	protected void onPause() {
