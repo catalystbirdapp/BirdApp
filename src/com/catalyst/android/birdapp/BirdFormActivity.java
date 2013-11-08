@@ -226,7 +226,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void setCoordinateButtonToRed() {
 		coordinateRefreshButton.setBackgroundColor(Color.RED);
 		coordinateRefreshButton
-				.setText(getString(R.string.coordinates_not_available));
+				.setText(getString(R.string.coordinateOutOfDate));
 
 	}
 
@@ -241,17 +241,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			latitudeEditText.setText(Double.toString(location.getLatitude()));
 			longitudeEditText.setText(Double.toString(location.getLongitude()));
 		} else {
-			setsCoordinatesAsUnavailable();
+			coordinateRefreshButton.setBackgroundColor(Color.RED);
+			coordinateRefreshButton.setText(getString(R.string.coordinates_not_available));
 		}
-	}
-
-	/**
-	 * Sets the coordinates fields to reflect that coordinates are unavailable
-	 */
-	public void setsCoordinatesAsUnavailable() {
-		latitudeEditText.setText(getString(R.string.coordinates_not_available));
-		longitudeEditText
-				.setText(getString(R.string.coordinates_not_available));
 	}
 
 	@Override
@@ -291,7 +283,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		if (!commonNameField.isEmpty()
 				&& !fvd.isFieldValueFormattedAlphaOnly(commonNameField)) {
 			commonNameEditText
-					.setError("Bird name must be alpha characters only!");
+					.setError(getString(R.string.bird_name_alpha_error));
 			errors++;
 		}
 		String scientificNameField = scientificNameEditText.getText()
@@ -300,7 +292,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		if (!scientificNameField.isEmpty()
 				&& !fvd.isFieldValueFormattedAlphaOnly(scientificNameField)) {
 			scientificNameEditText
-					.setError("Scientific name must be alpha characters only!");
+					.setError(getString(R.string.scientific_name_alpha_error));
 			errors++;
 		}
 		if (errors == 0) {
@@ -398,7 +390,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void submitAlertDialog(List<String> missingFieldTitles) {
 		sep = ", ";
 		blk = " ";
-		or = " or ";
+		or = getString(R.string.or);
 		sb.setLength(0);
 		numOfMissingFields = missingFieldTitles.size();
 		switch (numOfMissingFields) {

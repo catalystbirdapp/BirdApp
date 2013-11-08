@@ -6,10 +6,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TableLayout;
@@ -31,11 +34,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
 	
+	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
+	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
+	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
+
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
-
 	private static final int INFO_TEXT_VIEW_WIDTH = 300;
+	
+	private static final double BEAVERTON_LATITUDE = 45.4869;
+	private static final double BEAVERTON_LONGITUDE = -122.8036;
+	private LatLng beavertonLatLng = new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE);
 
 	private LocationManager locationManager;
 
@@ -64,6 +74,26 @@ public class MapActivity extends Activity {
 		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
 		setMapMarkerInfoWindowAdapter();
+		
+		//Gets the saved preferences
+		SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+		String savedLocationLatitude = preferenses.getString(LATITUDE_KEY, null);
+		String savedLocationLongitude = preferenses.getString(LONGITUDE_KEY, null);
+		float savedZoom = preferenses.getFloat(ZOOM_KEY, 0);
+		
+		
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && savedLocationLatitude == null){
+        	//Centers the camera over beaverton if the GPS is not enabled and there was no saved location
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(beavertonLatLng, 15);
+            map.animateCamera(update);
+        } else if (savedLocationLatitude != null){
+        	//Loads the last location if the GPS provider is disabled and there is a place to start from
+        	double savedLatitude = Double.parseDouble(savedLocationLatitude);
+        	double savedLongitude = Double.parseDouble(savedLocationLongitude);
+        	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), savedZoom);
+            map.animateCamera(update);
+        }
+
 	}
 
 	/**
@@ -150,8 +180,7 @@ public class MapActivity extends Activity {
 			//Updates the map to your location and zooms in.  The number is the amount of zoom
 			location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
-			map.addMarker(new MarkerOptions().position(location).title("My Location"));
-			addMarkersForPreviousSightings();
+			map.addMarker(new MarkerOptions().position(location).title(getString(R.string.my_location)));
 			map.animateCamera(update);
 		} catch(NullPointerException e){
 			gpsUtility.noLocationAvailable();
@@ -195,12 +224,21 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onPause(){
 		super.onPause();
-		
+				
 	}
 	
 	@Override
 	protected void onStop(){
 		super.onStop();
+		
+		//Saves the map data so that the map can be updated to the ame place if it is reopened and the gps is off
+		LatLng currentMapLocation = map.getCameraPosition().target;
+		float zoomLevel = map.getCameraPosition().zoom;
+		Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+		preferencesEditor.putString(LATITUDE_KEY, Double.toString(currentMapLocation.latitude)).
+			putString(LONGITUDE_KEY, Double.toString(currentMapLocation.longitude)).
+			putFloat(ZOOM_KEY, zoomLevel).
+			commit();
 		
 	}
 	
@@ -212,7 +250,10 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) updateMap();
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			updateMap();
+		}
+		addMarkersForPreviousSightings();
 	}
 	
 	

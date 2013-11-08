@@ -77,6 +77,13 @@
     <string name="title_activity_main">Put A Bird On It!!</string>
     <string name="title_activity_records">Record Review</string>
     <string name="invalid">Invalid</string>
+    <string name="my_location">My Location</string>
+    <string name="bird_name_alpha_error">Bird name must be alpha characters only!</string>
+    <string name="scientific_name_alpha_error">Scientific name must be alpha characters only!</string>
+    <string name="or"> or </string>
+    <string name="alert">Alert!!!</string>
+    <string name="alert_dismissed">Alert dismissed</string>
+    <string name="sighting_will_be_submitted">Sighting will be submitted</string>
     <string name="camera_settings">Camera Settings</string>
     <string name="title_activity_camera_settings">CameraSettingsActivity</string>
     <string name="zoom_title">Zoom:</string>
