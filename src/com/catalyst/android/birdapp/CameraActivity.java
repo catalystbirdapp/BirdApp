@@ -113,7 +113,10 @@ public class CameraActivity extends Activity {
        
     }
 
-	
+	/**
+	 * Restores the default values which, for now, are the first options in each
+	 * spinner
+	 */
 	public void setRestoreButton(){
 		restoreButton = (Button)findViewById(R.id.restore_defults_button);
 		 restoreButton.setOnClickListener(new View.OnClickListener() {
