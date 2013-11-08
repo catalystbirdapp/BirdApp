@@ -47,7 +47,6 @@ public class MapActivity extends Activity {
 
 	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
 
-
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
@@ -146,9 +145,6 @@ public class MapActivity extends Activity {
 				try {
 					// Retrieves the bird sighting from the hashmap
 					BirdSighting birdSighting = markerSightingsMap.get(marker);
-					
-					//Gets the path t the default picture for the sighting
-					String picturePath = dbHandler.getDefaultPicture(birdSighting.getId());
 	            
 					//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
 					Date birdSightingDate = birdSighting.getDateTime();
@@ -163,9 +159,7 @@ public class MapActivity extends Activity {
 					String formattedTime = timeFormat.format(birdSightingDate);
 	           
 					//calls the method that constructs the table rows and inserts the information into them. The if statements keeps out rows if the information is empty.
-					if(picturePath.length()>0){addPictureToMapInfoWindow(picturePath);}
-					if(birdSighting.getCommonName().length()>0)
-					{addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
+					if(birdSighting.getCommonName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.birdName), birdSighting.getCommonName());}
 					if(birdSighting.getScientificName().length()>0){addBirdInfoToMapInfoWindow(getString(R.string.scientificName), birdSighting.getScientificName());}
 					addBirdInfoToMapInfoWindow(getString(R.string.dateText), formattedDate);
 					addBirdInfoToMapInfoWindow(getString(R.string.timeText), formattedTime);
@@ -223,6 +217,7 @@ public class MapActivity extends Activity {
 			/**
 			 * Adds info to a table row and puts it in the pop up window for the
 			 * map.
+			 * Adds info to a table row and puts it in the pop up window for the map
 			 */
 			private void addBirdInfoToMapInfoWindow(String rowTitle, String info) {
 				TableRow tableRow = new TableRow(getApplicationContext());

@@ -91,11 +91,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO = " )";
 	
     //Queries for bird sightings
-	private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
+private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
 
-	//Query for the default picture for a sighting
-	private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdPicture INNER JOIN sightingPictureMap ON birdPicture.pictureId=sightingPictureMap.sightingPictureId WHERE sightingPictureMap.birdSightingId=? AND sightingPictureMap.isDefaultPicture=1";
 	
+	// private Cursor cursor;
 
 	private DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -311,21 +310,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
            
            return allBirdSightings;
 }
-	   
-	    /**
-		 * Returns the default picture path for a sighting
-		 */
-		public String getDefaultPicture(int sightingId)  {
-			String picturePath = "";
-			SQLiteDatabase db = this.getReadableDatabase();
-			cursor = db.rawQuery(GET_DEFAULT_PICTURE, new String[] {Integer.toString(sightingId)} );
-			int picturePathColumnIndex = cursor.getColumnIndex(PICTURE_PATH);
-			if (cursor != null && cursor.moveToFirst()) {	
-				picturePath = cursor.getString(picturePathColumnIndex);
-			}
-			db.close();
-			return picturePath;
-
-		}
 
 }
