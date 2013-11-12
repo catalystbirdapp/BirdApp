@@ -98,6 +98,5 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 		assertEquals(10, zoom);
 		
 	}
-	
 
 }
