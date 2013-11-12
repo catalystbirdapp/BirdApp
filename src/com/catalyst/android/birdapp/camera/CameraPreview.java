@@ -11,6 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+
+
 public class CameraPreview extends SurfaceView implements
 		SurfaceHolder.Callback {
 
@@ -34,11 +36,11 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
+		
 		try {
 			mCamera.setPreviewDisplay(surfaceHolder);
 			mCamera.startPreview();
-
+			
 		} catch (IOException e) {
 
 		}
@@ -115,7 +117,7 @@ public class CameraPreview extends SurfaceView implements
 			mCamera.startPreview();
 			isPreviewRunning = true;
 		} catch (Exception e) {
-			Log.d("message", "Cannot start preview", e);
+			e.printStackTrace();
 		}
 	}
 

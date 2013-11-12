@@ -84,6 +84,12 @@
         <item name="android:textColor">#000</item>
         <item name="android:paddingLeft">10dp</item>
     </style>
+    
+     <style name="CustomSpinnerText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
 
     <style name="SplashScreenButtons">
         <item name="android:textSize">26sp</item>

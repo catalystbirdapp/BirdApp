@@ -1,12 +1,23 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+
+<TableLayout 
+ 
     android:id="@+id/settings_window"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#77000000"
     android:gravity="center_horizontal"
     tools:context=".CameraSettingsActivity" >
+ 
 
+    
    <TableRow
         android:id="@+id/title_row"
         android:layout_width="wrap_content"
@@ -124,23 +135,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/button_table_row_margin_top"
-        android:gravity="center" >
+       
+        android:gravity="bottom" >
 
         <Button
             android:id="@+id/save_button"
             style="@style/specialButton"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+           
             android:text="@string/save_button" />
 
         <Button
             android:id="@+id/restore_defults_button"
             style="@style/specialButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/restore_defaults" />
     </TableRow>
 
 </TableLayout>
+</ScrollView>

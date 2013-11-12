@@ -13,8 +13,8 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"/>
-    <include
-          android:id="@+id/map_controls_layout"
-          layout="@layout/map_controls" />
- 
+    	<include
+           android:id="@+id/map_controls_layout"
+           layout="@layout/map_controls" />
+
 </RelativeLayout>
