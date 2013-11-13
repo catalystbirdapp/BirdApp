@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ import com.catalyst.android.birdapp.utilities.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
-
+	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 
 	public static final String LOGTAG = "DialogFrag";
@@ -65,14 +66,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private List<String> userDefinedFields = new ArrayList<String>();
 	private List<String> missingFieldTitles = new ArrayList<String>();
 	private FormValidationUtilities fvd = new FormValidationUtilities();
-
+	private Bundle bundle;
+	private String picturePath;
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_bird_form);
@@ -95,7 +96,18 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			commonNameEditText.setText(bundle.getString("birdName"));
+			notesEditText.setText(bundle.getString("notesText"));
+			latitudeEditText.setText(bundle.getString("latText"));
+			longitudeEditText.setText(bundle.getString("longText"));
+			dateTextView.setText(bundle.getString("dateText"));
+			timeEditText.setText(bundle.getString("timeText"));
+			scientificNameEditText.setText(bundle.getString("scientificName"));
+			picturePath = bundle.getString("fileName");
 
+		}
 	}
 
 	@Override
@@ -242,7 +254,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			longitudeEditText.setText(Double.toString(location.getLongitude()));
 		} else {
 			coordinateRefreshButton.setBackgroundColor(Color.RED);
-			coordinateRefreshButton.setText(getString(R.string.coordinates_not_available));
+			coordinateRefreshButton
+					.setText(getString(R.string.coordinates_not_available));
 		}
 	}
 
@@ -316,6 +329,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			birdSighting.setActivity(activityField);
 			birdSighting.setCategory(categoryField);
 			birdSighting.setDateTime(dateTime);
+			birdSighting.setPicturePath(picturePath);
 
 			// Check formatting, set field to null if wrong format
 			try {
@@ -431,11 +445,24 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	public void openCamera(MenuItem menuItem) {
-		Intent intent = new Intent(getApplication(), CameraActivity.class);
+		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("birdName", commonNameEditText.getText().toString());
+		bundle.putString("scientificName", scientificNameEditText.getText()
+				.toString());
+		bundle.putString("dateText", dateTextView.getText().toString());
+		bundle.putString("timeText", timeEditText.getText().toString());
+		bundle.putString("longText", longitudeEditText.getText().toString());
+		bundle.putString("latText", latitudeEditText.getText().toString());
+		bundle.putString("notesText", notesEditText.getText().toString());
+		intent.putExtras(bundle);
 		startActivity(intent);
+
 	}
-	public void getCameraSettings(MenuItem menuItem){
-		Intent intent = new Intent(getApplication(), CameraSettingsActivity.class);
+
+	public void getCameraSettings(MenuItem menuItem) {
+		Intent intent = new Intent(getApplication(),
+				CameraSettingsActivity.class);
 		startActivity(intent);
 	}
 }

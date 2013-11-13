@@ -56,6 +56,10 @@
             android:value="AIzaSyCirCV4Qw4ojiYfRy39uNB6kxVcjng92As" />
 
         <activity
+            android:name="com.catalyst.android.birdapp.PictureConfirmationActivity"
+            android:label="@string/title_activity_picture_confirmation" >
+        </activity>
+        <activity
             android:name="com.catalyst.android.birdapp.MapActivity"
             android:label="@string/title_activity_map_" >
         </activity>
@@ -73,5 +77,4 @@
             android:label="@string/title_activity_records" >
         </activity>
     </application>
-
-</manifest>
+</manifest>
