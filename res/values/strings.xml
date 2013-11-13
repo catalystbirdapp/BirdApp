@@ -36,6 +36,19 @@
     <string name="addActivitySaveButton">Save</string>
     <string name="submitButton">Submit A Sighting</string>
     <string name="reviewRecords">Review Past Sightings</string>
+    <string name="map_settings">Map Settings</string>
+    
+    <string name="map_type">Map Type:</string>
+     <string-array name="map_types_array">
+         <item>@string/normal</item>
+         <item>@string/satellite</item>
+         <item>@string/terrain</item>
+         <item>@string/hybrid</item>
+     </string-array>
+     <string name="normal">Normal</string>
+     <string name="satellite">Satellite</string>
+     <string name="terrain">Terrain</string>
+     <string name="hybrid">Hybrid</string>
 
     <string-array name="category_drop_down_choices" />
     <string-array name="bird_acivity_dropdown_choices" />
@@ -75,8 +88,14 @@
     <string name="title_activity_main">Put A Bird On It!!</string>
     <string name="title_activity_records">Record Review</string>
     <string name="invalid">Invalid</string>
+    <string name="my_location">My Location</string>
+    <string name="bird_name_alpha_error">Bird name must be alpha characters only!</string>
+    <string name="scientific_name_alpha_error">Scientific name must be alpha characters only!</string>
+    <string name="or"> or </string>
+    <string name="alert">Alert!!!</string>
+    <string name="alert_dismissed">Alert dismissed</string>
+    <string name="sighting_will_be_submitted">Sighting will be submitted</string>
     <string name="camera_settings">Camera Settings</string>
-    <string name="map_settings">Map Settings</string>
     <string name="title_activity_camera_settings">CameraSettingsActivity</string>
     <string name = "zoom_title">Zoom:</string>
     <string name = "white_balance_title">White Balance:</string>
@@ -84,18 +103,6 @@
     <string name = "picture_size_title">Preview Size:</string>
     <string name = "restore_defaults">Restore Defaults</string>
     <string name = "save_button">Save</string>
-    
-    <string name="map_type">Map Type:</string>
-    <string-array name="map_types_array">
-        <item>@string/normal</item>
-        <item>@string/satellite</item>
-        <item>@string/terrain</item>
-        <item>@string/hybrid</item>
-    </string-array>
-    <string name="normal">Normal</string>
-    <string name="satellite">Satellite</string>
-    <string name="terrain">Terrain</string>
-    <string name="hybrid">Hybrid</string>
     
     <string name = "settings_title">Settings</string>
 	

@@ -6,12 +6,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/mapLayout"
     tools:context=".MapActivity" >
      <fragment 
           android:id="@+id/map"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"/>
+
     
+
+    	<include
+           android:id="@+id/map_controls_layout"
+           layout="@layout/map_controls" />
+
 
 </RelativeLayout>

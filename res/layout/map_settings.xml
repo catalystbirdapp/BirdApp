@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map_settings_window"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#77000000"
+    android:gravity="center_vertical" >
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/mapTypeTextView"
+            style="@style/textSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/map_type"
+            android:typeface="monospace" />
+
+        <Spinner
+            android:id="@+id/map_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/map_settings_save_button"
+            style="@style/specialButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/save_button" />
+    </TableRow>
+
+</TableLayout>

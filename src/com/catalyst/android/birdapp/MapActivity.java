@@ -3,19 +3,28 @@ package com.catalyst.android.birdapp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.google.android.gms.maps.CameraUpdate;
@@ -31,14 +40,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
 	
+	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
+	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
+	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
+	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
-
 	private static final int INFO_TEXT_VIEW_WIDTH = 300;
+	
+	private static final double BEAVERTON_LATITUDE = 45.4869;
+	private static final double BEAVERTON_LONGITUDE = -122.8036;
+	private LatLng beavertonLatLng = new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE);
 
 	private LocationManager locationManager;
-
+	
 	private GoogleMap map;
 	
 	private LatLng location;
@@ -51,6 +67,18 @@ public class MapActivity extends Activity {
 	
 	private TableLayout mapInfoWindow;
 	
+
+	private ImageButton mapSettingsButton;
+	     
+	private boolean settingsOnScreen = false;
+	   
+	private RelativeLayout mapLayout;
+	   
+	private View mapSettingsView;
+	private Spinner mapTypeSpinner;
+	private Button mapSettingsSaveButton;
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,8 +91,52 @@ public class MapActivity extends Activity {
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
-		setMapMarkerInfoWindowAdapter();
-	}
+		mapSettingsButton = (ImageButton) findViewById(R.id.map_settings_button);
+		mapLayout = (RelativeLayout) findViewById(R.id.mapLayout);
+		mapSettingsView = getLayoutInflater().inflate(R.layout.map_settings, mapLayout, false);
+		setMapSettingsButtonOnClickListener();
+		//Sets the custom pop up windows for the map
+		setMapMarkerInfoWindowAdapter();  
+		         
+		//Gets the saved preferences
+		SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+		String savedLocationLatitude = preferenses.getString(LATITUDE_KEY, null);
+		String savedLocationLongitude = preferenses.getString(LONGITUDE_KEY, null);
+		float savedZoom = preferenses.getFloat(ZOOM_KEY, 0);
+		String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
+		setMapType(savedMapType);
+		           
+		//Sets the beginning map location
+		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && savedLocationLatitude == null){
+			//Centers the camera over beaverton if the GPS is not enabled and there was no saved location
+		    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(beavertonLatLng, 15);
+		    map.animateCamera(update);
+		} else if (savedLocationLatitude != null){
+		  	//Loads the last location if the GPS provider is disabled and there is a place to start from
+		   	double savedLatitude = Double.parseDouble(savedLocationLatitude);
+		  	double savedLongitude = Double.parseDouble(savedLocationLongitude);
+		  	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), savedZoom);
+		    map.animateCamera(update);
+		}
+		     
+   }
+		   /**
+		     * sets the map type to the one that the user saved
+		     */
+		   private void setMapType(String savedMapType) {
+		        if(savedMapType.equals(getString(R.string.normal))){
+		          map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		      } else if (savedMapType.equals(getString(R.string.satellite))){
+		          map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		      } else if (savedMapType.equals(getString(R.string.terrain))){
+		          map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+		      } else if (savedMapType.equals(getString(R.string.hybrid))){
+		          map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+		      }
+		   }
+		
+		
+
 
 	/**
 	 * sets up the custom window adapter
@@ -152,6 +224,7 @@ public class MapActivity extends Activity {
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
 			map.addMarker(new MarkerOptions().position(location).title("My Location"));
 			addMarkersForPreviousSightings();
+			map.addMarker(new MarkerOptions().position(location).title(getString(R.string.my_location)));
 			map.animateCamera(update);
 		} catch(NullPointerException e){
 			gpsUtility.noLocationAvailable();
@@ -192,15 +265,97 @@ public class MapActivity extends Activity {
 		return bitmap;
 	}
 
+
+
+	/**
+	  * Sets the on click listener for the settings button
+	  */
+	private void setMapSettingsButtonOnClickListener() {
+		mapSettingsButton.setOnClickListener(new OnClickListener(){
+	       @Override
+	       public void onClick(View view) {
+	         if(!settingsOnScreen){
+	           mapLayout.addView(mapSettingsView);
+	           setSaveButtonOnClickListener();
+	           //get map type preference
+               SharedPreferences preferenses = getPreferences(MODE_PRIVATE);
+               String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
+               //grab the spinner and populate it
+               mapTypeSpinner = (Spinner) findViewById(R.id.map_type_spinner);
+               ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
+               mapTypeSpinner.setAdapter(adapter);
+               //get position of saved preference from the adapter
+               int mapTypePosition = adapter.getPosition(savedMapType);
+               //Set the position
+               mapTypeSpinner.setSelection(mapTypePosition);
+	           
+	           settingsOnScreen = true;
+	         }else{
+	           mapLayout.removeView(mapSettingsView); 
+	           settingsOnScreen = false;
+	         }
+	         
+	       }
+	       
+	     });
+	     
+	   }
+	   
+	   /**
+	    * Sets the on click listener for the save button
+	    */
+	   private void setSaveButtonOnClickListener() {
+	     mapSettingsSaveButton = (Button) findViewById(R.id.map_settings_save_button);
+	     
+	     mapSettingsSaveButton.setOnClickListener(new OnClickListener(){
+	 
+	       @Override
+	       public void onClick(View view) {
+	         if(settingsOnScreen){
+	           String mapTypeSelected = mapTypeSpinner.getSelectedItem().toString();
+	           
+	           if(mapTypeSelected.equals(getString(R.string.normal))){
+	             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	           } else if (mapTypeSelected.equals(getString(R.string.satellite))){
+	             map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+	           } else if (mapTypeSelected.equals(getString(R.string.terrain))){
+	             map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+	           } else if (mapTypeSelected.equals(getString(R.string.hybrid))){
+	             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+	           }
+	           Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+	                   preferencesEditor.putString(MAP_TYPE_PREFERENCE_KEY, mapTypeSelected).commit();
+	           settingsOnScreen = false;
+	           mapLayout.removeView(mapSettingsView);
+	         }
+	         
+	         
+	       }
+	       
+	     });
+	     
+	   }
+	
+
+
 	@Override
 	protected void onPause(){
 		super.onPause();
-		
+				
 	}
 	
 	@Override
 	protected void onStop(){
 		super.onStop();
+		
+		//Saves the map data so that the map can be updated to the ame place if it is reopened and the gps is off
+		LatLng currentMapLocation = map.getCameraPosition().target;
+		float zoomLevel = map.getCameraPosition().zoom;
+		Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
+		preferencesEditor.putString(LATITUDE_KEY, Double.toString(currentMapLocation.latitude)).
+			putString(LONGITUDE_KEY, Double.toString(currentMapLocation.longitude)).
+			putFloat(ZOOM_KEY, zoomLevel).
+			commit();
 		
 	}
 	
@@ -212,7 +367,12 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) updateMap();
+
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			updateMap();
+		}
+		addMarkersForPreviousSightings();
+
 	}
 	
 	
