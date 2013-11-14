@@ -362,4 +362,16 @@ public class CameraActivity extends Activity {
 	public void setmCamera(Camera mCamera) {
 		this.mCamera = mCamera;
 	}
+
+
+	public Parameters getParameters() {
+		return parameters;
+	}
+
+
+	public void setParameters(Parameters parameters) {
+		this.parameters = parameters;
+	}
+	
+	
 }

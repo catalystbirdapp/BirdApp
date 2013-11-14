@@ -1,6 +1,8 @@
-package com.catalyst.android.birdapp.utilities;
+package com.catalyst.android.birdapp.test.utilities;
 
 import java.util.Locale;
+
+import com.catalyst.android.birdapp.utilities.Utilities;
 
 import android.test.InstrumentationTestCase;
 

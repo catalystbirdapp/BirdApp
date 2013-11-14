@@ -1,12 +1,15 @@
 /**
  * 
  */
-package com.catalyst.android.birdapp.utilities;
+package com.catalyst.android.birdapp.test.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.Mockito;
+
+import com.catalyst.android.birdapp.utilities.CameraUtilities;
+
 import static org.mockito.Mockito.*;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
