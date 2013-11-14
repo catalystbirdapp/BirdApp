@@ -2,6 +2,7 @@ package com.catalyst.android.birdapp.camera;
 
 import java.io.IOException;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
@@ -15,7 +16,12 @@ import android.view.WindowManager;
 
 public class CameraPreview extends SurfaceView implements
 		SurfaceHolder.Callback {
-
+	 static final int NONE = 0;
+     static final int DRAG = 1;
+     static final int ZOOM = 2;
+     int mode = NONE;
+    
+     float oldDist = 1f;
 	private boolean isPreviewRunning;
 	private SurfaceHolder mSurfaceHolder;
 	private Camera mCamera;
@@ -55,7 +61,11 @@ public class CameraPreview extends SurfaceView implements
 		mCamera.stopPreview();
 		mCamera.release();
 	}
+	
+	 
 
+	           
+	           
 	/**
 	 * on surface change this stops the preview if it's running and then checks
 	 * if the screen has been rotated then calls the previewCamera method to
@@ -68,6 +78,7 @@ public class CameraPreview extends SurfaceView implements
 
 		if (isPreviewRunning) {
 			mCamera.stopPreview();
+			
 		}
 
 		Parameters parameters = mCamera.getParameters();
@@ -75,43 +86,42 @@ public class CameraPreview extends SurfaceView implements
 		Display display = ((WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
+		
+		
 		if (display.getRotation() == Surface.ROTATION_0) {
-
+			parameters.setPreviewSize(parameters.getPreviewSize().width, parameters.getPreviewSize().height);
 			mCamera.setDisplayOrientation(90);
 		}
 
 		if (display.getRotation() == Surface.ROTATION_90) {
-			parameters.setPreviewSize(width, height);
+			parameters.setPreviewSize(parameters.getPreviewSize().width, parameters.getPreviewSize().height);
 
 		}
 
 		if (display.getRotation() == Surface.ROTATION_180) {
-			parameters.setPreviewSize(height, width);
+			parameters.setPreviewSize( parameters.getPreviewSize().height, parameters.getPreviewSize().width);
 
 		}
 
 		if (display.getRotation() == Surface.ROTATION_270) {
-			parameters.setPreviewSize(width, height);
+			parameters.setPreviewSize(parameters.getPreviewSize().width,  parameters.getPreviewSize().height);
 			mCamera.setDisplayOrientation(90);
 
 		}
 
-		try {
-			mCamera.getParameters().setZoom(3);
-			mCamera.setPreviewDisplay(mSurfaceHolder);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		mCamera.setParameters(parameters);
 
 		previewCamera();
 	}
 
+
+	
 	/**
 	 * sets the camera preview display and then starts the preview.
 	 */
 	public void previewCamera() {
-
+	
+	
 		try {
 			mCamera.setPreviewDisplay(mSurfaceHolder);
 			mCamera.startPreview();

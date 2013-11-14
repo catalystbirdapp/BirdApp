@@ -3,7 +3,6 @@ package com.catalyst.android.birdapp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,7 +25,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.google.android.gms.maps.CameraUpdate;
@@ -45,9 +43,8 @@ public class MapActivity extends Activity {
 	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
 	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
 	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
-
-	private static final int ZERO = 0;
 	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
+	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
 	private static final int INFO_TEXT_VIEW_WIDTH = 300;
@@ -57,7 +54,7 @@ public class MapActivity extends Activity {
 	private LatLng beavertonLatLng = new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE);
 
 	private LocationManager locationManager;
-
+	
 	private GoogleMap map;
 	
 	private LatLng location;
@@ -70,6 +67,7 @@ public class MapActivity extends Activity {
 	
 	private TableLayout mapInfoWindow;
 	
+
 	private ImageButton mapSettingsButton;
 	     
 	private boolean settingsOnScreen = false;
@@ -80,6 +78,7 @@ public class MapActivity extends Activity {
 	private Spinner mapTypeSpinner;
 	private Button mapSettingsSaveButton;
 	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +91,6 @@ public class MapActivity extends Activity {
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		dbHandler = DatabaseHandler.getInstance(this);
 		markerSightingsMap = new HashMap <Marker, BirdSighting>();
-
 		mapSettingsButton = (ImageButton) findViewById(R.id.map_settings_button);
 		mapLayout = (RelativeLayout) findViewById(R.id.mapLayout);
 		mapSettingsView = getLayoutInflater().inflate(R.layout.map_settings, mapLayout, false);
@@ -138,13 +136,7 @@ public class MapActivity extends Activity {
 		   }
 		
 		
-		
-		
-		
-		
-        
 
-	
 
 	/**
 	 * sets up the custom window adapter
@@ -227,11 +219,11 @@ public class MapActivity extends Activity {
 	private void updateMap(){
 		Location currentLocation = gpsUtility.getCurrentLocation();
 		try{
-			//Clears the map for updating
-			map.clear();
 			//Updates the map to your location and zooms in.  The number is the amount of zoom
 			location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 17);
+			map.addMarker(new MarkerOptions().position(location).title("My Location"));
+			addMarkersForPreviousSightings();
 			map.addMarker(new MarkerOptions().position(location).title(getString(R.string.my_location)));
 			map.animateCamera(update);
 		} catch(NullPointerException e){
@@ -272,6 +264,7 @@ public class MapActivity extends Activity {
 		}
 		return bitmap;
 	}
+
 
 
 	/**
@@ -344,6 +337,7 @@ public class MapActivity extends Activity {
 	   }
 	
 
+
 	@Override
 	protected void onPause(){
 		super.onPause();
@@ -373,10 +367,12 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
+
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			updateMap();
 		}
 		addMarkersForPreviousSightings();
+
 	}
 	
 	

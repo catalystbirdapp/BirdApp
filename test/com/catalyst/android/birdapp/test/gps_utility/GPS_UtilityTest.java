@@ -1,6 +1,8 @@
-package com.catalyst.android.birdapp.gps_utility;
+package com.catalyst.android.birdapp.test.gps_utility;
 
 import org.mockito.Mockito;
+
+import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 
 import android.test.InstrumentationTestCase;
 

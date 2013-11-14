@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
             android:layout_weight="2"
-            android:entries="@array/zoom_settings" />
+            />
     </TableRow>
 
     <TableRow
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
             android:layout_weight="2"
-            android:entries="@array/resolution_settings" />
+            />
     </TableRow>
 
     <TableRow
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
             android:layout_weight="2"
-            android:entries="@array/picture_size_settings" />
+            />
     </TableRow>
 
     <TableRow
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/settings_spinner_margin_top"
             android:layout_weight="2"
-            android:entries="@array/whitebalance_settings" />
+             />
     </TableRow>
 
     <TableRow
