@@ -57,7 +57,8 @@ public class CameraActivity extends Activity {
 	
 	
 	/**
-	 * on resume, reset the camera settings
+	 * on resume, reset the camera settings. These settings have to be here instead of in
+	 * onCreate. 
 	 */
 
 		@Override
@@ -115,6 +116,9 @@ public class CameraActivity extends Activity {
 	                
 	        });
 		}
+		/**
+		 * on back button press, return to bird form.
+		 */
 	@Override
     public void onBackPressed() {
         finish();
@@ -304,13 +308,12 @@ public class CameraActivity extends Activity {
 			int previewSizeHeight = Integer.parseInt(preferences.getString("PictureSizePreferenceHeight", "480"));
 			int previewSizeWidth = Integer.parseInt(preferences.getString("PictureSizePreferenceWidth", "640"));
 			
-//			mCamera.stopPreview(); //preview stop required when changing the previewSize parameter
+			//preview stop required when changing the previewSize parameter
 			parameters.setPictureSize(resolutionWidth, resolutionHeight);
 			parameters.setPreviewSize(previewSizeWidth, previewSizeHeight);
 			parameters.setWhiteBalance(whiteBalance);
 			parameters.setZoom(zoomNumber);
 			mCamera.setParameters(parameters);
-		//	mCamera.startPreview();
 			
 		}
 
