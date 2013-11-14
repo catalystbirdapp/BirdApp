@@ -58,7 +58,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String BIRD_ACTIVITY = "birdActivity";
 
 	private static final String BIRD_SIGHTING_CREATE = "create table birdSighting (birdSightingId integer primary key autoincrement, birdCommonName text,"
-			+ " birdScientificName text, sightingNotes text, latitude real, longitude real, dateTime text, birdActivityId integer, sightingCategoryId integer, picturePath string"
+			+ " birdScientificName text, sightingNotes text, latitude real, longitude real, dateTime text, birdActivityId integer, sightingCategoryId integer, picturePath text,"
 			+ " foreign key (birdActivityId) references birdActivities (birdActivityId), foreign key (sightingCategoryId) references birdSightingsCategory (sightingCategoryId))";
 
 	private static final String SIGHTING_PICTURE_MAP_CREATE = "create table sightingPictureMap (sightingPictureId integer primary key autoincrement, birdSightingId integer, pictureId integer,"
