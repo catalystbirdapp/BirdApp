@@ -398,12 +398,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			sb.append(blk).append(missingFieldTitles.get(0));
 			break;
 		case 2:
-			sb.append(blk).append(missingFieldTitles.get(0)).append(or)
+			sb.append(blk).append(missingFieldTitles.get(0)).append(blk).append(or).append(blk)
 					.append(missingFieldTitles.get(1));
 			break;
 		case 3:
 			sb.append(blk).append(missingFieldTitles.get(0)).append(sep)
-					.append(missingFieldTitles.get(1)).append(sep).append(or)
+					.append(missingFieldTitles.get(1)).append(sep).append(or).append(blk)
 					.append(missingFieldTitles.get(2));
 			break;
 		default:
