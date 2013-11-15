@@ -1,5 +1,6 @@
 package com.catalyst.android.birdapp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,6 +41,8 @@ public class PictureConfirmationActivity extends Activity {
 			e.printStackTrace();
 		}
 		Bitmap bmp = BitmapFactory.decodeStream(fis);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 		ImageView img = (ImageView) findViewById(R.id.image);
 		img.setImageBitmap(bmp);
 	}

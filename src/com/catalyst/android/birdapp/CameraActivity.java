@@ -86,28 +86,25 @@ public class CameraActivity extends Activity {
 				null);
 		buttonView = getLayoutInflater().inflate(
 				R.layout.camera_settings_button, null);
-
-		/**
-		 * on resume, reset the camera settings. These settings have to be here
-		 * instead of in onCreate.
-		 */
-		// sets on click listener for capture button
-		captureButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mCamera.takePicture(null, null, mPicture);
-			}
-		});
 	}
 
+	/**
+	 * on resume, reset the camera settings. These settings have to be here
+	 * instead of in onCreate.
+	 */
+	//
 	@Override
 	public void onResume() {
 		super.onResume();
 		setContentView(R.layout.activity_camera_layout);
-		mCamera = getCameraInstance();
+		if (mCamera == null) {
+			mCamera = getCameraInstance();
+		}
 		cameraUtilities = new CameraUtilities();
 		mCameraPreview = new CameraPreview(this, mCamera);
-		parameters = mCamera.getParameters();
+		if (parameters == null) {
+			parameters = mCamera.getParameters();
+		}
 		preview = (FrameLayout) findViewById(R.id.camera_preview);
 		preview.addView(mCameraPreview);
 		relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
@@ -119,6 +116,39 @@ public class CameraActivity extends Activity {
 		buttonView = getLayoutInflater().inflate(
 				R.layout.camera_settings_button, null);
 		setCameraSettings();
+		// sets on click listener for capture button
+		captureButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mCamera.takePicture(null, null, mPicture);
+			}
+
+			PictureCallback mPicture = new PictureCallback() {
+
+				@Override
+				public void onPictureTaken(byte[] data, Camera camera) {
+					File pictureFile = getOutputMediaFile();
+					if (pictureFile == null) {
+						return;
+					}
+					try {
+						FileOutputStream fos = new FileOutputStream(pictureFile);
+						fos.write(data);
+						fos.close();
+					} catch (FileNotFoundException e) {
+
+					} catch (IOException e) {
+
+					}
+					Intent intent = new Intent(CameraActivity.this,
+							PictureConfirmationActivity.class);
+					intent.putExtra("fileName", pictureFile.getPath());
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+			};
+
+		});
 
 		settingsButton.setOnClickListener(new View.OnClickListener() {
 
@@ -429,31 +459,6 @@ public class CameraActivity extends Activity {
 	public Camera getmCamera() {
 		return mCamera;
 	}
-
-	PictureCallback mPicture = new PictureCallback() {
-
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-			File pictureFile = getOutputMediaFile();
-			if (pictureFile == null) {
-				return;
-			}
-			try {
-				FileOutputStream fos = new FileOutputStream(pictureFile);
-				fos.write(data);
-				fos.close();
-			} catch (FileNotFoundException e) {
-
-			} catch (IOException e) {
-
-			}
-			Intent intent = new Intent(CameraActivity.this,
-					PictureConfirmationActivity.class);
-			intent.putExtra("fileName", pictureFile.getPath());
-			intent.putExtras(bundle);
-			startActivity(intent);
-		}
-	};
 
 	// Create file name for picture. Create directory if dir does not already
 	// exist.

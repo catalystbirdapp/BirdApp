@@ -68,6 +68,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private FormValidationUtilities fvd = new FormValidationUtilities();
 	private Bundle bundle;
 	private String picturePath;
+	private int count = 0;
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
 
@@ -96,8 +97,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
-		Bundle bundle = getIntent().getExtras();
+		String text = commonNameEditText.getText().toString();
+		bundle = getIntent().getExtras();
 		if (bundle != null) {
+			count = bundle.getInt("count");
+		}
+		if (count == 0) {
+
+		} else if (bundle != null && count != 0) {
 			commonNameEditText.setText(bundle.getString("birdName"));
 			notesEditText.setText(bundle.getString("notesText"));
 			latitudeEditText.setText(bundle.getString("latText"));
@@ -352,6 +359,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 	}
 
+	public void clearText() {
+		commonNameEditText.getText().clear();
+		scientificNameEditText.getText().clear();
+		notesEditText.getText().clear();
+	}
+
 	/**
 	 * pulls up AddNewActivity view
 	 */
@@ -368,6 +381,13 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private void refreshActivity() {
 		Intent i = getIntent();
 		finish();
+		clearText();
+		count = 0;
+		if (bundle != null) {
+			bundle.clear();
+			bundle = null;
+		}
+		getIntent().replaceExtras(bundle);
 		startActivity(i);
 	}
 
@@ -447,6 +467,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void openCamera(MenuItem menuItem) {
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
 		Bundle bundle = new Bundle();
+		count++;
 		bundle.putString("birdName", commonNameEditText.getText().toString());
 		bundle.putString("scientificName", scientificNameEditText.getText()
 				.toString());
@@ -455,6 +476,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		bundle.putString("longText", longitudeEditText.getText().toString());
 		bundle.putString("latText", latitudeEditText.getText().toString());
 		bundle.putString("notesText", notesEditText.getText().toString());
+		bundle.putInt("count", count);
 		intent.putExtras(bundle);
 		startActivity(intent);
 
