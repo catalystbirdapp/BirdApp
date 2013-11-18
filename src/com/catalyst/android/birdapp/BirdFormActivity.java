@@ -465,6 +465,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	public void openCamera(MenuItem menuItem) {
+
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
 		Bundle bundle = new Bundle();
 		count++;
@@ -478,6 +479,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		bundle.putString("notesText", notesEditText.getText().toString());
 		bundle.putInt("count", count);
 		intent.putExtras(bundle);
+
 		startActivity(intent);
 
 	}

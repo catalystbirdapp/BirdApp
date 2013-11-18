@@ -22,16 +22,27 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.os.Environment;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 public class CameraActivity extends Activity {
+
 
 	private Camera mCamera;
 	private CameraPreview mCameraPreview;
@@ -62,30 +73,36 @@ public class CameraActivity extends Activity {
 	private List<String> previewSizes;
 	private Parameters parameters;
 
+	public static int count = 0;
+	int TAKE_PHOTO_CODE = 0;
+	private Bitmap mPhoto;
+	static EditText bird;
+
 	/** Called when the activity is first created. */
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_camera_layout);
-		Intent intent = getIntent();
-		bundle = intent.getExtras();
-		birdName = bundle.getString("birdName");
-		mCamera = getCameraInstance();
-		mCameraPreview = new CameraPreview(this, mCamera);
-		preview = (FrameLayout) findViewById(R.id.camera_preview);
-		preview.addView(mCameraPreview); // calls CameraPreview class which
-											// starts the preview(aka the camera
-											// display)
-		relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
-		relativeLayoutControls.bringToFront(); // used to bring the capture
-												// button the front so that it
-												// overlays the preview display
-		captureButton = (Button) findViewById(R.id.button_capture);
-		settingsButton = (ImageButton) findViewById(R.id.settings_button);
-		view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
-				null);
-		buttonView = getLayoutInflater().inflate(
-				R.layout.camera_settings_button, null);
+		 super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_camera_layout);
+         Intent intent = getIntent();
+         bundle = intent.getExtras();
+         birdName = bundle.getString("birdName");
+         mCamera = getCameraInstance();
+         mCameraPreview = new CameraPreview(this, mCamera);
+         preview = (FrameLayout) findViewById(R.id.camera_preview);
+         preview.addView(mCameraPreview); // calls CameraPreview class which
+                                                                                 // starts the preview(aka the camera
+                                                                                 // display)
+         relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
+         relativeLayoutControls.bringToFront(); // used to bring the capture
+                                                                                         // button the front so that it
+                                                                                         // overlays the preview display
+         captureButton = (Button) findViewById(R.id.button_capture);
+         settingsButton = (ImageButton) findViewById(R.id.settings_button);
+         view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
+                         null);
+         buttonView = getLayoutInflater().inflate(
+                         R.layout.camera_settings_button, null);
 	}
 
 	/**
@@ -93,108 +110,108 @@ public class CameraActivity extends Activity {
 	 * instead of in onCreate.
 	 */
 	//
-	@Override
-	public void onResume() {
-		super.onResume();
-		setContentView(R.layout.activity_camera_layout);
-		if (mCamera == null) {
-			mCamera = getCameraInstance();
-		}
-		cameraUtilities = new CameraUtilities();
-		mCameraPreview = new CameraPreview(this, mCamera);
-		if (parameters == null) {
-			parameters = mCamera.getParameters();
-		}
-		preview = (FrameLayout) findViewById(R.id.camera_preview);
-		preview.addView(mCameraPreview);
-		relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
-		relativeLayoutControls.bringToFront();
-		captureButton = (Button) findViewById(R.id.button_capture);
-		settingsButton = (ImageButton) findViewById(R.id.settings_button);
-		view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
-				null);
-		buttonView = getLayoutInflater().inflate(
-				R.layout.camera_settings_button, null);
-		setCameraSettings();
-		// sets on click listener for capture button
-		captureButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mCamera.takePicture(null, null, mPicture);
-			}
+    @Override
+    public void onResume() {
+            super.onResume();
+            setContentView(R.layout.activity_camera_layout);
+            if (mCamera == null) {
+                    mCamera = getCameraInstance();
+            }
+            cameraUtilities = new CameraUtilities();
+            mCameraPreview = new CameraPreview(this, mCamera);
+            if (parameters == null) {
+                    parameters = mCamera.getParameters();
+            }
+            preview = (FrameLayout) findViewById(R.id.camera_preview);
+            preview.addView(mCameraPreview);
+            relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
+            relativeLayoutControls.bringToFront();
+            captureButton = (Button) findViewById(R.id.button_capture);
+            settingsButton = (ImageButton) findViewById(R.id.settings_button);
+            view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
+                            null);
+            buttonView = getLayoutInflater().inflate(
+                            R.layout.camera_settings_button, null);
+            setCameraSettings();
+            // sets on click listener for capture button
+            captureButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                            mCamera.takePicture(null, null, mPicture);
+                    }
 
-			PictureCallback mPicture = new PictureCallback() {
+                    PictureCallback mPicture = new PictureCallback() {
 
-				@Override
-				public void onPictureTaken(byte[] data, Camera camera) {
-					File pictureFile = getOutputMediaFile();
-					if (pictureFile == null) {
-						return;
-					}
-					try {
-						FileOutputStream fos = new FileOutputStream(pictureFile);
-						fos.write(data);
-						fos.close();
-					} catch (FileNotFoundException e) {
+                            @Override
+                            public void onPictureTaken(byte[] data, Camera camera) {
+                                    File pictureFile = getOutputMediaFile();
+                                    if (pictureFile == null) {
+                                            return;
+                                    }
+                                    try {
+                                            FileOutputStream fos = new FileOutputStream(pictureFile);
+                                            fos.write(data);
+                                            fos.close();
+                                    } catch (FileNotFoundException e) {
 
-					} catch (IOException e) {
+                                    } catch (IOException e) {
 
-					}
-					Intent intent = new Intent(CameraActivity.this,
-							PictureConfirmationActivity.class);
-					intent.putExtra("fileName", pictureFile.getPath());
-					intent.putExtras(bundle);
-					startActivity(intent);
-				}
-			};
+                                    }
+                                    Intent intent = new Intent(CameraActivity.this,
+                                                    PictureConfirmationActivity.class);
+                                    intent.putExtra("fileName", pictureFile.getPath());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                            }
+                    };
 
-		});
+            });
 
-		settingsButton.setOnClickListener(new View.OnClickListener() {
+            settingsButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// on click adds layout to preview
-				if (click) {
+                    @Override
+                    public void onClick(View v) {
+                            // on click adds layout to preview
+                            if (click) {
 
-					captureButton.setVisibility(View.GONE);
-					preview.addView(view);
-					preview.addView(buttonView);
-					setSaveButton();
-					setSettingsButton();
-					setRestoreButton();
-					// calls a utility class to get the supported phone settings
-					zoomLevel = cameraUtilities
-							.getSupportedCameraZoom(parameters);
-					supportedWhiteBalance = cameraUtilities
-							.getSupportedWhiteBalanceSettings(parameters);
-					resolutions = cameraUtilities
-							.getSupportedCameraResolution(parameters);
-					previewSizes = cameraUtilities
-							.getSupportedPreviewSize(parameters);
-					// populates spinners with the supported phone settings
-					populateZoomSpinner();
-					populateResolutionSpinner();
-					populatePictureSizeSpinner();
-					populateWhiteBalanceSpinner();
-					populatePreferences();
-					click = false;
+                                    captureButton.setVisibility(View.GONE);
+                                    preview.addView(view);
+                                    preview.addView(buttonView);
+                                    setSaveButton();
+                                    setSettingsButton();
+                                    setRestoreButton();
+                                    // calls a utility class to get the supported phone settings
+                                    zoomLevel = cameraUtilities
+                                                    .getSupportedCameraZoom(parameters);
+                                    supportedWhiteBalance = cameraUtilities
+                                                    .getSupportedWhiteBalanceSettings(parameters);
+                                    resolutions = cameraUtilities
+                                                    .getSupportedCameraResolution(parameters);
+                                    previewSizes = cameraUtilities
+                                                    .getSupportedPreviewSize(parameters);
+                                    // populates spinners with the supported phone settings
+                                    populateZoomSpinner();
+                                    populateResolutionSpinner();
+                                    populatePictureSizeSpinner();
+                                    populateWhiteBalanceSpinner();
+                                    populatePreferences();
+                                    click = false;
 
-				} else {
-					preview.removeView(view); // removes preview on click and
-												// resumes camera preview
-					preview.removeView(buttonView);
-					captureButton.setVisibility(View.VISIBLE); // removes
-																// capture
-																// button on
-																// setting
-																// screen
-					click = true;
-				}
-			}
+                            } else {
+                                    preview.removeView(view); // removes preview on click and
+                                                                                            // resumes camera preview
+                                    preview.removeView(buttonView);
+                                    captureButton.setVisibility(View.VISIBLE); // removes
+                                                                                                                            // capture
+                                                                                                                            // button on
+                                                                                                                            // setting
+                                                                                                                            // screen
+                                    click = true;
+                            }
+                    }
 
-		});
-	}
+            });
+    }
 
 	/**
 	 * on back button press, return to bird form.
@@ -464,30 +481,53 @@ public class CameraActivity extends Activity {
 	// exist.
 	private File getOutputMediaFile() {
 
-		File mediaStorageDir = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-						+ "/birdAppPictures//");
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
-				Log.d("birdAppPictures", "failed to create directory");
-				return null;
-			}
-		}
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-				.format(new Date());
-		File mediaFile;
-		if (birdName != null) {
-			mediaFile = new File(mediaStorageDir.getPath() + "//" + birdName
-					+ timeStamp + ".jpg");
-		} else {
-			String bird = "Bird";
-			mediaFile = new File(mediaStorageDir.getPath() + "//"
-					+ bird.toString() + timeStamp + ".jpg");
-		}
-		return mediaFile;
+		 File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/birdAppPictures//");
+		 if (!mediaStorageDir.exists()) {
+			 if (!mediaStorageDir.mkdirs()) {
+				 Log.d("birdAppPictures", "failed to create directory");
+				 return null;
+			 }
+		 }
+		 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                 .format(new Date());
+		 File mediaFile;
+		 if (birdName != null) {
+			 mediaFile = new File(mediaStorageDir.getPath() + "//" + birdName
+                         + timeStamp + ".jpg");
+		 } else {
+			 String bird = "Bird";
+			 mediaFile = new File(mediaStorageDir.getPath() + "//"
+                         + bird.toString() + timeStamp + ".jpg");
+		 }
+		 return mediaFile;
 
 	}
+
+	PictureCallback mPicture = new PictureCallback() {
+
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+			File pictureFile = getOutputMediaFile();
+			if (pictureFile == null) {
+				return;
+			}
+			try {
+				FileOutputStream fos = new FileOutputStream(pictureFile);
+				fos.write(data);
+				fos.close();
+			} catch (FileNotFoundException e) {
+
+			} catch (IOException e) {
+
+			}
+			Intent intent = new Intent(CameraActivity.this,
+					PictureConfirmationActivity.class);
+			intent.putExtra("fileName", pictureFile.getPath());
+			startActivity(intent);
+		}
+	};
+
+
 
 	/**
 	 * Helper method to access the camera returns null if it cannot get the
@@ -518,4 +558,10 @@ public class CameraActivity extends Activity {
 		this.parameters = parameters;
 	}
 
+
+
+	
+
+	
 }
+
