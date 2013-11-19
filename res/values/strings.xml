@@ -62,7 +62,6 @@
     </string-array>
 
     <string name="title_activity_add">AddActivity</string>
-    <string name="delete_button">Delete</string>
     <string name="title_activity_add_new">AddNewActivity</string>
     <string name="GPS_off">GPS is turned OFF</string>
     <string name="would_you_like_to_activate_GPS">Would you like to activate the GPS?</string>
