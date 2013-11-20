@@ -23,6 +23,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +50,8 @@ public class MapActivity extends Activity {
 	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
 	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
 	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
+	
+	public static final int IMAGE_VIEW_DIMENSION = 200;
 	private static final int ZERO = 0;
 
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
@@ -201,8 +205,8 @@ public class MapActivity extends Activity {
 				    Bitmap birdPictureBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 				    ImageView birdImage = new ImageView(getApplicationContext());
 				    birdImage.setImageBitmap(birdPictureBitmap);
-				    birdImage.getLayoutParams().height = IMAGE_VIEW_DIMENSION;
-				    birdImage.getLayoutParams().width = IMAGE_VIEW_DIMENSION;
+//				    birdImage.getLayoutParams().height = IMAGE_VIEW_DIMENSION;
+//				    birdImage.getLayoutParams().width = IMAGE_VIEW_DIMENSION;
 				    mapInfoWindow.addView(birdImage);	
 				    setBirdImageOnClickListener(birdImage);
 				}

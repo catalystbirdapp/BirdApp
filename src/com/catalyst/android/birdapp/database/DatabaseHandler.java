@@ -73,6 +73,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         private static final String BIRD_PICTURE_CREATE = "create table birdPicture (pictureId integer primary key autoincrement, picturePath text)";
 
         private static final String BIRD_AUDIO_CREATE = "create table birdAudio (audioId integer primary key autoincrement, audioPath text)";
+        
+        private static final String BIRD_ACTIVITIES_CREATE = "create table birdActivities (birdActivityId integer primary key autoincrement, birdActivity text)";
 
 	//Queries
 	private static final String GET_ALL_ACTIVITIES = "SELECT * FROM " + BIRD_ACTIVITIES;
@@ -89,37 +91,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //Queries for bird sightings
 	private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM " + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON " + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "=" + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
 
-        // Queries
-        private static final String GET_ALL_ACTIVITIES = "SELECT * FROM "
-                        + BIRD_ACTIVITIES;
-        private static final String GET_ALL_CATEGORIES = "SELECT * FROM "
-                        + BIRD_SIGHTINGS_CATEGORY;
-
-        // Inserts for Activities and Categories
-        private static final String INSERT_BIRD_ACTIVITY_PART_ONE = "INSERT INTO "
-                        + BIRD_ACTIVITIES + " (" + BIRD_ACTIVITY + ") VALUES ( ";
-        private static final String INSERT_BIRD_ACTIVITY_PART_TWO = " )";
-        private static final String INSERT_SIGHTING_CATEGORY_PART_ONE = "INSERT INTO "
-                        + BIRD_SIGHTINGS_CATEGORY
-                        + " ("
-                        + SIGHTING_CATEGORY
-                        + ") VALUES ( ";
-        private static final String INSERT_SIGHTING_CATEGORY_PART_TWO = " )";
-        private static final String INSERT_CUSTOM_BIRD_ACTIVITY = "INSERT INTO "
-                        + BIRD_ACTIVITIES + "(" + BIRD_ACTIVITY + ")VALUES ( ";
-        private static final String INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO = " )";
-
-        // Queries for bird sightings
-        private static final String GET_ALL_BIRD_SIGHTINGS = "SELECT * FROM "
-                        + BIRD_SIGHTING + " INNER JOIN " + BIRD_ACTIVITIES + " ON "
-                        + BIRD_SIGHTING + "." + BIRD_ACTIVITY_ID + "=" + BIRD_ACTIVITIES
-                        + "." + BIRD_ACTIVITY_ID + " INNER JOIN " + BIRD_SIGHTINGS_CATEGORY
-                        + " ON " + BIRD_SIGHTING + "." + SIGHTING_CATEGORY_ID + "="
-                        + BIRD_SIGHTINGS_CATEGORY + "." + SIGHTING_CATEGORY_ID;
-
         // Queries for bird pictures
-        private static final String GET_ALL_BIRD_PICTURES = "SELECT * FROM "
-                        + BIRD_PICTURE;
+        private static final String GET_ALL_BIRD_PICTURES = "SELECT * FROM " + BIRD_PICTURE;
+        private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdSighting WHERE birdSighting.birdSightingId=?";  
 
         private DatabaseHandler(Context context) {
                 super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -263,14 +237,98 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 return allCategories;
 
         }
-
+        
         public long insertBirdSighting(BirdSighting birdSighting) {
 
-                // Perform Readable tasks before trying to write to DB (get foreign Key
-                // Ids)
-                int activityId = getAcivityByActivityName(birdSighting.getActivity());
-                int categoryId = getCategoryByCategoryName(birdSighting.getCategory());
-	   
+            // Perform Readable tasks before trying to write to DB (get foreign Key
+            // Ids)
+            int activityId = getAcivityByActivityName(birdSighting.getActivity());
+            int categoryId = getCategoryByCategoryName(birdSighting.getCategory());
+
+            String date = Long.toString(birdSighting.getDateTime().getTime());
+
+            SQLiteDatabase database = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(DatabaseHandler.BIRD_COMMON_NAME,
+                            birdSighting.getCommonName());
+            contentValues.put(DatabaseHandler.BIRD_SCIENTIFIC_NAME,
+                            birdSighting.getScientificName());
+            contentValues.put(DatabaseHandler.SIGHTING_NOTES,
+                            birdSighting.getNotes());
+            contentValues.put(DatabaseHandler.LATITUDE, birdSighting.getLatitude());
+            contentValues.put(DatabaseHandler.LONGITUDE,
+                            birdSighting.getLongitude());
+            contentValues.put(DatabaseHandler.SIGHTING_CATEGORY_ID, categoryId);
+            contentValues.put(DatabaseHandler.BIRD_ACTIVITY_ID, activityId);
+            contentValues.put(DatabaseHandler.PICTURE_PATH,
+                            birdSighting.getPicturePath());
+            if (birdSighting.getDateTime() != null) {
+                    contentValues.put(DatabaseHandler.DATE_TIME, date);
+            }
+
+            long affectedColumnId = database.insert(DatabaseHandler.BIRD_SIGHTING,
+                            null, contentValues);
+
+            database.close();
+
+            return affectedColumnId;
+        }
+        
+        public void saveActivity(String activityName) {
+            SQLiteDatabase database = this.getWritableDatabase();
+            newActivityName = activityName;
+            database.execSQL(INSERT_CUSTOM_BIRD_ACTIVITY + "'" + newActivityName
+                            + "'" + INSERT_CUSTOM_BIRD_ACTIVITY_PART_TWO);
+        }
+        /**
+         * Returns an arraylist of all of the bird sighting that are in the DB
+         */
+        public List<BirdSighting> getAllBirdSightings(){
+        	List<BirdSighting> allBirdSightings = new ArrayList<BirdSighting>();
+  
+        	SQLiteDatabase db = this.getReadableDatabase();
+        	cursor = db.rawQuery(GET_ALL_BIRD_SIGHTINGS, null);
+   
+        	//Gets all of the column indexes to map the values to a bird sighting object
+        	int birdSightingIdIndex = cursor.getColumnIndex(BIRD_SIGHTING_ID);
+        	int birdSightingCommonNameIndex = cursor.getColumnIndex(BIRD_COMMON_NAME);
+        	int birdSightingScientificNameIndex = cursor.getColumnIndex(BIRD_SCIENTIFIC_NAME);
+        	int birdSightingNotesIndex = cursor.getColumnIndex(SIGHTING_NOTES);
+        	int birdSightingLatitudeIndex = cursor.getColumnIndex(LATITUDE);
+        	int birdSightingLongitudeIndex = cursor.getColumnIndex(LONGITUDE);
+        	int birdSightingDateIndex = cursor.getColumnIndex(DATE_TIME);
+        	int birdSightingActivityIndex = cursor.getColumnIndex(BIRD_ACTIVITY);
+        	int birdSightingCategoryIndex = cursor.getColumnIndex(SIGHTING_CATEGORY);
+        	
+        	if (cursor != null && cursor.moveToFirst()) {         
+        		do{
+        			try{
+                           //Maps all of the information to a bird sighting object
+        				BirdSighting birdSighting = new BirdSighting();
+        				birdSighting.setId(cursor.getInt(birdSightingIdIndex));
+        				birdSighting.setCommonName(cursor.getString(birdSightingCommonNameIndex));
+        				birdSighting.setScientificName(cursor.getString(birdSightingScientificNameIndex));
+        				birdSighting.setNotes(cursor.getString(birdSightingNotesIndex));
+        				birdSighting.setLatitude(cursor.getDouble(birdSightingLatitudeIndex));
+        				birdSighting.setLongitude(cursor.getDouble(birdSightingLongitudeIndex));  
+        				long date = Long.parseLong(cursor.getString(birdSightingDateIndex));
+        				birdSighting.setDateTime(new Date(date)); 
+        				birdSighting.setActivity(cursor.getString(birdSightingActivityIndex));
+        				birdSighting.setCategory(cursor.getString(birdSightingCategoryIndex));
+        				allBirdSightings.add(birdSighting);
+        			}catch(Exception e){
+                        e.printStackTrace();
+        			}
+        		}while(cursor.moveToNext());
+        	}
+        	db.close();
+   
+        	return allBirdSightings;
+        }
+        
+
+       
 	    /**
 		 * Returns the default picture path for a sighting
 		 */
