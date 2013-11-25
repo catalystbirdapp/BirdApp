@@ -54,6 +54,9 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyANCsbaAqVN1tT0oVtox0i-hIs5FaD6H0Q" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name="com.catalyst.android.birdapp.PictureConfirmationActivity"
@@ -75,6 +78,10 @@
         <activity
             android:name="com.catalyst.android.birdapp.RecordsActivity"
             android:label="@string/title_activity_records" >
+        </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.EditFormActivity"
+            android:label="@string/edit_form_activity_title" >
         </activity>
     </application>
 

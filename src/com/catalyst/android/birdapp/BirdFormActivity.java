@@ -78,9 +78,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_bird_form);
-		// Checks to see if the device has google play services.
-		GooglePlayServicesUtil
-				.isGooglePlayServicesAvailable(getApplicationContext());
 		// Sets up the GPS Utility class
 		gpsUtility = new GPSUtility(this);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
