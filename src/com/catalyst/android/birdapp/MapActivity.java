@@ -145,14 +145,17 @@ public class MapActivity extends Activity {
 			public void onInfoWindowClick(Marker marker) {
 				BirdSighting birdSighting = markerSightingsMap.get(marker);
 				
-				//Creates the  intent and stores the bird sighting for retrieval in the Edit Form Activity 
-				Intent intent = new Intent();
-				intent.setClass(MapActivity.this, EditFormActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putSerializable(BIRD_SIGHTING, birdSighting);				
-				intent.putExtras(bundle);
+				//Checks to see if the bird sighting is null. If it is then the marker is the current location marker
+				if(birdSighting != null){
+					//Creates the  intent and stores the bird sighting for retrieval in the Edit Form Activity 
+					Intent intent = new Intent();
+					intent.setClass(MapActivity.this, EditFormActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(BIRD_SIGHTING, birdSighting);				
+					intent.putExtras(bundle);
 				
-				startActivity(intent);
+					startActivity(intent);
+				}
 				
 			}
 		});
