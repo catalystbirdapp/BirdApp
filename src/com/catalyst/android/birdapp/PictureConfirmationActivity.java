@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +23,7 @@ public class PictureConfirmationActivity extends Activity {
         private String imageUri;
         private String birdName;
         private Bundle bundle;
+        private Bitmap bmp;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,31 @@ public class PictureConfirmationActivity extends Activity {
 
                         e.printStackTrace();
                 }
-                Bitmap bmp = BitmapFactory.decodeStream(fis);
+                bmp = BitmapFactory.decodeStream(fis);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                //Rotates the image so that it comes out on the screen in the same orientation that is was taken.
+                rotateImage();
                 ImageView img = (ImageView) findViewById(R.id.image);
                 img.setImageBitmap(bmp);
         }
+        
+        /**
+         * Rotates the picture back to the orientation it was when the picture was taken.
+         */
+        private void rotateImage(){
+            int width = bmp.getWidth();
+            int height = bmp.getHeight();
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            bmp = Bitmap.createBitmap(bmp, 0, 0,width, height, matrix, true);
+        }
+        
+        
+        
+        
+        
+        
 
         // Deletes image from phone.
         public void deleteImage(View view) {
@@ -70,6 +91,8 @@ public class PictureConfirmationActivity extends Activity {
                                 BirdFormActivity.class);
                 bundle.putString("fileName", imageUri);
                 intent.putExtras(bundle);
+                //Recycle the bitmap to avoid memory space errors
+                bmp.recycle();
                 startActivity(intent);
 
         }
