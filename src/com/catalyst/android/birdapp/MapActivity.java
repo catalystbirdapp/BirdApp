@@ -230,7 +230,9 @@ public class MapActivity extends Activity {
 				
 				File imgFile = new  File(picturePath);
 				if(imgFile.exists()){
-				    Bitmap birdPictureBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.inSampleSize = 2;
+				    Bitmap birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), 650, 475, false);
 				    ImageView birdImage = new ImageView(getApplicationContext());
 				    birdImage.setImageBitmap(birdPictureBitmap);
 				    mapInfoWindow.addView(birdImage);	
