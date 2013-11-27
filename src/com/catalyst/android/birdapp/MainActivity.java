@@ -44,5 +44,4 @@ public class MainActivity extends Activity {
     	editor.remove(GPS_PREFERENCE);
     	editor.commit();
 	}
-	
 }
