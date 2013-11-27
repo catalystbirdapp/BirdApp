@@ -34,9 +34,9 @@ import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
+	private static final String GPS_PREFERENCE = "GPSPreference";
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 
@@ -71,6 +71,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private int count = 0;
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
+	private String GPS_DEFAULT_VALUE = "none";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
-		String text = commonNameEditText.getText().toString();
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
 			count = bundle.getInt("count");
@@ -156,6 +156,15 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * listener
 	 */
 	private void intializeGPSfields() {
+		String preferencesFileLocation = getString(R.string.preference_file_key);
+		SharedPreferences preferences = getSharedPreferences(preferencesFileLocation, MODE_PRIVATE);
+		String gpsPreference;
+		try {
+			gpsPreference = preferences.getString(GPS_PREFERENCE, GPS_DEFAULT_VALUE);
+		} catch (ClassCastException e) {
+			gpsPreference = GPS_DEFAULT_VALUE;
+		}
+		
 		// Grabs the edit texts fields from the page so that they can be edited
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
@@ -174,8 +183,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		// Sets up the time that will be used to change the color of the
 		// coordinate refresh button from green to red and back
 		coordinateRefreshTimer = new Timer();
-		// Checks to see if the GPS is on
-		gpsUtility.checkForGPS();
+		
+		// Checks to see if the user wants the GPS on, and then checks if the GPS is on
+		if (gpsPreference == GPS_DEFAULT_VALUE) {
+			gpsUtility.checkForGPS();
+		}
 
 		autoFillCoordinatesSubmitForm();
 
@@ -486,4 +498,5 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 				CameraSettingsActivity.class);
 		startActivity(intent);
 	}
+	
 }
