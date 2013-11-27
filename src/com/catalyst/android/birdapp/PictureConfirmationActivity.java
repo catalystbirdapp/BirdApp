@@ -62,13 +62,9 @@ public class PictureConfirmationActivity extends Activity {
             bmp = Bitmap.createBitmap(bmp, 0, 0,width, height, matrix, true);
         }
         
-        
-        
-        
-        
-        
-
-        // Deletes image from phone.
+        /**
+         *  Deletes image from phone.
+         */
         public void deleteImage(View view) {
 
                 File file = new File(imageUri).getAbsoluteFile();
@@ -84,7 +80,9 @@ public class PictureConfirmationActivity extends Activity {
 
         }
 
-        // Saves image to Database.
+        /** 
+         * Saves image to Database.
+         */
         public void saveImage(View view) {
                 DatabaseHandler db = DatabaseHandler.getInstance(this);
                 Intent intent = new Intent(PictureConfirmationActivity.this,
@@ -95,5 +93,12 @@ public class PictureConfirmationActivity extends Activity {
                 bmp.recycle();
                 startActivity(intent);
 
+        }
+        
+        /**
+         * Keeps the user from pressing the back button, otherwise it throws an exception.  The user does not need to use the back button from this screen.
+         */
+        @Override
+        public void onBackPressed() {
         }
 }
