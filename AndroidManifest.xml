@@ -79,10 +79,6 @@
             android:name="com.catalyst.android.birdapp.RecordsActivity"
             android:label="@string/title_activity_records" >
         </activity>
-        <activity
-            android:name="com.catalyst.android.birdapp.EditFormActivity"
-            android:label="@string/edit_form_activity_title" >
-        </activity>
     </application>
 
 </manifest>

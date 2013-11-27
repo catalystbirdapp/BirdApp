@@ -1,4 +1,4 @@
-package com.catalyst.android.birdapp;
+package Entities;
 
 public class Picture {
 	private int id;
