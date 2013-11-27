@@ -1,4 +1,4 @@
-package com.catalyst.android.birdapp;
+package Entities;
 
 import java.io.Serializable;
 import java.util.Date;

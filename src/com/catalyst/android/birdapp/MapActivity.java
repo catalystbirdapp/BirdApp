@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import Entities.BirdSighting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,52 +48,40 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
+
 public class MapActivity extends Activity {
 	
 	private static final String BIRD_SIGHTING = "BirdSighting";
-	private static final int BEAVERTON_ZOOM = 15;
-	private static final int DEFAULT_ZOOM = 17;
 	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
 	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
 	private static final String ZOOM_KEY = "com.catalyst.birdapp.zoomLevel";
 	private static final String MAP_TYPE_PREFERENCE_KEY = "com.catalyst.birdapp.mapType";
-	
-	public static final int IMAGE_VIEW_DIMENSION = 200;
+	private static final int BEAVERTON_ZOOM = 15;
+	private static final int DEFAULT_ZOOM = 17;
 	private static final int ZERO = 0;
-
 	private static final int PADDING_BETWEEN_TITLE_AND_INFO = 50;
 	private static final int INFO_TEXT_VIEW_WIDTH = 300;
-	
 	private static final double BEAVERTON_LATITUDE = 45.4869;
 	private static final double BEAVERTON_LONGITUDE = -122.8036;
+	
 	private LatLng beavertonLatLng = new LatLng(BEAVERTON_LATITUDE, BEAVERTON_LONGITUDE);
+	private boolean settingsOnScreen = false;
 
 	private LocationManager locationManager;
-	
 	private GoogleMap map;
-	
 	private LatLng location;
-	
 	private GPSUtility gpsUtility;
-	
 	private DatabaseHandler dbHandler;
-	
 	private HashMap <Marker, BirdSighting> markerSightingsMap;
 	
 	private TableLayout mapInfoWindow;
-	
-
 	private ImageButton mapSettingsButton;
-	     
-	private boolean settingsOnScreen = false;
-	   
 	private RelativeLayout mapLayout;
-	   
 	private View mapSettingsView;
 	private Spinner mapTypeSpinner;
 	private Button mapSettingsSaveButton;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -149,9 +139,10 @@ public class MapActivity extends Activity {
 				if(birdSighting != null){
 					//Creates the  intent and stores the bird sighting for retrieval in the Edit Form Activity 
 					Intent intent = new Intent();
-					intent.setClass(MapActivity.this, EditFormActivity.class);
+					intent.setClass(MapActivity.this, BirdFormActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(BIRD_SIGHTING, birdSighting);				
+					bundle.putSerializable(BIRD_SIGHTING, birdSighting);
+					bundle.putInt(CALLING_ACTIVITY, MAP_ACTIVITY);
 					intent.putExtras(bundle);
 				
 					startActivity(intent);
@@ -161,24 +152,22 @@ public class MapActivity extends Activity {
 		});
 		
 	}
-		/**
-		     * sets the map type to the one that the user saved
-		     */
-		   private void setMapType(String savedMapType) {
-		        if(savedMapType.equals(getString(R.string.normal))){
-		          map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-		      } else if (savedMapType.equals(getString(R.string.satellite))){
-		          map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-		      } else if (savedMapType.equals(getString(R.string.terrain))){
-		          map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-		      } else if (savedMapType.equals(getString(R.string.hybrid))){
-		          map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-		      }
-		   }
+	
+	/**
+	 * sets the map type to the one that the user saved
+	 */
+	private void setMapType(String savedMapType) {
+		if(savedMapType.equals(getString(R.string.normal))){
+			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		} else if (savedMapType.equals(getString(R.string.satellite))){
+			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		} else if (savedMapType.equals(getString(R.string.terrain))){
+			map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+		} else if (savedMapType.equals(getString(R.string.hybrid))){
+			map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+		}
+	}
 		
-		
-
-
 	/**
 	 * sets up the custom window adapter
 	 */
@@ -269,6 +258,7 @@ public class MapActivity extends Activity {
 		});	
 	}
 
+	
 	/**
 	 * Adds a marker for the person's current location and then adds markers for the past sightings.  Then it zooms the camera in on the person's current location 
 	 */
@@ -286,6 +276,7 @@ public class MapActivity extends Activity {
 			gpsUtility.noLocationAvailable();
 		}
 	}
+	
 	
 	/**
 	 * Adds the markers to the map for the sightings that have been stored in the DB
@@ -305,7 +296,8 @@ public class MapActivity extends Activity {
         
 }
 
-	/**
+	
+    /**
 	 * Returns the proper icon according to the category of the sighting.
 	 */
 	private BitmapDescriptor getMapIcon(BirdSighting birdSighting) {
@@ -321,11 +313,10 @@ public class MapActivity extends Activity {
 		return bitmap;
 	}
 
-
-
+	
 	/**
-	  * Sets the on click listener for the settings button
-	  */
+	 * Sets the on click listener for the settings button
+	 */
 	private void setMapSettingsButtonOnClickListener() {
 		mapSettingsButton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -353,9 +344,10 @@ public class MapActivity extends Activity {
 	   	});  
 	}
 	   
-	   /**
-	    * Sets the on click listener for the save button
-	    */
+	 
+	/**
+	 * Sets the on click listener for the save button
+	 */
 	private void setSaveButtonOnClickListener() {
 		mapSettingsSaveButton = (Button) findViewById(R.id.map_settings_save_button);
 	     
@@ -383,7 +375,6 @@ public class MapActivity extends Activity {
 	    	}
 	    }); 
 	}
-
 
 	@Override
 	protected void onPause(){
@@ -415,14 +406,12 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			updateMap();
 		}
 		addMarkersForPreviousSightings();
 
 	}
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -40,6 +40,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
 
 public class CameraActivity extends Activity {
 
@@ -85,6 +86,7 @@ public class CameraActivity extends Activity {
 		 super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_camera_layout);
          Intent intent = getIntent();
+         intent.removeExtra(CALLING_ACTIVITY);
          bundle = intent.getExtras();
          birdName = bundle.getString("birdName");
          mCamera = getCameraInstance();
@@ -523,6 +525,7 @@ public class CameraActivity extends Activity {
 			Intent intent = new Intent(CameraActivity.this,
 					PictureConfirmationActivity.class);
 			intent.putExtra("fileName", pictureFile.getPath());
+			intent.putExtra(CALLING_ACTIVITY, CAMERA_ACTIVITY);
 			startActivity(intent);
 		}
 	};

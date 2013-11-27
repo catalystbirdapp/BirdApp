@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Entities.BirdSighting;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,9 +37,10 @@ import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
-	private static final String GPS_PREFERENCE = "GPSPreference";
+	private static final String BIRD_SIGHTING = "BirdSighting";
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 
@@ -69,10 +72,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private FormValidationUtilities fvd = new FormValidationUtilities();
 	private Bundle bundle;
 	private String picturePath;
-	private int count = 0;
+	private int callingActivity = 0;
 	long coordinateTimerStart;
 	long coordinateTimerCurrent;
-	private String GPS_DEFAULT_VALUE = "none";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,36 +84,54 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		setContentView(R.layout.activity_bird_form);
 		// Sets up the GPS Utility class
 		gpsUtility = new GPSUtility(this);
-		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
-		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
-		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
-		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
-		displayDateAndTime();
-
-		// Grabs the fields needed for gps autofill
-		intializeGPSfields();
+		//Checks for GPS
+		setGPSAutoFill();
+		//Grabs all of the fields off of the page
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateTextView = (TextView) findViewById(R.id.date_time_edit_text);
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
+		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
+		categorySpinner.setFocusable(true);
+		categorySpinner.setFocusableInTouchMode(true);
+		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
+		activitySpinner.setFocusable(true);
+		activitySpinner.setFocusableInTouchMode(true);
+		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
+		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
+		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
+		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
+		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);		
+		//Gets the extras from the bundle that was passed from the calling activity
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
-			count = bundle.getInt("count");
+			callingActivity = bundle.getInt(CALLING_ACTIVITY);
 		}
-		if (count == 0) {
-
-		} else if (bundle != null && count != 0) {
-			commonNameEditText.setText(bundle.getString("birdName"));
-			notesEditText.setText(bundle.getString("notesText"));
-			latitudeEditText.setText(bundle.getString("latText"));
-			longitudeEditText.setText(bundle.getString("longText"));
-			dateTextView.setText(bundle.getString("dateText"));
-			timeEditText.setText(bundle.getString("timeText"));
-			scientificNameEditText.setText(bundle.getString("scientificName"));
-			picturePath = bundle.getString("fileName");
-
+		if (bundle != null && callingActivity != SPLASH_SCREEN) {
+			BirdSighting birdSighting = (BirdSighting) bundle.getSerializable(BIRD_SIGHTING);
+			commonNameEditText.setText(birdSighting.getCommonName());
+			notesEditText.setText(birdSighting.getNotes());
+			latitudeEditText.setText(birdSighting.getLatitude().toString());
+			longitudeEditText.setText(birdSighting.getLongitude().toString());
+			scientificNameEditText.setText(birdSighting.getScientificName());
+			picturePath = birdSighting.getPicturePath();
+			
+			//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
+			Date birdSightingDate = birdSighting.getDateTime();
+			java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
+			String formattedDate = dateFormat.format(birdSightingDate);
+       	
+			//formats the time to the time format that the person has selected for their phone
+			java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
+			String formattedTime = timeFormat.format(birdSightingDate);
+			
+			dateTextView.setText(formattedDate);
+			timeEditText.setText(formattedTime);
+		}
+		if(callingActivity == MAP_ACTIVITY){
+			coordinateRefreshButton.setVisibility(View.GONE);
 		}
 	}
 
@@ -124,7 +144,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		displayDateAndTime();
+		if(callingActivity ==0){
+			//Autofills the date, time, and GPS Coordinates
+			displayDateAndTime();
+			setTimer();
+		}
 		fillActivitySpinner();
 		fillCategorySpinner();
 		gpsUtility.setFormLocationListener();
@@ -151,48 +175,44 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 				R.id.spinnertextview, categoriesFromDB);
 		categorySpinner.setAdapter(adapter);
 	}
-
+	
 	/**
-	 * Initializes the GPS coordinates fields and sets the oncheck changed
-	 * listener
+	 * Sets up the timer fields to autofill
 	 */
-	private void intializeGPSfields() {
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		Boolean gpsPreference = sharedPref.getBoolean(BirdFormSettingsActivity.KEY_PREF_GPS_PREFERENCE, true);
-		
-		// Grabs the edit texts fields from the page so that they can be edited
-		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
-		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
-
+	private void setTimer(){
 		// Sets ups the coordinate refresh button and timer
-		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);
 		coordinateRefreshButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				refreshCoordinateTimer();
-
 			}
 
 		});
 		// Sets up the time that will be used to change the color of the
 		// coordinate refresh button from green to red and back
 		coordinateRefreshTimer = new Timer();
-		
-		// Checks to see if the user wants the GPS on, and then checks if the GPS is on
-		if (gpsPreference == true) {
-			gpsUtility.checkForGPS();
-		}
 
 		autoFillCoordinatesSubmitForm();
-
 		gpsUtility.setFormLocationListener();
-
 		// Sets the coordinate timer numbers so that they can later be used to
 		// keep the user from continually pressing the coordinate
 		// refresh button and creating a new timer each time
 		coordinateTimerStart = 0;
 		coordinateTimerCurrent = 0;
+
+	}
+	
+	/**
+	 * Sets up the GPS fields to autofill
+	 */
+	private void setGPSAutoFill(){
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean gpsPreference = sharedPref.getBoolean(BirdFormSettingsActivity.KEY_PREF_GPS_PREFERENCE, true);
+		
+		// Checks to see if the user wants the GPS on, and then checks if the GPS is on
+		if (gpsPreference == true) {
+			gpsUtility.checkForGPS();
+		}
 
 	}
 
@@ -300,7 +320,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	public void submitBirdSighting() {
 		int errors = 0;
-		BirdSighting birdSighting = new BirdSighting();
 		FormValidationUtilities fvd = new FormValidationUtilities();
 		String commonNameField = commonNameEditText.getText().toString();
 		// If user has provided input validate for proper content
@@ -320,47 +339,53 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			errors++;
 		}
 		if (errors == 0) {
-			String longitudeField = longitudeEditText.getText().toString();
-			String latitudeField = latitudeEditText.getText().toString();
-			String notesField = notesEditText.getText().toString();
-			String categoryField = categorySpinner.getSelectedItem().toString();
-			String activityField = activitySpinner.getSelectedItem().toString();
-			String dateField = dateTextView.getText().toString();
-			String timeField = timeEditText.getText().toString();
-
-			// create Date object from date/time fields
-			String dateTimeString = dateField + " " + timeField;
-			Utilities util = new Utilities();
-			Date dateTime = util.getDateObject(dateTimeString);
-
-			// Set values in BirdSighting object
-			birdSighting.setCommonName(commonNameField);
-			birdSighting.setScientificName(scientificNameField);
-			birdSighting.setNotes(notesField);
-			birdSighting.setActivity(activityField);
-			birdSighting.setCategory(categoryField);
-			birdSighting.setDateTime(dateTime);
-			birdSighting.setPicturePath(picturePath);
-
-			// Check formatting, set field to null if wrong format
-			try {
-				birdSighting.setLatitude(Double.parseDouble(latitudeField));
-			} catch (NumberFormatException e) {
-				birdSighting.setLatitude(null);
-			}
-			try {
-				birdSighting.setLongitude(Double.parseDouble(longitudeField));
-			} catch (NumberFormatException e) {
-				birdSighting.setLongitude(null);
-			}
+			BirdSighting birdSighting = createBirdSighting();
 			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
 			dbHandler.insertBirdSighting(birdSighting);
-			Toast.makeText(this, getString(R.string.sightingAddedBlankName),
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.sightingAddedBlankName), Toast.LENGTH_SHORT).show();
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(1000);
 			refreshActivity();
 		}
+	}
+
+	private BirdSighting createBirdSighting() {
+		BirdSighting birdSighting = new BirdSighting();
+		
+		String commonNameField = commonNameEditText.getText().toString();
+		String scientificNameField = scientificNameEditText.getText().toString();
+		String longitudeField = longitudeEditText.getText().toString();
+		String latitudeField = latitudeEditText.getText().toString();
+		String notesField = notesEditText.getText().toString();
+		String categoryField = categorySpinner.getSelectedItem().toString();
+		String activityField = activitySpinner.getSelectedItem().toString();
+		String dateField = dateTextView.getText().toString();
+		String timeField = timeEditText.getText().toString();
+
+		// create Date object from date/time fields
+		String dateTimeString = dateField + " " + timeField;
+		Utilities util = new Utilities();
+		Date dateTime = util.getDateObject(dateTimeString);
+		
+		// Check formatting, set field to null if wrong format
+		try {
+			birdSighting.setLatitude(Double.parseDouble(latitudeField));
+			birdSighting.setLongitude(Double.parseDouble(longitudeField));
+		} catch (NumberFormatException e) {
+			birdSighting.setLatitude(null);
+			birdSighting.setLongitude(null);
+		}
+		
+		// Set values in BirdSighting object
+		birdSighting.setCommonName(commonNameField);
+		birdSighting.setScientificName(scientificNameField);
+		birdSighting.setNotes(notesField);
+		birdSighting.setActivity(activityField);
+		birdSighting.setCategory(categoryField);
+		birdSighting.setDateTime(dateTime);
+		birdSighting.setPicturePath(picturePath);
+
+		return birdSighting;
 	}
 
 	public void clearText() {
@@ -386,7 +411,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		Intent i = getIntent();
 		finish();
 		clearText();
-		count = 0;
+		callingActivity = 0;
 		if (bundle != null) {
 			bundle.clear();
 			bundle = null;
@@ -450,8 +475,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 		missFields = sb.toString();
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		AlertDialogFragment adf = AlertDialogFragment
-				.newInstance(getString(R.string.emptyFieldsWarning)
+		AlertDialogFragment adf = AlertDialogFragment.newInstance(getString(R.string.emptyFieldsWarning)
 						+ missFields + "?");
 		adf.show(ft, missFields);
 	}
@@ -469,28 +493,19 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	public void openCamera(MenuItem menuItem) {
+		BirdSighting birdSighting = createBirdSighting();
 
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
 		Bundle bundle = new Bundle();
-		count++;
-		bundle.putString("birdName", commonNameEditText.getText().toString());
-		bundle.putString("scientificName", scientificNameEditText.getText()
-				.toString());
-		bundle.putString("dateText", dateTextView.getText().toString());
-		bundle.putString("timeText", timeEditText.getText().toString());
-		bundle.putString("longText", longitudeEditText.getText().toString());
-		bundle.putString("latText", latitudeEditText.getText().toString());
-		bundle.putString("notesText", notesEditText.getText().toString());
-		bundle.putInt("count", count);
+		bundle.putSerializable(BIRD_SIGHTING, birdSighting);
+		bundle.putInt(CALLING_ACTIVITY, BIRD_FORM_ACTIVITY);
 		intent.putExtras(bundle);
 
 		startActivity(intent);
-
 	}
 
 	public void getCameraSettings(MenuItem menuItem) {
-		Intent intent = new Intent(getApplication(),
-				CameraSettingsActivity.class);
+		Intent intent = new Intent(getApplication(), CameraSettingsActivity.class);
 		startActivity(intent);
 	}
 	
