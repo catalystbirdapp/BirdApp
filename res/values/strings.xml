@@ -108,6 +108,7 @@
     <string name = "save_button">Save</string>
     <string name = "settings_title">Settings</string>
     <string name = "edit_form_activity_title">Edit Form</string>
+    <string name = "save_changes">Save Changes</string>
     
     <string name = "bird_form_settings">Bird Sighting Settings</string>
     <string name = "gps_title">Allow GPS to be used</string>

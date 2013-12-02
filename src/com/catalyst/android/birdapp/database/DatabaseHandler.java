@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Entities.BirdSighting;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.catalyst.android.birdapp.R;
+import com.catalyst.android.birdapp.entities.BirdSighting;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -269,6 +269,42 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             long affectedColumnId = database.insert(DatabaseHandler.BIRD_SIGHTING,
                             null, contentValues);
+
+            database.close();
+
+            return affectedColumnId;
+        }
+        
+        /**
+         * Edits the bird sighting in the DB to match the user's changes
+         * @param birdSighting
+         * @return
+         */
+        public long editBirdSighting(BirdSighting birdSighting) {
+
+            // Perform Readable tasks before trying to write to DB (get foreign Key
+            // Ids)
+            int activityId = getAcivityByActivityName(birdSighting.getActivity());
+            int categoryId = getCategoryByCategoryName(birdSighting.getCategory());
+
+            String date = Long.toString(birdSighting.getDateTime().getTime());
+
+            SQLiteDatabase database = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseHandler.BIRD_SIGHTING_ID, birdSighting.getId());
+            contentValues.put(DatabaseHandler.BIRD_COMMON_NAME, birdSighting.getCommonName());
+            contentValues.put(DatabaseHandler.BIRD_SCIENTIFIC_NAME, birdSighting.getScientificName());
+            contentValues.put(DatabaseHandler.SIGHTING_NOTES, birdSighting.getNotes());
+            contentValues.put(DatabaseHandler.LATITUDE, birdSighting.getLatitude());
+            contentValues.put(DatabaseHandler.LONGITUDE, birdSighting.getLongitude());
+            contentValues.put(DatabaseHandler.SIGHTING_CATEGORY_ID, categoryId);
+            contentValues.put(DatabaseHandler.BIRD_ACTIVITY_ID, activityId);
+            contentValues.put(DatabaseHandler.PICTURE_PATH, birdSighting.getPicturePath());
+            if (birdSighting.getDateTime() != null) {
+                    contentValues.put(DatabaseHandler.DATE_TIME, date);
+            }
+
+            long affectedColumnId = database.replace(DatabaseHandler.BIRD_SIGHTING, null, contentValues);
 
             database.close();
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import Entities.BirdSighting;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -21,8 +20,10 @@ import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.entities.BirdSighting;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
@@ -40,7 +42,7 @@ import com.catalyst.android.birdapp.utilities.Utilities;
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
-	private static final String BIRD_SIGHTING = "BirdSighting";
+
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 
@@ -59,6 +61,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private TextView dateTextView;
 	private TextView timeEditText;
 	private Button coordinateRefreshButton;
+	private Button submitButton;
 	private Timer coordinateRefreshTimer;
 	private String sep;
 	private String blk;
@@ -73,8 +76,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private Bundle bundle;
 	private String picturePath;
 	private int callingActivity = 0;
-	long coordinateTimerStart;
-	long coordinateTimerCurrent;
+	private int birdSightingId;
+	private long coordinateTimerStart;
+	private long coordinateTimerCurrent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +107,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
-		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);		
+		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);	
+		submitButton = (Button) findViewById(R.id.submit_button);
 		//Gets the extras from the bundle that was passed from the calling activity
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
 			callingActivity = bundle.getInt(CALLING_ACTIVITY);
 		}
 		if (bundle != null && callingActivity != SPLASH_SCREEN) {
-			BirdSighting birdSighting = (BirdSighting) bundle.getSerializable(BIRD_SIGHTING);
+			BirdSighting birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
+			birdSightingId = birdSighting.getId();
 			commonNameEditText.setText(birdSighting.getCommonName());
 			notesEditText.setText(birdSighting.getNotes());
 			latitudeEditText.setText(birdSighting.getLatitude().toString());
@@ -132,6 +138,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 		if(callingActivity == MAP_ACTIVITY){
 			coordinateRefreshButton.setVisibility(View.GONE);
+			submitButton.setText(getString(R.string.save_changes));
 		}
 	}
 
@@ -341,11 +348,16 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		if (errors == 0) {
 			BirdSighting birdSighting = createBirdSighting();
 			DatabaseHandler dbHandler = DatabaseHandler.getInstance(this);
-			dbHandler.insertBirdSighting(birdSighting);
 			Toast.makeText(this, getString(R.string.sightingAddedBlankName), Toast.LENGTH_SHORT).show();
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(1000);
-			refreshActivity();
+			if(submitButton.getText().equals(getString(R.string.submitButtonText))){
+				dbHandler.insertBirdSighting(birdSighting);
+				refreshActivity();
+			} else {
+				dbHandler.editBirdSighting(birdSighting);
+				//go back
+			}	
 		}
 	}
 
@@ -377,6 +389,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 		
 		// Set values in BirdSighting object
+		if(submitButton.getText().equals(getString(R.string.save_changes))){
+			birdSighting.setId(birdSightingId);
+		}
 		birdSighting.setCommonName(commonNameField);
 		birdSighting.setScientificName(scientificNameField);
 		birdSighting.setNotes(notesField);
@@ -496,12 +511,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		BirdSighting birdSighting = createBirdSighting();
 
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(BIRD_SIGHTING, birdSighting);
-		bundle.putInt(CALLING_ACTIVITY, BIRD_FORM_ACTIVITY);
+		//Bundle bundle = new Bundle();
+		bundle.putSerializable(BirdSighting.BIRD_SIGHTING, birdSighting);
 		intent.putExtras(bundle);
 
-		startActivity(intent);
+		startActivityForResult(intent, CAMERA_ACTIVITY);
 	}
 
 	public void getCameraSettings(MenuItem menuItem) {

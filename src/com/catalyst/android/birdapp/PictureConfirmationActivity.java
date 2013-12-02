@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.entities.BirdSighting;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,8 +21,8 @@ import android.widget.ImageView;
 
 public class PictureConfirmationActivity extends Activity {
         private String imageUri;
-        private String birdName;
         private Bundle bundle;
+        private BirdSighting birdSighting;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,8 @@ public class PictureConfirmationActivity extends Activity {
                 Intent i = getIntent();
                 setContentView(R.layout.activity_picture_confirmation);
                 bundle = i.getExtras();
+                birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
                 imageUri = bundle.get("fileName").toString();
-                birdName = bundle.get("birdName").toString();
 
                 File image = new File(imageUri).getAbsoluteFile();
                 FileInputStream fis = null;
@@ -52,25 +53,18 @@ public class PictureConfirmationActivity extends Activity {
 
                 File file = new File(imageUri).getAbsoluteFile();
                 if (file.exists()) {
-                        file.delete();
+                    file.delete();
                 }
                 if (!file.exists()) {
-                        Intent intent = new Intent(PictureConfirmationActivity.this,
-                                        CameraActivity.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                	setResult(Activity.RESULT_CANCELED);
                 }
 
         }
 
         // Saves image to Database.
         public void saveImage(View view) {
-                DatabaseHandler db = DatabaseHandler.getInstance(this);
-                Intent intent = new Intent(PictureConfirmationActivity.this,
-                                BirdFormActivity.class);
-                bundle.putString("fileName", imageUri);
-                intent.putExtras(bundle);
-                startActivity(intent);
-
+            Intent intent = new Intent();
+            intent.putExtra("fileName", imageUri);
+            setResult(Activity.RESULT_OK, intent);
         }
 }

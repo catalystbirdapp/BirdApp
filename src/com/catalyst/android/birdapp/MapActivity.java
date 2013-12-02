@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import Entities.BirdSighting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +34,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.entities.BirdSighting;
 import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -145,12 +145,23 @@ public class MapActivity extends Activity {
 					bundle.putInt(CALLING_ACTIVITY, MAP_ACTIVITY);
 					intent.putExtras(bundle);
 				
-					startActivity(intent);
+					startActivityForResult(intent, 0);
 				}
 				
 			}
 		});
 		
+	}
+	
+	/**
+	 * Refreshes the map.  Called when the user finishes editing a record
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			updateMap();
+		}
+		addMarkersForPreviousSightings();
 	}
 	
 	/**
@@ -269,7 +280,6 @@ public class MapActivity extends Activity {
 			location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ZOOM);
 			map.addMarker(new MarkerOptions().position(location).title("My Location"));
-			addMarkersForPreviousSightings();
 			map.addMarker(new MarkerOptions().position(location).title(getString(R.string.my_location)));
 			map.animateCamera(update);
 		} catch(NullPointerException e){
@@ -282,6 +292,7 @@ public class MapActivity extends Activity {
 	 * Adds the markers to the map for the sightings that have been stored in the DB
 	 */
     private void addMarkersForPreviousSightings() {
+    	map.clear();
     	//Retrieves all of the bird sightings from the DB
         List<BirdSighting> allBirdSightings = dbHandler.getAllBirdSightings();
       
