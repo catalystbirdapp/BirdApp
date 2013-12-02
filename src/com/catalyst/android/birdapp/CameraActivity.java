@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Date;
 
 import com.catalyst.android.birdapp.camera.CameraPreview;
+import com.catalyst.android.birdapp.entities.BirdSighting;
 import com.catalyst.android.birdapp.utilities.CameraUtilities;
 import android.app.Activity;
 import android.content.Context;
@@ -45,6 +46,7 @@ import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstant
 public class CameraActivity extends Activity {
 
 
+	private static final int PICTURE_PREVIEW = 0;
 	private Camera mCamera;
 	private CameraPreview mCameraPreview;
 	private FrameLayout preview;
@@ -60,8 +62,9 @@ public class CameraActivity extends Activity {
 	private Button captureButton;
 	private ImageButton settingsButton;
 	private ImageButton settingsButtonView;
-	private Bundle bundle;
+	protected Bundle bundle;
 	private String birdName;
+	private BirdSighting birdSighting;
 
 	/** Called when the activity is first created. */
 
@@ -86,9 +89,9 @@ public class CameraActivity extends Activity {
 		 super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_camera_layout);
          Intent intent = getIntent();
-         intent.removeExtra(CALLING_ACTIVITY);
          bundle = intent.getExtras();
-         birdName = bundle.getString("birdName");
+         birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
+         birdName = birdSighting.getCommonName();
          mCamera = getCameraInstance();
          mCameraPreview = new CameraPreview(this, mCamera);
          preview = (FrameLayout) findViewById(R.id.camera_preview);
@@ -141,31 +144,6 @@ public class CameraActivity extends Activity {
                     public void onClick(View v) {
                             mCamera.takePicture(null, null, mPicture);
                     }
-
-                    PictureCallback mPicture = new PictureCallback() {
-
-                            @Override
-                            public void onPictureTaken(byte[] data, Camera camera) {
-                                    File pictureFile = getOutputMediaFile();
-                                    if (pictureFile == null) {
-                                            return;
-                                    }
-                                    try {
-                                            FileOutputStream fos = new FileOutputStream(pictureFile);
-                                            fos.write(data);
-                                            fos.close();
-                                    } catch (FileNotFoundException e) {
-
-                                    } catch (IOException e) {
-
-                                    }
-                                    Intent intent = new Intent(CameraActivity.this,
-                                                    PictureConfirmationActivity.class);
-                                    intent.putExtra("fileName", pictureFile.getPath());
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                            }
-                    };
 
             });
 
@@ -524,9 +502,9 @@ public class CameraActivity extends Activity {
 			}
 			Intent intent = new Intent(CameraActivity.this,
 					PictureConfirmationActivity.class);
+			intent.putExtras(bundle);
 			intent.putExtra("fileName", pictureFile.getPath());
-			intent.putExtra(CALLING_ACTIVITY, CAMERA_ACTIVITY);
-			startActivity(intent);
+			startActivityForResult(intent, PICTURE_PREVIEW);
 		}
 	};
 

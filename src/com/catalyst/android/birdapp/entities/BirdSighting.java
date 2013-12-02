@@ -1,4 +1,4 @@
-package Entities;
+package com.catalyst.android.birdapp.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +7,9 @@ public class BirdSighting implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String BIRD_SIGHTING = "BirdSighting";
+	
 	private int id;
 	private String commonName;
 	private String scientificName;
