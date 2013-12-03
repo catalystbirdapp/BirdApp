@@ -21,17 +21,13 @@ import android.widget.ImageView;
 
 public class PictureConfirmationActivity extends Activity {
         private String imageUri;
-        private Bundle bundle;
-        private BirdSighting birdSighting;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 Intent i = getIntent();
                 setContentView(R.layout.activity_picture_confirmation);
-                bundle = i.getExtras();
-                birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
-                imageUri = bundle.get("fileName").toString();
+                imageUri = i.getStringExtra("fileName");
 
                 File image = new File(imageUri).getAbsoluteFile();
                 FileInputStream fis = null;
@@ -57,6 +53,7 @@ public class PictureConfirmationActivity extends Activity {
                 }
                 if (!file.exists()) {
                 	setResult(Activity.RESULT_CANCELED);
+                	finish();
                 }
 
         }
@@ -66,5 +63,6 @@ public class PictureConfirmationActivity extends Activity {
             Intent intent = new Intent();
             intent.putExtra("fileName", imageUri);
             setResult(Activity.RESULT_OK, intent);
+            finish();
         }
 }

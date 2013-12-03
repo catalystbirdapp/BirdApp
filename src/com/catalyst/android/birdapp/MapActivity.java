@@ -145,7 +145,7 @@ public class MapActivity extends Activity {
 					bundle.putInt(CALLING_ACTIVITY, MAP_ACTIVITY);
 					intent.putExtras(bundle);
 				
-					startActivityForResult(intent, 0);
+					startActivityForResult(intent, BIRD_FORM_ACTIVITY);
 				}
 				
 			}
