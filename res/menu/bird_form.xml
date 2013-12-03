@@ -10,14 +10,11 @@
           android:icon="@drawable/ic_map2"
           android:title="@string/map"
           android:showAsAction="ifRoom"
-          android:onClick="getMap"
-          
-           />
+          android:onClick="getMap" />
     
     <item
         android:id="@+id/action_settings"
         android:showAsAction="never"
-        
         android:title="@string/action_settings"/>
     
     <item
@@ -26,11 +23,4 @@
         android:onClick="getAddNewActivity"
         android:title="@string/action_activity"/>
     
-     <item
-        android:id="@+id/camera_settings"
-        android:showAsAction="never"
-        android:onClick="getCameraSettings"
-        android:title="@string/camera_settings"/>
-    
-
 </menu>
