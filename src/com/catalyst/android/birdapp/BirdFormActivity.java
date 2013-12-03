@@ -81,7 +81,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		// Sets up the GPS Utility class
 		gpsUtility = new GPSUtility(this);
 		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
+		categorySpinner.setFocusable(true); 
+		categorySpinner.setFocusableInTouchMode(true);
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
+		activitySpinner.setFocusable(true); 
+		activitySpinner.setFocusableInTouchMode(true);
+		
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
 		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
 		displayDateAndTime();
