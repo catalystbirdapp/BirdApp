@@ -113,6 +113,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
 			callingActivity = bundle.getInt(CALLING_ACTIVITY);
+		} else {
+			bundle = new Bundle();
 		}
 		if (bundle != null && callingActivity != SPLASH_SCREEN) {
 			BirdSighting birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
@@ -356,7 +358,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 				refreshActivity();
 			} else {
 				dbHandler.editBirdSighting(birdSighting);
-				//go back
+		
+				setResult(Activity.RESULT_OK);
+				finish();
 			}	
 		}
 	}
@@ -516,6 +520,14 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		intent.putExtras(bundle);
 
 		startActivityForResult(intent, CAMERA_ACTIVITY);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent){
+		if(requestCode == CAMERA_ACTIVITY && resultCode == Activity.RESULT_OK){
+			picturePath = intent.getStringExtra("fileName");
+		}
+		
 	}
 
 	public void getCameraSettings(MenuItem menuItem) {

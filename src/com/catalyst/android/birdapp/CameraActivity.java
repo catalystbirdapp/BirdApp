@@ -500,15 +500,11 @@ public class CameraActivity extends Activity {
 			} catch (IOException e) {
 
 			}
-			Intent intent = new Intent(CameraActivity.this,
-					PictureConfirmationActivity.class);
-			intent.putExtras(bundle);
+			Intent intent = new Intent(CameraActivity.this, PictureConfirmationActivity.class);
 			intent.putExtra("fileName", pictureFile.getPath());
 			startActivityForResult(intent, PICTURE_PREVIEW);
 		}
 	};
-
-
 
 	/**
 	 * Helper method to access the camera returns null if it cannot get the
@@ -539,10 +535,14 @@ public class CameraActivity extends Activity {
 		this.parameters = parameters;
 	}
 
-
-
-	
-
-	
+	@Override
+	public void onActivityResult(int resuestCode, int resultCode, Intent intent){
+		if(resultCode == Activity.RESULT_OK){
+			if(intent.getStringExtra("fileName") != null){
+	            setResult(Activity.RESULT_OK, intent);
+	            finish();
+			} 
+		}
+	}
 }
 
