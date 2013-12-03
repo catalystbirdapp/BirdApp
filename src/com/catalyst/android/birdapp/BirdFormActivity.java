@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -156,14 +157,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * listener
 	 */
 	private void intializeGPSfields() {
-		String preferencesFileLocation = getString(R.string.preference_file_key);
-		SharedPreferences preferences = getSharedPreferences(preferencesFileLocation, MODE_PRIVATE);
-		String gpsPreference;
-		try {
-			gpsPreference = preferences.getString(GPS_PREFERENCE, GPS_DEFAULT_VALUE);
-		} catch (ClassCastException e) {
-			gpsPreference = GPS_DEFAULT_VALUE;
-		}
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean gpsPreference = sharedPref.getBoolean(BirdFormSettingsActivity.KEY_PREF_GPS_PREFERENCE, true);
 		
 		// Grabs the edit texts fields from the page so that they can be edited
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
@@ -185,7 +180,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		coordinateRefreshTimer = new Timer();
 		
 		// Checks to see if the user wants the GPS on, and then checks if the GPS is on
-		if (gpsPreference == GPS_DEFAULT_VALUE) {
+		if (gpsPreference == true) {
 			gpsUtility.checkForGPS();
 		}
 
@@ -496,6 +491,11 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void getCameraSettings(MenuItem menuItem) {
 		Intent intent = new Intent(getApplication(),
 				CameraSettingsActivity.class);
+		startActivity(intent);
+	}
+	
+	public void openSettings(MenuItem menuItem) {
+		Intent intent = new Intent(BirdFormActivity.this, BirdFormSettingsActivity.class);
 		startActivity(intent);
 	}
 	

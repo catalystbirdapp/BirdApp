@@ -83,6 +83,10 @@
             android:name="com.catalyst.android.birdapp.EditFormActivity"
             android:label="@string/edit_form_activity_title" >
         </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.BirdFormSettingsActivity"
+            android:label="@string/bird_form_settings" >
+        </activity>
     </application>
 
 </manifest>

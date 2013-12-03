@@ -12,15 +12,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.catalyst.android.birdapp.R;
 
 public class GPSUtility {
-        private static final String NO = "no";
-		private static final String YES = "yes";
-		private static final String GPS_PREFERENCE = "GPSPreference";
+        private static final Boolean TRUE = true;
+		private static final Boolean FALSE = false;
+		public static final String KEY_PREF_GPS_PREFERENCE = "GPSPreference";
         
 		private Criteria criteria = new Criteria();
         public Criteria getCriteria() {
@@ -30,7 +32,6 @@ public class GPSUtility {
         private Context context;
         private LocationManager locationManager;
         private EditText latitudeEditText, longitudeEditText;
-        private String preferencesFileLocation;
         
         //Location Listener for the coordinate auto fill boxes
         private LocationListener formLocationListener = new LocationListener(){
@@ -66,7 +67,6 @@ public class GPSUtility {
                 super();
                 this.context = context;
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-                preferencesFileLocation = context.getString(R.string.preference_file_key);
         }
         
         public void removeFormLocationUpdates(){
@@ -103,7 +103,7 @@ public class GPSUtility {
                         alert.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.yes), new OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int notUsed) {
-                                		setGPSPreference(YES);
+                                		setGPSPreference(TRUE);
                                         //Sends the user to the GPS settings
                                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                         context.startActivity(intent);
@@ -114,7 +114,9 @@ public class GPSUtility {
                         alert.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.no), new OnClickListener(){
                                 @Override
                                 public void onClick(final DialogInterface dialogInterface, int notUsed) {
-                                		setGPSPreference(NO);
+                                		setGPSPreference(FALSE);
+                                		Toast.makeText(context, context.getString(R.string.gps_off_text),
+                            					Toast.LENGTH_SHORT).show();
                                         dialogInterface.cancel();
                                 }
                         });
@@ -141,11 +143,11 @@ public class GPSUtility {
                 alert.show();
         }
         
-        public void setGPSPreference(String gpsPreference) {
-        	SharedPreferences preferences = context.getSharedPreferences(preferencesFileLocation, Context.MODE_PRIVATE);
-        	SharedPreferences.Editor editor = preferences.edit();
-        	editor.putString(GPS_PREFERENCE, gpsPreference);
-        	editor.commit();
+        private void setGPSPreference(Boolean gpsPreference) {
+    		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+    		SharedPreferences.Editor editor = sharedPref.edit();
+    		editor.putBoolean(KEY_PREF_GPS_PREFERENCE, gpsPreference);
+    		editor.commit();
     	}
-
+      
 }
