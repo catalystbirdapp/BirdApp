@@ -134,38 +134,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/time_title"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/dateText"
-            android:layout_below="@+id/date_time_edit_text"
-            android:layout_marginTop="14dp"
-            android:text="@string/timeText"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/date_time_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_drop_down"
-            android:layout_alignTop="@+id/dateText"
-            android:ems="10"
-            android:maxLength="11"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/dateText"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/noteText"
-            android:layout_below="@+id/notes_edit_text"
-            android:layout_marginTop="34dp"
-            android:text="@string/dateText"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/hour_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,25 +154,6 @@
             android:text="@string/activityText"
             android:textSize="18sp" />
 
-        <Spinner
-            android:id="@+id/bird_acivity_dropdown"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/hour_edit_text"
-            android:layout_alignTop="@+id/activity_text"
-            android:layout_marginBottom="30dp"
-            android:prompt="@string/activityPrompt"
-            android:spinnerMode="dialog" />
-
-        <Spinner
-            android:id="@+id/category_drop_down"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/category_text"
-            android:layout_toRightOf="@+id/category_text"
-            android:prompt="@string/categoryPrompt"
-            android:spinnerMode="dialog" />
-
         <!-- Depricated Audio Button <Button
             android:id="@+id/audio_button"
             style="@style/ButtonText"
@@ -216,16 +165,6 @@
             android:layout_alignRight="@+id/bird_acivity_dropdown"
             android:background="@drawable/black_button"
             android:text="@string/addAudioText" />  -->
-
-        <TextView
-            android:id="@+id/latitude_title"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_text"
-            android:layout_alignTop="@+id/latitude_edit_text"
-            android:text="@string/latitudeTitle"
-            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/longitude_text"
@@ -252,17 +191,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/category_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/submit_button"
-            android:layout_below="@+id/refresh_button"
-            android:layout_marginTop="19dp"
-            android:text="@string/categoryText"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/longitude_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -283,6 +211,78 @@
             android:layout_marginTop="23dp"
             android:background="@drawable/coordinate_button_red"
             android:text="@string/coordinateOutOfDate" />
+
+        <TextView
+            android:id="@+id/latitude_title"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/latitude_edit_text"
+            android:layout_alignBottom="@+id/latitude_edit_text"
+            android:layout_alignLeft="@+id/longitude_text"
+            android:text="@string/latitudeTitle"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/time_title"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/latitude_title"
+            android:layout_below="@+id/dateText"
+            android:layout_marginTop="14dp"
+            android:text="@string/timeText"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/date_time_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/time_title"
+            android:layout_alignRight="@+id/formTitle"
+            android:ems="10"
+            android:maxLength="11"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/dateText"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/noteText"
+            android:layout_below="@+id/notes_edit_text"
+            android:layout_marginTop="20dp"
+            android:text="@string/dateText"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/category_drop_down"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/refresh_button"
+            android:layout_toRightOf="@+id/longitude_text"
+            android:prompt="@string/categoryPrompt"
+            android:spinnerMode="dialog" />
+
+        <Spinner
+            android:id="@+id/bird_acivity_dropdown"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/category_drop_down"
+            android:layout_toRightOf="@+id/longitude_text"
+            android:prompt="@string/activityPrompt"
+            android:spinnerMode="dialog" />
+
+        <TextView
+            android:id="@+id/category_text"
+            style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/submit_button"
+            android:layout_alignTop="@+id/category_drop_down"
+            android:layout_marginTop="15dp"
+            android:text="@string/categoryText"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

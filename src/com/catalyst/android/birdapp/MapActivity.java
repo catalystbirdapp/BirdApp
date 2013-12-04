@@ -52,6 +52,8 @@ import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstant
 
 public class MapActivity extends Activity {
 	
+	private static final int MAP_WINDOW_IMAGE_HEIGHT = 475;
+	private static final int MAP_WINDOW_IMAGE_WIDTH = 650;
 	private static final String BIRD_SIGHTING = "BirdSighting";
 	private static final String LATITUDE_KEY = "com.catalyst.birdapp.mapLatitude";
 	private static final String LONGITUDE_KEY = "com.catalyst.birdapp.mapLongitude";
@@ -218,6 +220,7 @@ public class MapActivity extends Activity {
 					//This is thrown when clicking on the default marker for current location
 					TextView currentLocationTextView = new TextView(getApplicationContext());
 					currentLocationTextView.setText(getString(R.string.current_location));
+					e.printStackTrace();
 					mapInfoWindow.addView(currentLocationTextView);
 				}
 				return view;
@@ -230,9 +233,17 @@ public class MapActivity extends Activity {
 				
 				File imgFile = new  File(picturePath);
 				if(imgFile.exists()){
+					//Checks the size of the photo
 					BitmapFactory.Options options = new BitmapFactory.Options();
-					options.inSampleSize = 2;
-				    Bitmap birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), 650, 475, false);
+					options.inJustDecodeBounds = true;
+					BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+					float srcHeight = options.outHeight;
+					//Sets the sample size so that the app can load a sampled down version of the photo to conserve memory
+					int sampleSize = Math.round(srcHeight / MAP_WINDOW_IMAGE_HEIGHT);
+					options = new BitmapFactory.Options();
+					options.inSampleSize = sampleSize;
+					//Gets the image and places it in the map info window at a scaled size for conformity
+				    Bitmap birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), MAP_WINDOW_IMAGE_WIDTH, MAP_WINDOW_IMAGE_HEIGHT, false);
 				    ImageView birdImage = new ImageView(getApplicationContext());
 				    birdImage.setImageBitmap(birdPictureBitmap);
 				    mapInfoWindow.addView(birdImage);	

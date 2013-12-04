@@ -90,8 +90,10 @@ public class CameraActivity extends Activity {
          setContentView(R.layout.activity_camera_layout);
          Intent intent = getIntent();
          bundle = intent.getExtras();
-         birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
-         birdName = birdSighting.getCommonName();
+         if(bundle != null){
+        	birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
+         	birdName = birdSighting.getCommonName();
+         }
          mCamera = getCameraInstance();
          mCameraPreview = new CameraPreview(this, mCamera);
          preview = (FrameLayout) findViewById(R.id.camera_preview);
