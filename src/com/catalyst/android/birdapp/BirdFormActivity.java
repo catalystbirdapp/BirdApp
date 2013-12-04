@@ -47,6 +47,8 @@ import com.catalyst.android.birdapp.utilities.Utilities;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
+	private static final String CATEGORY_SPINNER = "Category Spinner";
+	private static final String ACTIVITY_SPINNER = "Activity Spinner";
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 
@@ -83,6 +85,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private int birdSightingId;
 	private long coordinateTimerStart;
 	private long coordinateTimerCurrent;
+	private BirdSighting birdSighting;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +138,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
 			callingActivity = bundle.getInt(CALLING_ACTIVITY);
-		} else {
-			bundle = new Bundle();
 		}
 		if (bundle != null && callingActivity != SPLASH_SCREEN) {
-			BirdSighting birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
+			birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
 			birdSightingId = birdSighting.getId();
 			commonNameEditText.setText(birdSighting.getCommonName());
 			notesEditText.setText(birdSighting.getNotes());
@@ -159,6 +160,9 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			
 			dateTextView.setText(formattedDate);
 			timeEditText.setText(formattedTime);
+			
+			//Spinners are set in onResume()
+			
 		}
 		if(callingActivity == MAP_ACTIVITY){
 			coordinateRefreshButton.setVisibility(View.GONE);
@@ -185,6 +189,20 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		gpsUtility.setFormLocationListener();
 	}
 
+	private void setSpinnerPosition(String dropDown) {
+		if(bundle != null){	
+			if(dropDown == ACTIVITY_SPINNER){
+				ArrayAdapter<String> activitySpinneradapter = (ArrayAdapter<String>) activitySpinner.getAdapter();
+				int selectPosition = activitySpinneradapter.getPosition(birdSighting.getActivity());
+				activitySpinner.setSelection(selectPosition);
+			} else if (dropDown == CATEGORY_SPINNER){
+				ArrayAdapter<String> categorySpinnerAdapter = (ArrayAdapter<String>) categorySpinner.getAdapter();
+				int selectPosition = categorySpinnerAdapter.getPosition(birdSighting.getCategory());
+				categorySpinner.setSelection(selectPosition);
+			}
+		}
+	}
+
 	/**
 	 * Fills the activity spinner with values from the DB
 	 */
@@ -194,6 +212,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, activitiesFromDB);
 		activitySpinner.setAdapter(adapter);
+		setSpinnerPosition(ACTIVITY_SPINNER);
 	}
 
 	/**
@@ -205,6 +224,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_item,
 				R.id.spinnertextview, categoriesFromDB);
 		categorySpinner.setAdapter(adapter);
+		setSpinnerPosition(CATEGORY_SPINNER);
 	}
 	
 	/**
@@ -536,7 +556,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		BirdSighting birdSighting = createBirdSighting();
 
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
-		//Bundle bundle = new Bundle();
+		Bundle bundle = new Bundle();
 		bundle.putSerializable(BirdSighting.BIRD_SIGHTING, birdSighting);
 		intent.putExtras(bundle);
 

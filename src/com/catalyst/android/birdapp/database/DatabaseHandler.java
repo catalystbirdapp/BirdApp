@@ -336,6 +336,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         	int birdSightingDateIndex = cursor.getColumnIndex(DATE_TIME);
         	int birdSightingActivityIndex = cursor.getColumnIndex(BIRD_ACTIVITY);
         	int birdSightingCategoryIndex = cursor.getColumnIndex(SIGHTING_CATEGORY);
+        	int birdSightingPictureIndex = cursor.getColumnIndex(PICTURE_PATH);
         	
         	if (cursor != null && cursor.moveToFirst()) {         
         		do{
@@ -352,6 +353,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         				birdSighting.setDateTime(new Date(date)); 
         				birdSighting.setActivity(cursor.getString(birdSightingActivityIndex));
         				birdSighting.setCategory(cursor.getString(birdSightingCategoryIndex));
+        				birdSighting.setPicturePath(cursor.getString(birdSightingPictureIndex));
         				allBirdSightings.add(birdSighting);
         			}catch(Exception e){
                         e.printStackTrace();
