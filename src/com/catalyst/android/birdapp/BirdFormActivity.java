@@ -94,6 +94,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private long coordinateTimerStart;
 	private long coordinateTimerCurrent;
 	private BirdSighting birdSighting;
+	private Bitmap birdPictureBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,17 +122,28 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		if(callingActivity == MAP_ACTIVITY){
 			coordinateRefreshButton.setVisibility(View.GONE);
 			submitButton.setText(getString(R.string.save_changes));
-			addPictureToPictureButton(birdSighting.getPicturePath());
+			picturePath = birdSighting.getPicturePath();
+			addPictureToPictureButton();
 		}
 	}
 
+	/**
+	 * Sets up the image button
+	 */
 	private void setUpImageButton() {
 		imageButton = (ImageButton) findViewById(R.id.form_image_button);
 		imageButton.setOnClickListener(new OnClickListener(){
+
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
+				imageButton.setFocusable(true);
+				imageButton.setFocusableInTouchMode(true);
+				imageButton.requestFocus();
+				//imageButton.performClick();
 				callCameraActivity();	
+				
 			}
+			
 		});
 	}
 
@@ -219,6 +231,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	protected void onPause() {
 		super.onPause();
 		gpsUtility.removeFormLocationUpdates();
+//		if(birdPictureBitmap != null){
+//			birdPictureBitmap.recycle();
+//			birdPictureBitmap = null;
+//		}
 	}
 
 	@Override
@@ -232,6 +248,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		fillActivitySpinner();
 		fillCategorySpinner();
 		gpsUtility.setFormLocationListener();
+		//addPictureToPictureButton();
+		
 	}
 
 	private void setSpinnerPosition(String dropDown) {
@@ -616,25 +634,31 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent){
 		if(requestCode == CAMERA_ACTIVITY && resultCode == Activity.RESULT_OK){
 			picturePath = intent.getStringExtra("fileName");
-			addPictureToPictureButton(picturePath);
+			addPictureToPictureButton();
 		}	
 	}
 
-	private void addPictureToPictureButton(String imagePath) {
-		File imgFile = new  File(imagePath);
-		if(imgFile.exists()){
-			//Checks the size of the photo
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
-			float srcHeight = options.outHeight;
-			//Sets the sample size so that the app can load a sampled down version of the photo to conserve memory
-			int sampleSize = Math.round(srcHeight / IMAGE_HEIGHT);
-			options = new BitmapFactory.Options();
-			options.inSampleSize = sampleSize;
-			//Gets the image and places it in the map info window at a scaled size for conformity
-		    Bitmap birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), IMAGE_WIDTH, IMAGE_HEIGHT, false);
-		    imageButton.setImageBitmap(birdPictureBitmap);	
+	private void addPictureToPictureButton() {
+		if(picturePath != null){
+			try{
+				File imgFile = new  File(picturePath);
+				if(imgFile.exists()){
+					//Checks the size of the photo
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.inJustDecodeBounds = true;
+					BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+					float srcHeight = options.outHeight;
+					//Sets the sample size so that the app can load a sampled down version of the photo to conserve memory
+					int sampleSize = Math.round(srcHeight / IMAGE_HEIGHT);
+					options = new BitmapFactory.Options();
+					options.inSampleSize = sampleSize;
+					//Gets the image and places it in the map info window at a scaled size for conformity
+					birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), IMAGE_WIDTH, IMAGE_HEIGHT, false);
+					imageButton.setImageBitmap(birdPictureBitmap);
+				}
+			}catch(Exception e){
+				
+			}
 		}
 	}
 
