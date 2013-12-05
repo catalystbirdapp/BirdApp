@@ -1,5 +1,10 @@
 package com.catalyst.android.birdapp;
 
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.CALLING_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.CAMERA_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.MAP_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SPLASH_SCREEN;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,10 +25,8 @@ import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,14 +35,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.entities.BirdSighting;
-import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.utilities.AlertDialogFragment;
 import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 import com.catalyst.android.birdapp.utilities.OnDialogDoneListener;
 import com.catalyst.android.birdapp.utilities.Utilities;
-import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
 
 public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
@@ -200,7 +202,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		// Sets up the time that will be used to change the color of the
 		// coordinate refresh button from green to red and back
 		coordinateRefreshTimer = new Timer();
-
 		autoFillCoordinatesSubmitForm();
 		gpsUtility.setFormLocationListener();
 		// Sets the coordinate timer numbers so that they can later be used to
