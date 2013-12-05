@@ -25,8 +25,10 @@ import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -99,18 +101,36 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		timeEditText = (TextView) findViewById(R.id.hour_edit_text);
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
-		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
-		categorySpinner.setFocusable(true);
-		categorySpinner.setFocusableInTouchMode(true);
-		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
-		activitySpinner.setFocusable(true);
-		activitySpinner.setFocusableInTouchMode(true);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
 		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
 		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);	
 		submitButton = (Button) findViewById(R.id.submit_button);
+		//Sets up the Category Spinner
+		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
+		categorySpinner.setFocusable(true);
+		categorySpinner.setFocusableInTouchMode(true);
+		categorySpinner.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				categorySpinner.requestFocus();
+				categorySpinner.performClick();
+				return true;
+			}
+		});		
+		//Sets up the Activity Spinner
+		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
+		activitySpinner.setFocusable(true);
+		activitySpinner.setFocusableInTouchMode(true);
+		activitySpinner.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				activitySpinner.requestFocus();
+				activitySpinner.performClick();
+				return true;
+			}
+		});		
 		//Gets the extras from the bundle that was passed from the calling activity
 		bundle = getIntent().getExtras();
 		if (bundle != null) {
