@@ -15,7 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="deleteImage"
-        android:text="@string/delete_button" />
+        android:text="@string/retake_button" />
 
     <Button
         android:id="@+id/saveImage"
