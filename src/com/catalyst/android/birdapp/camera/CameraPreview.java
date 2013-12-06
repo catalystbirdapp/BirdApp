@@ -34,6 +34,13 @@ public class CameraPreview extends SurfaceView implements
                 this.mSurfaceHolder.addCallback(this);
 
         }
+        
+        /**
+         * releases camera
+         */
+        public void releaseCamera(){
+        	mCamera = null;
+        }
 
         /**
          * creates surface, starts the camera preview
@@ -56,8 +63,9 @@ public class CameraPreview extends SurfaceView implements
          */
         @Override
         public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                mCamera.stopPreview();
-                mCamera.release();
+        	if(mCamera != null){
+        		 mCamera.stopPreview();
+        	}
         }
 
         /**
