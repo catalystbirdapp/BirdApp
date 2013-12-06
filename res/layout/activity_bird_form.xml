@@ -27,6 +27,16 @@
             android:textColor="#000000"
             android:textSize="22sp"
             android:typeface="monospace" />
+        
+        <ImageButton
+            android:id="@+id/form_image_button"
+            android:layout_width="250dp"
+            android:layout_height="185dp"
+            android:layout_below="@+id/formTitle"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/bird_picture_description"
+            android:layout_marginTop="20sp"
+            android:src="@drawable/ic_camera2" />
 
         <EditText
             android:id="@+id/common_name_edit_text"
@@ -34,8 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/submit_button"
-            android:layout_below="@+id/formTitle"
-            android:layout_marginTop="26dp"
+            android:layout_below="@+id/form_image_button"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/common_name_text_view"
             android:ems="10"
             android:hint="@string/birdNameHint"
@@ -270,21 +280,10 @@
             android:text="@string/categoryText"
             android:textSize="18sp" />
 
-        <ImageButton
-            android:id="@+id/form_image_button"
-            android:layout_width="250dp"
-            android:layout_height="185dp"
-            android:layout_below="@+id/bird_acivity_dropdown"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/bird_picture_description"
-            android:layout_marginTop="25sp"
-            android:layout_marginBottom="25sp"
-            android:src="@drawable/ic_camera2" />
-
         <Button
             android:id="@+id/submit_button"
             style="@style/ButtonText"
-            android:layout_below="@+id/form_image_button"
+            android:layout_below="@+id/bird_acivity_dropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
