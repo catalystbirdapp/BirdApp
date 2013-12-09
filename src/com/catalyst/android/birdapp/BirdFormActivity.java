@@ -6,6 +6,7 @@ import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstant
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SPLASH_SCREEN;
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SIGHTING_LIST_ACTIVITY;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,8 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -34,6 +37,8 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +57,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private static final String ACTIVITY_SPINNER = "Activity Spinner";
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
+	private static final int IMAGE_HEIGHT = 730;
+	private static final int IMAGE_WIDTH = 1000;
 
 	public static final String LOGTAG = "DialogFrag";
 
@@ -69,6 +76,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private TextView timeEditText;
 	private Button coordinateRefreshButton;
 	private Button submitButton;
+	private ImageButton imageButton;
 	private Timer coordinateRefreshTimer;
 	private String sep;
 	private String blk;
@@ -99,6 +107,67 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		//Checks for GPS
 		setGPSAutoFill();
 		//Grabs all of the fields off of the page
+		setUpFieldsFromForm();
+		setUpCategorySpinner();
+		setUpActivitySpinner();
+		setUpImageButton();
+		//Gets the extras from the bundle that was passed from the calling activity
+		bundle = getIntent().getExtras();
+		if (bundle != null) {
+			callingActivity = bundle.getInt(CALLING_ACTIVITY);
+		}
+		if (bundle != null && callingActivity != SPLASH_SCREEN) {
+			autoPopulateEditFields();
+		}
+		if(callingActivity == MAP_ACTIVITY || callingActivity == SIGHTING_LIST_ACTIVITY){
+			coordinateRefreshButton.setVisibility(View.GONE);
+			submitButton.setText(getString(R.string.save_changes));
+			addPictureToPictureButton(birdSighting.getPicturePath());
+		}
+	}
+
+	private void setUpImageButton() {
+		imageButton = (ImageButton) findViewById(R.id.form_image_button);
+		imageButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				callCameraActivity();	
+			}
+		});
+	}
+
+	/**
+	 * Auto populates the edit form when editing a sighting
+	 */
+	private void autoPopulateEditFields() {
+		birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
+		birdSightingId = birdSighting.getId();
+		commonNameEditText.setText(birdSighting.getCommonName());
+		notesEditText.setText(birdSighting.getNotes());
+		latitudeEditText.setText(birdSighting.getLatitude().toString());
+		longitudeEditText.setText(birdSighting.getLongitude().toString());
+		scientificNameEditText.setText(birdSighting.getScientificName());
+		picturePath = birdSighting.getPicturePath();
+		
+		//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
+		Date birdSightingDate = birdSighting.getDateTime();
+		java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
+		String formattedDate = dateFormat.format(birdSightingDate);
+   	
+		//formats the time to the time format that the person has selected for their phone
+		java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
+		String formattedTime = timeFormat.format(birdSightingDate);
+		
+		dateTextView.setText(formattedDate);
+		timeEditText.setText(formattedTime);
+		
+		//Spinners are set in onResume()	
+	}
+
+	/**
+	 * Sets up the fields from the form
+	 */
+	private void setUpFieldsFromForm() {
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		dateTextView = (TextView) findViewById(R.id.date_time_edit_text);
@@ -111,19 +180,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
 		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);	
 		submitButton = (Button) findViewById(R.id.submit_button);
-		//Sets up the Category Spinner
-		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
-		categorySpinner.setFocusable(true);
-		categorySpinner.setFocusableInTouchMode(true);
-		categorySpinner.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				categorySpinner.requestFocus();
-				categorySpinner.performClick();
-				return true;
-			}
-		});		
-		//Sets up the Activity Spinner
+	}
+
+	/**
+	 * Sets up the activity spinner for the page
+	 */
+	private void setUpActivitySpinner() {
 		activitySpinner = (Spinner) findViewById(R.id.bird_acivity_dropdown);
 		activitySpinner.setFocusable(true);
 		activitySpinner.setFocusableInTouchMode(true);
@@ -135,40 +197,24 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 				return true;
 			}
 		});		
-		//Gets the extras from the bundle that was passed from the calling activity
-		bundle = getIntent().getExtras();
-		if (bundle != null) {
-			callingActivity = bundle.getInt(CALLING_ACTIVITY);
-		}
-		if (bundle != null && callingActivity != SPLASH_SCREEN) {
-			birdSighting = (BirdSighting) bundle.getSerializable(BirdSighting.BIRD_SIGHTING);
-			birdSightingId = birdSighting.getId();
-			commonNameEditText.setText(birdSighting.getCommonName());
-			notesEditText.setText(birdSighting.getNotes());
-			latitudeEditText.setText(birdSighting.getLatitude().toString());
-			longitudeEditText.setText(birdSighting.getLongitude().toString());
-			scientificNameEditText.setText(birdSighting.getScientificName());
-			picturePath = birdSighting.getPicturePath();
-			
-			//Gets the date from the bird sighting and formats the date to the date format that the person has selected for their phone
-			Date birdSightingDate = birdSighting.getDateTime();
-			java.text.DateFormat dateFormat = DateFormat.getDateFormat(getApplicationContext());
-			String formattedDate = dateFormat.format(birdSightingDate);
-       	
-			//formats the time to the time format that the person has selected for their phone
-			java.text.DateFormat timeFormat = DateFormat.getTimeFormat(getApplicationContext());
-			String formattedTime = timeFormat.format(birdSightingDate);
-			
-			dateTextView.setText(formattedDate);
-			timeEditText.setText(formattedTime);
-			
-			//Spinners are set in onResume()
-			
-		}
-		if(callingActivity == MAP_ACTIVITY || callingActivity == SIGHTING_LIST_ACTIVITY){
-			coordinateRefreshButton.setVisibility(View.GONE);
-			submitButton.setText(getString(R.string.save_changes));
-		}
+
+	}
+
+	/**
+	 * Sets up the category spinner for the page
+	 */
+	private void setUpCategorySpinner() {
+		categorySpinner = (Spinner) findViewById(R.id.category_drop_down);
+		categorySpinner.setFocusable(true);
+		categorySpinner.setFocusableInTouchMode(true);
+		categorySpinner.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				categorySpinner.requestFocus();
+				categorySpinner.performClick();
+				return true;
+			}
+		});		
 	}
 
 	@Override
@@ -554,6 +600,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	}
 
 	public void openCamera(MenuItem menuItem) {
+		callCameraActivity();
+	}
+	
+	private void callCameraActivity() {
 		BirdSighting birdSighting = createBirdSighting();
 
 		Intent intent = new Intent(BirdFormActivity.this, CameraActivity.class);
@@ -561,15 +611,33 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		bundle.putSerializable(BirdSighting.BIRD_SIGHTING, birdSighting);
 		intent.putExtras(bundle);
 
-		startActivityForResult(intent, CAMERA_ACTIVITY);
+		startActivityForResult(intent, CAMERA_ACTIVITY);	
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent){
 		if(requestCode == CAMERA_ACTIVITY && resultCode == Activity.RESULT_OK){
 			picturePath = intent.getStringExtra("fileName");
+			addPictureToPictureButton(picturePath);
+		}	
+	}
+
+	private void addPictureToPictureButton(String imagePath) {
+		File imgFile = new  File(imagePath);
+		if(imgFile.exists()){
+			//Checks the size of the photo
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+			float srcHeight = options.outHeight;
+			//Sets the sample size so that the app can load a sampled down version of the photo to conserve memory
+			int sampleSize = Math.round(srcHeight / IMAGE_HEIGHT);
+			options = new BitmapFactory.Options();
+			options.inSampleSize = sampleSize;
+			//Gets the image and places it in the map info window at a scaled size for conformity
+		    Bitmap birdPictureBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options), IMAGE_WIDTH, IMAGE_HEIGHT, false);
+		    imageButton.setImageBitmap(birdPictureBitmap);	
 		}
-		
 	}
 
 	public void getCameraSettings(MenuItem menuItem) {

@@ -137,5 +137,6 @@
     <string-array name="picture_size_settings">
         <item>None</item>
     </string-array>
+    <string name="bird_picture_description">Picture of the bird sighting.</string>
 
 </resources>
