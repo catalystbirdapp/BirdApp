@@ -41,7 +41,10 @@
     <string name="map_type">Map Type:</string>
     <string name="delete_button">Delete</string>
     <string name="preference_file_key">com.catalyst.android.birdapp.PreferenceFile</string>
-
+    <string name="commonNameTitle">Common Name</string>
+    <string name="categoryTitle">Category</string>
+    <string name="dateTimeTitle">Date</string>
+    
     <string-array name="map_types_array">
         <item>@string/normal</item>
         <item>@string/satellite</item>
@@ -90,7 +93,7 @@
     <string name="camera_capture_button">Capture</string>
     <string name="current_location">Current Location</string>
     <string name="title_activity_main">Put A Bird On It!!</string>
-    <string name="title_activity_records">Record Review</string>
+    <string name="title_activity_records">Bird Sightings List</string>
     <string name="invalid">Invalid</string>
     <string name="my_location">My Location</string>
     <string name="bird_name_alpha_error">Bird name must be alpha characters only!</string>

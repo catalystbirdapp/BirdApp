@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sightingTableRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true" >
+<!--     android:onClick="rowClick" > -->
+
+    <TextView
+        android:id="@+id/commonNameText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="47"
+        android:paddingLeft="@dimen/table_padding"
+        android:paddingRight="@dimen/setting_table_top_margin"
+        android:paddingTop="@dimen/table_padding"
+        android:paddingBottom="@dimen/table_padding"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/categoryText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:paddingLeft="@dimen/setting_table_top_margin"
+        android:paddingRight="@dimen/setting_table_top_margin"
+        android:paddingTop="@dimen/table_padding"
+        android:paddingBottom="@dimen/table_padding"
+        android:textColor="@color/air_force_blue" />
+
+    <TextView
+        android:id="@+id/dateRowText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="33"
+        android:gravity="right"
+        android:paddingLeft="@dimen/setting_table_top_margin"
+        android:paddingRight="@dimen/table_padding"
+        android:paddingTop="@dimen/table_padding"
+        android:paddingBottom="@dimen/table_padding"
+        android:textColor="@color/black" />
+
+</TableRow>

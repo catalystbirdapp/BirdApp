@@ -4,6 +4,7 @@ import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstant
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.CAMERA_ACTIVITY;
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.MAP_ACTIVITY;
 import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SPLASH_SCREEN;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SIGHTING_LIST_ACTIVITY;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -164,7 +165,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			//Spinners are set in onResume()
 			
 		}
-		if(callingActivity == MAP_ACTIVITY){
+		if(callingActivity == MAP_ACTIVITY || callingActivity == SIGHTING_LIST_ACTIVITY){
 			coordinateRefreshButton.setVisibility(View.GONE);
 			submitButton.setText(getString(R.string.save_changes));
 		}
