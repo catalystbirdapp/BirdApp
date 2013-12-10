@@ -94,6 +94,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Queries for bird pictures
         private static final String GET_ALL_BIRD_PICTURES = "SELECT * FROM " + BIRD_PICTURE;
         private static final String GET_DEFAULT_PICTURE = "SELECT * FROM birdSighting WHERE birdSighting.birdSightingId=?";  
+        
+        //Queries to delete bird sightings
+        private static final String DELETE_BIRD_SIGHTING = "DELETE FROM birdSighting WHERE birdSighting.birdSightingId=?";  
 
         private DatabaseHandler(Context context) {
                 super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -201,7 +204,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 db.close();
                 return birdId;
         }
-
+        
         /**
          * Returns all of the activities that are in the DB
          */
@@ -381,6 +384,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			db.close();
 			return picturePath;
 
+		}
+		
+		/**
+		 * Deletes a bird sighting from the database
+		 */
+		public void deleteBirdSighting(int sightingId) {
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    try {
+		        db.delete(BIRD_SIGHTING, BIRD_SIGHTING_ID + " = ?", new String[] {Integer.toString(sightingId)} );
+		    } catch(Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        db.close();
+		    }
 		}
 
 }
