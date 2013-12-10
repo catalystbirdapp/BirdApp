@@ -1,16 +1,77 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".RecordsActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:paddingTop="@dimen/table_padding"
+        android:paddingBottom="@dimen/table_padding"
+        android:background="@color/aero" >
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/commonNameTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/commonNameTitle"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/categoryTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/categoryTitle"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/dateTimeTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="@dimen/capture_button_height"
+            android:text="@string/dateTimeTitle"
+            android:textColor="@color/black" />
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/lineRow"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+
+		<View
+			android:id="@+id/line1"
+			android:layout_width="match_parent"
+			android:layout_height="1dip"
+			android:layout_weight="1"
+			android:background="#FF909090"
+			android:padding="2dip" />
+	</TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+	
+	    <ScrollView
+	        android:id="@+id/sightingScrollView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1" >
+	
+	        <TableLayout
+	            android:id="@+id/birdSightingTableLayout"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" >
+	        </TableLayout>
+	    </ScrollView>
+	</TableRow>
+</TableLayout>

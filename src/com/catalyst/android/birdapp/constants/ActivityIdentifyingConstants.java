@@ -8,4 +8,5 @@ public final class ActivityIdentifyingConstants {
 	public static final int MAP_ACTIVITY = 2;
 	public static final int CAMERA_ACTIVITY = 3;
 	public static final int ADD_NEW_ACTIVITY = 4;
+	public static final int SIGHTING_LIST_ACTIVITY = 5;
 }

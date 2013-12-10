@@ -122,7 +122,7 @@ public class CameraActivity extends Activity {
             super.onResume();
             setContentView(R.layout.activity_camera_layout);
             if (mCamera == null) {
-                    mCamera = getCameraInstance();
+                    mCamera = Camera.open();
             }
             cameraUtilities = new CameraUtilities();
             mCameraPreview = new CameraPreview(this, mCamera);
@@ -193,6 +193,16 @@ public class CameraActivity extends Activity {
                     }
 
             });
+    }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	if(mCamera != null){
+    		mCamera.release();
+    		mCamera = null;
+    		mCameraPreview.releaseCamera();
+    	}
     }
 
 	/**
