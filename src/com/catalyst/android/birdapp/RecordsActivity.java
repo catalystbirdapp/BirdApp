@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -117,7 +118,7 @@ public class RecordsActivity extends Activity {
 	 * Formats the date for the sightings list
 	 */
 	private String formatDate(Date sightingDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  HH:mm", Locale.US);
 		return sdf.format(sightingDate); 
 	}
 	
@@ -128,7 +129,7 @@ public class RecordsActivity extends Activity {
 		Integer holdIndex = (Integer) view.getTag();
 		BirdSighting birdSighting = birdSightingsMap.get(holdIndex);
 		
-		//Checks to see if the bird sighting is null. If it is then the marker is the current location marker
+		//Checks to see if the bird sighting is null.
 		if(birdSighting != null){
 			//Creates the  intent and stores the bird sighting for retrieval in the Edit Form Activity 
 			Intent intent = new Intent();

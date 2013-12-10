@@ -6,7 +6,7 @@ public class BirdComparator implements Comparator<BirdSighting> {
 
 	@Override
 	public int compare(BirdSighting arg0, BirdSighting arg1) {
-		return arg0.getCommonName().compareTo(arg1.getCommonName());
+		return arg0.getCommonName().compareToIgnoreCase(arg1.getCommonName());
 	}
 	
 }
