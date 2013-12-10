@@ -1,6 +1,8 @@
 package com.catalyst.android.birdapp;
 
 import com.catalyst.android.birdapp.database.DatabaseHandler;
+import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -28,8 +30,8 @@ public class AddNewActivity extends Activity {
 		
 		saveButton.setOnClickListener(new View.OnClickListener() {
              public void onClick(View view) {
-            	 saveActivity();
-                 checkBox(view);
+            	 activityNameValue = activityName.getText().toString();
+            	 validateActivity();
              }
          });
 	}
@@ -45,16 +47,35 @@ public class AddNewActivity extends Activity {
 	 * Saves the inputed activity name to the database
 	 */
 	public void saveActivity(){
-		activityNameValue = activityName.getText().toString();
 		dbHandler.saveActivity(activityNameValue);
 	}
+	
+	/**
+	 * Validates the input in the activity edit text.
+	 * Does not let the user enter duplicate activities.
+	 * Alpha characters only
+	 */
+	private void validateActivity() {
+		FormValidationUtilities fvu = new FormValidationUtilities();
+		if(activityNameValue.length() == 0){
+			activityName.setError(getString(R.string.add_activity_empty));
+		} else if(!fvu.isFieldValueFormattedAlphaOnly(activityNameValue)){
+			activityName.setError(getString(R.string.activity_alpha_error));
+		} else if(dbHandler.isDuplicateActivity(activityNameValue)){
+			activityName.setError(getString(R.string.activity_already_exists_error));
+		} else {
+			saveActivity();
+			checkBox();
+		}
+	}
+
 	/**
 	 * checks the "add another" checkbox to see if it is selected. If it is then the fields are 
 	 * reset otherwise it returns to the bird sighting form.
 	 * 
 	 * @param view
 	 */
-	public void checkBox(View view){
+	public void checkBox(){
 		if(addAnotherCheckBox.isChecked()){
 			activityName.setText("");
 			addAnotherCheckBox.setChecked(false);

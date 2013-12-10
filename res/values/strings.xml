@@ -98,6 +98,9 @@
     <string name="my_location">My Location</string>
     <string name="bird_name_alpha_error">Bird name must be alpha characters only!</string>
     <string name="scientific_name_alpha_error">Scientific name must be alpha characters only!</string>
+    <string name="activity_alpha_error">Activities must be alpha characters only!</string>
+    <string name="activity_already_exists_error">Activity already exists!</string>
+    <string name="add_activity_empty">You forgot to enter an activity!</string>
     <string name="or"> or </string>
     <string name="alert_dismissed">Alert dismissed</string>
     <string name="sighting_will_be_submitted">Sighting will be submitted</string>

@@ -20,15 +20,14 @@
 
     <EditText
         android:id="@+id/activityName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/page_subtitle"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:maxLines="3"
-        android:maxLength="25"
-        android:hint="@string/addActivityNameHint" >
+        android:hint="@string/addActivityNameHint"
+        android:maxLength="55"
+        android:maxLines="3" >
 
         <requestFocus />
     </EditText>
