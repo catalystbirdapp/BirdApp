@@ -414,5 +414,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		        db.close();
 		    }
 		}
+		
+		/**
+		 * Deletes an activity from the database
+		 * Note:  This will delete bird sightings that have this activity
+		 */
+		public void deleteActivity(String activityName) {
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    try {
+		        db.delete(BIRD_ACTIVITIES, BIRD_ACTIVITY + " = ?", new String[] { activityName } );
+		    } catch(Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        db.close();
+		    }
+		}
 
 }
