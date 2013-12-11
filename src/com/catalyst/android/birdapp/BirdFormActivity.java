@@ -187,7 +187,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
-		notesEditText.setMovementMethod(ScrollingMovementMethod.getInstance());
 		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
 		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
 		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);	

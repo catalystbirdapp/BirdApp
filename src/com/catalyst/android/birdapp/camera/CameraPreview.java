@@ -47,6 +47,9 @@ public class CameraPreview extends SurfaceView implements
          */
         @Override
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        	if(mCamera == null){
+        		mCamera = getCameraInstance();
+        	}
 
                 try {
                         mCamera.setPreviewDisplay(surfaceHolder);
@@ -54,9 +57,28 @@ public class CameraPreview extends SurfaceView implements
 
                 } catch (IOException e) {
 
+                } catch (NullPointerException e) {
+                	Log.e("DEBUG", e.toString());
                 }
         }
 
+        /**
+    	 * Helper method to access the camera returns null if it cannot get the
+    	 * camera or does not exist
+    	 * 
+    	 * @return
+    	 */
+    	private Camera getCameraInstance() {
+    		Camera camera = null;
+    		try {
+    			camera = Camera.open();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+
+    		}
+    		return camera;
+    	}
+        
         /**
          * stops capturing the preview and resets the camera then disconnects and
          * releases the camera object.
@@ -65,6 +87,8 @@ public class CameraPreview extends SurfaceView implements
         public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         	if(mCamera != null){
         		 mCamera.stopPreview();
+        		 mCamera.release();
+        		 mCamera = null;
         	}
         }
 
@@ -79,7 +103,11 @@ public class CameraPreview extends SurfaceView implements
                         int width, int height) {
 
                 if (isPreviewRunning) {
+                	try{
                         mCamera.stopPreview();
+                	} catch (NullPointerException e){
+                		Log.e("DEBUG", e.toString());
+                	}
 
                 }
 

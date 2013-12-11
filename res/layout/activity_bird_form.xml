@@ -92,8 +92,9 @@
             android:ems="10"
             android:hint="@string/notesHint"
             android:inputType="textMultiLine"
-            android:maxLines="2"
-            android:scrollbars="vertical" />
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:maxLength="255" />
 
         <!-- Depricated Picture Button <Button
             android:id="@+id/picture_button"
