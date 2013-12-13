@@ -55,6 +55,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 
 	private static final String CATEGORY_SPINNER = "Category Spinner";
 	private static final String ACTIVITY_SPINNER = "Activity Spinner";
+	private static final String PICTURE_PATH = "PicturePath";
+	private static final String BIRD_SIGHTING = "BirdSighting";
 	private static BirdFormActivity mInstance = null;
 	private static final int FIVE_MINUTES = 300000;
 	private static final int IMAGE_HEIGHT = 730;
@@ -96,10 +98,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private long coordinateTimerCurrent;
 	private BirdSighting birdSighting;
 	private Bitmap birdPictureBitmap;
+	private Bundle savedInstanceState;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.savedInstanceState = savedInstanceState;
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_bird_form);
@@ -114,6 +118,12 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		setUpImageButton();
 		//Gets the extras from the bundle that was passed from the calling activity
 		bundle = getIntent().getExtras();
+		//Checks to see if onCreate was called because of orientation change
+		if(savedInstanceState != null){
+			picturePath = savedInstanceState.getString(PICTURE_PATH);
+			birdSighting = (BirdSighting) savedInstanceState.getSerializable(BIRD_SIGHTING);			
+			addPictureToPictureButton();
+		}
 		if (bundle != null) {
 			callingActivity = bundle.getInt(CALLING_ACTIVITY);
 		}
@@ -248,13 +258,18 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		}
 		fillActivitySpinner();
 		fillCategorySpinner();
+		//Checks to see if onResume was called because of orientation change
+		if(savedInstanceState != null){
+			setSpinnerPosition(ACTIVITY_SPINNER);
+			setSpinnerPosition(CATEGORY_SPINNER);			
+		}
 		gpsUtility.setFormLocationListener();
 		//addPictureToPictureButton();
 		
 	}
 
 	private void setSpinnerPosition(String dropDown) {
-		if(bundle != null){	
+		if(bundle != null || (savedInstanceState != null && birdSighting != null)){	
 			if(dropDown == ACTIVITY_SPINNER){
 				ArrayAdapter<String> activitySpinneradapter = (ArrayAdapter<String>) activitySpinner.getAdapter();
 				int selectPosition = activitySpinneradapter.getPosition(birdSighting.getActivity());
@@ -671,6 +686,15 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	public void openSettings(MenuItem menuItem) {
 		Intent intent = new Intent(BirdFormActivity.this, BirdFormSettingsActivity.class);
 		startActivity(intent);
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		// Save the picture path
+		savedInstanceState.putString(PICTURE_PATH, picturePath);
+		birdSighting = createBirdSighting();
+		savedInstanceState.putSerializable(BIRD_SIGHTING, birdSighting);
+	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
 }
