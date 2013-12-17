@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ public class AddNewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		saveButton = (Button)findViewById(R.id.saveButton);
 		addAnotherCheckBox = (CheckBox)findViewById(R.id.add_another_button);
 		activityName = (EditText)findViewById(R.id.activityName);
