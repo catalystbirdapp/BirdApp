@@ -48,6 +48,7 @@
         </activity>
         <activity
             android:name="com.catalyst.android.birdapp.BirdFormActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_bird_form" >
         </activity>
 
