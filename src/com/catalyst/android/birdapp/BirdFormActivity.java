@@ -242,10 +242,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	protected void onPause() {
 		super.onPause();
 		gpsUtility.removeFormLocationUpdates();
-//		if(birdPictureBitmap != null){
-//			birdPictureBitmap.recycle();
-//			birdPictureBitmap = null;
-//		}
 	}
 
 	@Override
