@@ -336,7 +336,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 */
 	private void setGPSAutoFill(){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		Boolean gpsPreference = sharedPref.getBoolean(BirdFormSettingsActivity.KEY_PREF_GPS_PREFERENCE, true);
+		Boolean gpsPreference = sharedPref.getBoolean(ApplicationSettingsActivity.KEY_PREF_GPS_PREFERENCE, true);
 		
 		// Checks to see if the user wants the GPS on, and then checks if the GPS is on
 		if (gpsPreference == true) {
@@ -683,8 +683,8 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		startActivity(intent);
 	}
 	
-	public void openSettings(MenuItem menuItem) {
-		Intent intent = new Intent(BirdFormActivity.this, BirdFormSettingsActivity.class);
+	public void openApplicationSettings(MenuItem menuItem) {
+		Intent intent = new Intent(BirdFormActivity.this, ApplicationSettingsActivity.class);
 		startActivity(intent);
 	}
 	

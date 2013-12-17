@@ -3,7 +3,7 @@
     <item
         android:id="@+id/action_settings"
         android:showAsAction="never"
-        android:onClick="openSettings"
+        android:onClick="openApplicationSettings"
         android:title="@string/action_settings"/>
     
     <item

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -440,6 +441,11 @@ public class MapActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.map_, menu);
 		return true;
+	}
+	
+	public void openApplicationSettings(MenuItem menuItem) {
+		Intent intent = new Intent(MapActivity.this, ApplicationSettingsActivity.class);
+		startActivity(intent);
 	}
 	
 }

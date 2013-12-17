@@ -5,7 +5,9 @@ import com.catalyst.android.birdapp.utilities.FormValidationUtilities;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -82,6 +84,11 @@ public class AddNewActivity extends Activity {
 		}else {
 			finish();
 		}
+	}
+	
+	public void openApplicationSettings(MenuItem menuItem) {
+		Intent intent = new Intent(AddNewActivity.this, ApplicationSettingsActivity.class);
+		startActivity(intent);
 	}
 
 }

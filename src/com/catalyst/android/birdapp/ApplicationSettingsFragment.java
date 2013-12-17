@@ -3,7 +3,7 @@ package com.catalyst.android.birdapp;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-public class BirdFormSettingsFragment extends PreferenceFragment {
+public class ApplicationSettingsFragment extends PreferenceFragment {
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {

@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
@@ -148,6 +149,11 @@ public class RecordsActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.records, menu);
 		return true;
+	}
+	
+	public void openApplicationSettings(MenuItem menuItem) {
+		Intent intent = new Intent(RecordsActivity.this, ApplicationSettingsActivity.class);
+		startActivity(intent);
 	}
 
 }
