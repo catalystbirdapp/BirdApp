@@ -1,17 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/action_camera"
-          android:icon="@drawable/ic_camera2"
-          android:title="@string/camera"
-          android:onClick="openCamera"
-          android:showAsAction="ifRoom" />
-      
-    <item android:id="@+id/action_map"
-          android:icon="@drawable/ic_map2"
-          android:title="@string/map"
-          android:showAsAction="ifRoom"
-          android:onClick="getMap" />
-    
     <item
         android:id="@+id/action_settings"
         android:showAsAction="never"
