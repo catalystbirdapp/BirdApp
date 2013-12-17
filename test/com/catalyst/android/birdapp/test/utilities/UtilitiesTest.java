@@ -20,26 +20,33 @@ public class UtilitiesTest extends InstrumentationTestCase {
 	}
 
 	public void testDateFormatDisplaysCorrectlyForGermanLocale() {
+		Locale startLocale = Locale.getDefault();
 		Locale.setDefault(Locale.GERMANY);
 		assertEquals("30/09/2013", utils.formatDate(BOTTOM_VALUE));
+		Locale.setDefault(startLocale);
 	}
 
 	public void testDateFormatDisplaysCorrectlyForLocalesOtherThanGermany() {
+		Locale startLocale = Locale.getDefault();
 		Locale.setDefault(Locale.CANADA);
 		assertEquals("09/30/2013", utils.formatDate(BOTTOM_VALUE));
 		Locale.setDefault(Locale.UK);
 		assertEquals("09/30/2013", utils.formatDate(BOTTOM_VALUE));
 		Locale.setDefault(Locale.US);
 		assertEquals("09/30/2013", utils.formatDate(BOTTOM_VALUE));
+		Locale.setDefault(startLocale);
 	}
 
 	public void testTimeFormatDisplaysCorrectlyForGermanLocale() {
+		Locale startLocale = Locale.getDefault();
 		Locale.setDefault(Locale.GERMANY);
 		assertEquals("16:00", utils.formatTime(BOTTOM_VALUE));
 		assertEquals("04:00", utils.formatTime(OTHER_VALUE));
+		Locale.setDefault(startLocale);
 	}
 
 	public void testTimeFormatDisplaysCorrectlyForForLocalesOtherThanGermany() {
+		Locale startLocale = Locale.getDefault();
 		Locale.setDefault(Locale.CANADA);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
 		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
@@ -49,6 +56,7 @@ public class UtilitiesTest extends InstrumentationTestCase {
 		Locale.setDefault(Locale.US);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
 		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
+		Locale.setDefault(startLocale);
 	}
 
 }

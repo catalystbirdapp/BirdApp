@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -122,7 +121,7 @@ public class RecordsActivity extends Activity {
 	 * Formats the date for the sightings list
 	 */
 	private String formatDate(Date sightingDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  HH:mm", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  HH:mm");
 		return sdf.format(sightingDate); 
 	}
 	
