@@ -40,7 +40,6 @@ import com.catalyst.android.birdapp.entities.BirdSighting;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -49,7 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends SupportMapFragment {
+public class MapFragment extends com.google.android.gms.maps.MapFragment {
 	
 	private static final String ID = "ID";
 	private GoogleMap map;
@@ -96,45 +95,46 @@ public class MapFragment extends SupportMapFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
-		View view = super.onCreateView(inflater, parent, savedInstanceState);
-		map = getMap();
-
+		super.onCreateView(inflater, parent, savedInstanceState);
+		View view = inflater.inflate(R.layout.activity_map, parent, false);
+		//gets the map fragment from the page to modify it
+		//map = getMap();
+		map = ((com.google.android.gms.maps.MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
 		//Sets up the GPS Utility class
-				gpsUtility = new GPSUtility(getActivity());
-				//Sets up the location manager
-				locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-				//gets the map fragment from the page to modify it
-				map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-				dbHandler = DatabaseHandler.getInstance(getActivity());
-				markerSightingsMap = new HashMap <Marker, BirdSighting>();
-				mapSettingsButton = (ImageButton) view.findViewById(R.id.map_settings_button);
-				mapLayout = (RelativeLayout) view.findViewById(R.id.mapLayout);
-				mapSettingsView = inflater.inflate(R.layout.map_settings, mapLayout, false);
-				setMapSettingsButtonOnClickListener();
-				//Sets the custom pop up windows for the map and puts a click listener on them
-				setMapMarkerInfoWindowAdapter();
-				setMapMarkerClickListener();
-				         
-				//Gets the saved preferences
-				SharedPreferences preferenses = getActivity().getPreferences(Context.MODE_PRIVATE);
-				String savedLocationLatitude = preferenses.getString(LATITUDE_KEY, null);
-				String savedLocationLongitude = preferenses.getString(LONGITUDE_KEY, null);
-				float savedZoom = preferenses.getFloat(ZOOM_KEY, 0);
-				String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
-				setMapType(savedMapType);
-				           
-				//Sets the beginning map location
-				if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && savedLocationLatitude == null){
-					//Centers the camera over beaverton if the GPS is not enabled and there was no saved location
-				    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(beavertonLatLng, BEAVERTON_ZOOM);
-				    map.animateCamera(update);
-				} else if (savedLocationLatitude != null){
-				  	//Loads the last location if the GPS provider is disabled and there is a place to start from
-				   	double savedLatitude = Double.parseDouble(savedLocationLatitude);
-				  	double savedLongitude = Double.parseDouble(savedLocationLongitude);
-				  	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), savedZoom);
-				    map.animateCamera(update);
-				}
+		gpsUtility = new GPSUtility(getActivity());
+		//Sets up the location manager
+		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		dbHandler = DatabaseHandler.getInstance(getActivity());
+		markerSightingsMap = new HashMap <Marker, BirdSighting>();
+		
+		mapSettingsButton = (ImageButton) view.findViewById(R.id.map_settings_button);
+		mapLayout = (RelativeLayout) view.findViewById(R.id.mapLayout);
+		mapSettingsView = inflater.inflate(R.layout.map_settings, mapLayout, false);
+		setMapSettingsButtonOnClickListener();
+		//Sets the custom pop up windows for the map and puts a click listener on them
+		setMapMarkerInfoWindowAdapter();
+		setMapMarkerClickListener();
+		         
+		//Gets the saved preferences
+		SharedPreferences preferenses = getActivity().getPreferences(Context.MODE_PRIVATE);
+		String savedLocationLatitude = preferenses.getString(LATITUDE_KEY, null);
+		String savedLocationLongitude = preferenses.getString(LONGITUDE_KEY, null);
+		float savedZoom = preferenses.getFloat(ZOOM_KEY, 0);
+		String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
+		setMapType(savedMapType);
+		           
+		//Sets the beginning map location
+		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && savedLocationLatitude == null){
+			//Centers the camera over beaverton if the GPS is not enabled and there was no saved location
+		    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(beavertonLatLng, BEAVERTON_ZOOM);
+		    map.animateCamera(update);
+		} else if (savedLocationLatitude != null){
+		  	//Loads the last location if the GPS provider is disabled and there is a place to start from
+		   	double savedLatitude = Double.parseDouble(savedLocationLatitude);
+		  	double savedLongitude = Double.parseDouble(savedLocationLongitude);
+		  	CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(savedLatitude, savedLongitude), savedZoom);
+		    map.animateCamera(update);
+		}
 		
 		return view;	
 	}
@@ -362,7 +362,7 @@ public class MapFragment extends SupportMapFragment {
 					SharedPreferences preferenses = getActivity().getPreferences(Context.MODE_PRIVATE);
 					String savedMapType = preferenses.getString(MAP_TYPE_PREFERENCE_KEY, getString(R.string.normal));
 					//grab the spinner and populate it
-					mapTypeSpinner = (Spinner) view.findViewById(R.id.map_type_spinner);
+					mapTypeSpinner = (Spinner) mapSettingsView.findViewById(R.id.map_type_spinner);
 					ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, R.id.spinnertextview, getResources().getStringArray(R.array.map_types_array));
 					mapTypeSpinner.setAdapter(adapter);
 					//get position of saved preference from the adapter
@@ -383,7 +383,7 @@ public class MapFragment extends SupportMapFragment {
 	 * Sets the on click listener for the save button
 	 */
 	private void setSaveButtonOnClickListener(View view) {
-		mapSettingsSaveButton = (Button) view.findViewById(R.id.map_settings_save_button);
+		mapSettingsSaveButton = (Button) mapSettingsView.findViewById(R.id.map_settings_save_button);
 	     
 	    mapSettingsSaveButton.setOnClickListener(new OnClickListener(){
 	 
@@ -428,12 +428,12 @@ public class MapFragment extends SupportMapFragment {
 
 	@Override
 	public void onResume(){
-		super.onResume();
+		
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			updateMap();
 		}
 		addMarkersForPreviousSightings();
-
+		super.onResume();
 	}
 	
 }
