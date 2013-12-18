@@ -92,7 +92,7 @@
         </activity>
         <activity
             android:name="com.catalyst.android.birdapp.ViewPastSightingsActivity"
-            android:label="@string/title_activity_records" >
+            android:label="@string/commonNameTitle" >
         </activity>
     </application>
 

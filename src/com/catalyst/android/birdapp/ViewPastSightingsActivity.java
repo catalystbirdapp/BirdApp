@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.content.Context;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -21,11 +22,10 @@ import android.support.v4.view.ViewPager;
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-
 	        mViewPager = new ViewPager(this);
 	        mViewPager.setId(R.id.pager);
 	        setContentView(mViewPager);
-
+	       
 	        final ActionBar bar = getActionBar();
 	        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
@@ -35,6 +35,8 @@ import android.support.v4.view.ViewPager;
 	                RecordsFragment.class, null);
 	        mTabsAdapter.addTab(bar.newTab().setText("Map"),
 	                MapFragment.class, null);
+	        
+	        setTheme(android.R.style.Theme_Light);
 
 	        if (savedInstanceState != null) {
 	            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));

@@ -43,7 +43,7 @@ private static final String ID = "ID";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
-		View view = super.onCreateView(inflater, parent, savedInstanceState);
+		View view = inflater.inflate(R.layout.activity_records, parent, false);
 		//Gets a handle to the database and the bird sighting table on the page
 		dbHandler = DatabaseHandler.getInstance(getActivity());
 		birdSightingLayout = (TableLayout) view.findViewById(R.id.birdSightingTableLayout);
