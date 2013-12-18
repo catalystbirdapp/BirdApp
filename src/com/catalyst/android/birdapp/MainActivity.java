@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void navigateToRecordsReview(View v) {
-		Intent i = new Intent(this, RecordsActivity.class);
+		Intent i = new Intent(this, ViewPastSightingsActivity.class);
 		startActivity(i);
 	}
 	
