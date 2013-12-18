@@ -89,6 +89,10 @@
             android:name="com.catalyst.android.birdapp.BirdFormSettingsActivity"
             android:label="@string/bird_form_settings" >
         </activity>
+        <activity
+            android:name="com.catalyst.android.birdapp.ViewPastSightingsActivity"
+            android:label="@string/title_activity_records" >
+        </activity>
     </application>
 
 </manifest>
