@@ -1,5 +1,9 @@
 package com.catalyst.android.birdapp;
 
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.BIRD_FORM_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.CALLING_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.MAP_ACTIVITY;
+
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,33 +14,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.catalyst.android.birdapp.database.DatabaseHandler;
 import com.catalyst.android.birdapp.entities.BirdSighting;
-import com.catalyst.android.birdapp.GPS_Utility.GPSUtility;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,8 +48,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
 
 public class MapActivity extends Activity {
 	

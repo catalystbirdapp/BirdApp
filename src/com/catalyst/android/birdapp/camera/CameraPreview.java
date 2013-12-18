@@ -1,8 +1,8 @@
 package com.catalyst.android.birdapp.camera;
 
 import java.io.IOException;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;

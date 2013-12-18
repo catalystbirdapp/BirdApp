@@ -6,42 +6,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Date;
 
-import com.catalyst.android.birdapp.camera.CameraPreview;
-import com.catalyst.android.birdapp.entities.BirdSighting;
-import com.catalyst.android.birdapp.utilities.CameraUtilities;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.os.Environment;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
+
+import com.catalyst.android.birdapp.camera.CameraPreview;
+import com.catalyst.android.birdapp.entities.BirdSighting;
+import com.catalyst.android.birdapp.utilities.CameraUtilities;
 
 public class CameraActivity extends Activity {
 

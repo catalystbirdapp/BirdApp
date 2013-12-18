@@ -1,11 +1,12 @@
 package com.catalyst.android.birdapp;
 
-import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.*;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.BIRD_FORM_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.CALLING_ACTIVITY;
+import static com.catalyst.android.birdapp.constants.ActivityIdentifyingConstants.SIGHTING_LIST_ACTIVITY;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
