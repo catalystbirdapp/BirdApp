@@ -88,6 +88,9 @@ public class AddNewActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Opens the application settings menu option
+	 */
 	public void openApplicationSettings(MenuItem menuItem) {
 		Intent intent = new Intent(AddNewActivity.this, ApplicationSettingsActivity.class);
 		startActivity(intent);

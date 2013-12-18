@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ public class RecordsActivity extends Activity {
 	
 	private DatabaseHandler dbHandler;
 	private List<BirdSighting> allBirdSightings;
-	private HashMap <Integer, BirdSighting> birdSightingsMap;
+	SparseArray<BirdSighting> birdSightingSparseArray;
 	
 	private TableLayout birdSightingLayout;
 	private TextView commonNameText;
@@ -61,11 +62,12 @@ public class RecordsActivity extends Activity {
 	private void retrieveAllBirdSightings() {
     	//Retrieves all of the bird sightings from the DB
         allBirdSightings = dbHandler.getAllBirdSightings();
-        birdSightingsMap = new HashMap <Integer, BirdSighting>();
+        //SparseArray is like a HashMap, but supposedly more efficient with ints
+        birdSightingSparseArray = new SparseArray<BirdSighting>();
       
         for (BirdSighting birdSighting : allBirdSightings) {
-            //Adds the birdsighting to the hashmap so that the birdsighting can be retrieved by passing in the id
-            birdSightingsMap.put(birdSighting.getId(), birdSighting);
+            //Adds the BirdSighting to the HashMap so that the BirdSighting can be retrieved by passing in the id
+            birdSightingSparseArray.put(birdSighting.getId(), birdSighting);
         }
 	}
 	
@@ -128,10 +130,9 @@ public class RecordsActivity extends Activity {
 	 */
 	private void editBirdSightingSelected(View view) {
 		Integer holdIndex = (Integer) view.getTag();
-		BirdSighting birdSighting = birdSightingsMap.get(holdIndex);
-		
+		BirdSighting birdSighting = birdSightingSparseArray.get(holdIndex);
 		//Checks to see if the bird sighting is null.
-		if(birdSighting != null){
+		if (birdSighting != null) {
 			//Creates the  intent and stores the bird sighting for retrieval in the Edit Form Activity 
 			Intent intent = new Intent();
 			intent.setClass(RecordsActivity.this, BirdFormActivity.class);
@@ -151,6 +152,9 @@ public class RecordsActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Opens the application settings menu option
+	 */
 	public void openApplicationSettings(MenuItem menuItem) {
 		Intent intent = new Intent(RecordsActivity.this, ApplicationSettingsActivity.class);
 		startActivity(intent);
