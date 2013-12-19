@@ -25,8 +25,9 @@ import android.support.v4.view.ViewPager;
 	        mViewPager = new ViewPager(this);
 	        mViewPager.setId(R.id.pager);
 	        setContentView(mViewPager);
-	       
+	        
 	        final ActionBar bar = getActionBar();
+	        bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
 	        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
