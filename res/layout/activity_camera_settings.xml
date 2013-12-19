@@ -18,24 +18,24 @@
  
 
     
-   <TableRow
-        android:id="@+id/title_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/setting_table_top_margin" >
+<!--    <TableRow -->
+<!--         android:id="@+id/title_row" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginTop="@dimen/setting_table_top_margin" > -->
 
-        <TextView
-            style="@style/settings_title_style"
-            android:layout_marginLeft="@dimen/settings_margin_left"
-            android:layout_marginTop="@dimen/settings_margin_top"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/settings_title" >
+<!--         <TextView -->
+<!--             style="@style/settings_title_style" -->
+<!--             android:layout_marginLeft="@dimen/settings_margin_left" -->
+<!--             android:layout_marginTop="@dimen/settings_margin_top" -->
+<!--             android:layout_weight="1" -->
+<!--             android:gravity="center" -->
+<!--             android:text="@string/settings_title" > -->
 
-        </TextView>
+<!--         </TextView> -->
 
  
-    </TableRow>
+<!--     </TableRow> -->
     
     
     

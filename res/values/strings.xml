@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<string name="capture_button">Capture Button</string>
     <string name="title_activity_map_">Map_Activity</string>
     <string name="title_activity_picture_confirmation">Picture Confirmation</string>
     <string name="app_name">Put A Bird On It!</string>

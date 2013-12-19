@@ -51,7 +51,7 @@ public class CameraActivity extends Activity {
 	private Spinner pictureSizeSpinner;
 	private Spinner whiteBalanceSpinner;
 	private Button saveButton;
-	private Button captureButton;
+	private ImageButton captureButton;
 	private ImageButton settingsButton;
 	private ImageButton settingsButtonView;
 	protected Bundle bundle;
@@ -96,7 +96,7 @@ public class CameraActivity extends Activity {
          relativeLayoutControls.bringToFront(); // used to bring the capture
                                                                                          // button the front so that it
                                                                                          // overlays the preview display
-         captureButton = (Button) findViewById(R.id.button_capture);
+         captureButton = (ImageButton) findViewById(R.id.button_capture);
          settingsButton = (ImageButton) findViewById(R.id.settings_button);
          view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
                          null);
@@ -125,7 +125,7 @@ public class CameraActivity extends Activity {
             preview.addView(mCameraPreview);
             relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
             relativeLayoutControls.bringToFront();
-            captureButton = (Button) findViewById(R.id.button_capture);
+            captureButton = (ImageButton) findViewById(R.id.button_capture);
             settingsButton = (ImageButton) findViewById(R.id.settings_button);
             view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
                             null);

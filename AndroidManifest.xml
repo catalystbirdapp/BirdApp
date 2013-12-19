@@ -72,6 +72,7 @@
         <activity
             android:name="com.catalyst.android.birdapp.CameraActivity"
             android:label="@string/camera_activity_title"
+            android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
