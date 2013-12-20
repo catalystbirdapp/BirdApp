@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        style="@style/ButtonText"
+        android:background="@drawable/black_button"
         android:onClick="deleteImage"
         android:text="@string/retake_button" />
 
@@ -23,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        style="@style/ButtonText"
+        android:background="@drawable/black_button"
         android:onClick="saveImage"
         android:text="@string/save_button" />
 

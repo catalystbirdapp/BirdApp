@@ -62,6 +62,7 @@
 
         <activity
             android:name="com.catalyst.android.birdapp.PictureConfirmationActivity"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_picture_confirmation" >
         </activity>
         <activity
