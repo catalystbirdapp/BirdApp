@@ -50,7 +50,7 @@
         <activity
             android:name="com.catalyst.android.birdapp.BirdFormActivity"
             android:screenOrientation="portrait"
-            android:label="@string/app_bird_form" >
+            android:label="@string/formTitle" >
         </activity>
 
         <meta-data
@@ -95,6 +95,10 @@
         <activity
             android:name="com.catalyst.android.birdapp.ViewPastSightingsActivity"
             android:label="@string/commonNameTitle" >
+        </activity>
+         <activity
+            android:name="com.catalyst.android.birdapp.AboutUsActivity"
+            android:label="@string/aboutUsTitle" >
         </activity>
     </application>
 

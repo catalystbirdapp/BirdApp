@@ -590,7 +590,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 * Checks to make sure that the latitude and longitude are valid
 	 */
 	private void checkLatitudeAndLongitudeForErrors() {
-		// TODO Auto-generated method stub
 		String longitudeField = longitudeEditText.getText().toString();
 		String latitudeField = latitudeEditText.getText().toString();
 		double latitude = 0;
@@ -720,6 +719,13 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		Intent intent = new Intent(BirdFormActivity.this, ApplicationSettingsActivity.class);
 		startActivity(intent);
 	}
+	  /**
+     * pulls up AboutUsActivity view
+     */
+    public void openAboutUs(MenuItem menuItem) {
+            Intent intent = new Intent(getApplication(), AboutUsActivity.class);
+            startActivity(intent);
+    }
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {

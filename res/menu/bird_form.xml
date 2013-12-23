@@ -12,4 +12,10 @@
         android:onClick="getAddNewActivity"
         android:title="@string/action_activity"/>
     
+      <item
+        android:id="@+id/action_about_us"
+        android:showAsAction="never"
+        android:onClick="openAboutUs"
+        android:title="@string/aboutUsTitle"/>
+    
 </menu>

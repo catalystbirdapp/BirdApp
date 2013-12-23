@@ -161,19 +161,19 @@
     <string name="aboutUsTestersHeading">Testers:</string>
     <string name="aboutUsScrumMastersHeading">Scrum Masters:</string>
     <string-array name="aboutUsDevelopers">
-        <item>Randy</item>
-        <item>Hannah</item>
-        <item>Judy</item>
-        <item>Ian</item>
-        <item>Justin</item>
-        <item>Brandon</item>
-        <item>Michael</item>
+        <item>Randy M.</item>
+        <item>Hannah Y.</item>
+        <item>Judy C.</item>
+        <item>Ian P.</item>
+        <item>Justin D.</item>
+        <item>Brandon D.</item>
+        <item>Michael H.</item>
     </string-array>
     <string-array name="aboutUsTesters">
-        <item>Anna</item>
+        <item>Anna B.</item>
     </string-array>
     <string-array name="aboutUsScrumMasters">
-        <item>Sam</item>
-        <item>Les</item>
+        <item>Sam L.</item>
+        <item>Les G.</item>
     </string-array>
 </resources>

@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
-    <RelativeLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="860dp"
         android:background="@drawable/form_background"
@@ -17,300 +17,315 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".BirdFormActivity" >
 
-        <TextView
-            android:id="@+id/formTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/formTitle"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            android:typeface="monospace" />
-        
-        <ImageButton
-            android:id="@+id/form_image_button"
-            android:layout_width="250dp"
-            android:layout_height="185dp"
-            android:layout_below="@+id/formTitle"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/bird_picture_description"
-            android:layout_marginTop="20sp"
-            android:src="@drawable/ic_camera2" />
-
-        <EditText
-            android:id="@+id/common_name_edit_text"
-            style="@style/textHintColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/submit_button"
-            android:layout_below="@+id/form_image_button"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/common_name_text_view"
-            android:ems="10"
-            android:hint="@string/birdNameHint"
-            android:inputType="textPersonName"
-            android:maxLength="55" >
-
-            <requestFocus />
-        </EditText>
-
-        <TextView
-            android:id="@+id/scientific_name_text_view"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/common_name_text_view"
-            android:layout_below="@+id/common_name_edit_text"
-            android:layout_marginTop="21dp"
-            android:layout_toLeftOf="@+id/common_name_edit_text"
-            android:text="@string/scientificName"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/scientific_name_edit_text"
-            style="@style/textHintColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/common_name_edit_text"
-            android:layout_alignRight="@+id/common_name_edit_text"
-            android:layout_alignTop="@+id/scientific_name_text_view"
-            android:ems="10"
-            android:hint="@string/scientificNameHint"
-            android:inputType="textPersonName"
-            android:maxLength="55" />
-
-        <EditText
-            android:id="@+id/notes_edit_text"
-            style="@style/textHintColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/scientific_name_edit_text"
-            android:layout_alignRight="@+id/scientific_name_edit_text"
-            android:layout_below="@+id/scientific_name_edit_text"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:hint="@string/notesHint"
-            android:inputType="textMultiLine"
-            android:maxLines="5"
-            android:scrollbars="vertical"
-            android:maxLength="255" />
-
-        <!-- Depricated Picture Button <Button
-            android:id="@+id/picture_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/activity_text"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/bird_acivity_dropdown"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/black_button"
-            android:text="@string/addPictureText" /> -->
-
-        <TextView
-            android:id="@+id/common_name_text_view"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/common_name_edit_text"
-            android:layout_alignBottom="@+id/common_name_edit_text"
-            android:layout_alignParentLeft="true"
-            android:text="@string/birdName"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/noteText"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/notes_edit_text"
-            android:layout_alignBottom="@+id/notes_edit_text"
-            android:layout_alignLeft="@+id/scientific_name_text_view"
-            android:text="@string/noteText"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/hour_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/date_time_edit_text"
-            android:layout_alignTop="@+id/time_title"
-            android:paddingLeft="8dp"
-            android:ems="10"
-            android:maxLength="10"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/category_text"
-            android:layout_below="@+id/category_drop_down"
-            android:layout_marginTop="15dp"
-            android:text="@string/activityText"
-            android:textSize="18sp" />
-
-        <!-- Depricated Audio Button <Button
-            android:id="@+id/audio_button"
-            style="@style/ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/picture_button"
-            android:layout_alignBottom="@+id/picture_button"
-            android:layout_alignParentRight="true"
-            android:layout_alignRight="@+id/bird_acivity_dropdown"
-            android:background="@drawable/black_button"
-            android:text="@string/addAudioText" />  -->
-
-        <TextView
-            android:id="@+id/longitude_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/noteText"
-            android:layout_below="@+id/latitude_title"
-            android:layout_marginTop="18dp"
-             android:layout_marginBottom="18dp"
-            android:text="@string/longitudeTitle"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/latitude_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/notes_edit_text"
-            android:layout_alignRight="@+id/refresh_button"
-            android:layout_below="@+id/hour_edit_text"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="8dp"
-            android:ems="10"
-            android:maxLength="30"
-            android:textSize="18sp"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/longitude_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/latitude_edit_text"
-            android:layout_alignRight="@+id/refresh_button"
-            android:layout_alignTop="@+id/longitude_text"
-            android:paddingLeft="8dp"
-            android:ems="10"
-            android:maxLength="30"
-            android:textSize="18sp"
-            android:inputType="numberDecimal" />
-
-        <Button
-            android:id="@+id/refresh_button"
-            style="@style/CoordinateButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/longitude_text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="23dp"
-            android:background="@drawable/coordinate_button_red"
-            android:text="@string/coordinateOutOfDate" />
-
-        <TextView
-            android:id="@+id/latitude_title"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/latitude_edit_text"
-            android:layout_alignBottom="@+id/latitude_edit_text"
-            android:layout_alignLeft="@+id/longitude_text"
-            android:text="@string/latitudeTitle"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/time_title"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/latitude_title"
-            android:layout_below="@+id/dateText"
-            android:layout_marginTop="14dp"
-            android:text="@string/timeText"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/date_time_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/time_title"
-            android:layout_alignLeft="@+id/notes_edit_text"
-            android:layout_alignRight="@+id/formTitle"
-            android:paddingLeft="8dp"
-            android:ems="10"
-            android:maxLength="11"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/dateText"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/noteText"
-            android:layout_below="@+id/notes_edit_text"
-            android:layout_marginTop="20dp"
-            android:text="@string/dateText"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/category_drop_down"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/refresh_button"
-            android:layout_toRightOf="@+id/longitude_text"
-            android:prompt="@string/categoryPrompt"
-            android:spinnerMode="dialog" />
-
-        <Spinner
-            android:id="@+id/bird_acivity_dropdown"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/category_drop_down"
-            android:layout_toRightOf="@+id/longitude_text"
-            android:prompt="@string/activityPrompt"
-            android:spinnerMode="dialog" />
-
-        <TextView
-            android:id="@+id/category_text"
-            style="@style/textColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/submit_button"
-            android:layout_alignTop="@+id/category_drop_down"
-            android:layout_marginTop="15dp"
-            android:text="@string/categoryText"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/submit_button"
-            style="@style/ButtonText"
-            android:layout_below="@+id/bird_acivity_dropdown"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/black_button"
-            android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
-            android:text="@string/submitButtonText" />
+            android:orientation="vertical" >
 
-        <Button
-		    android:id="@+id/delete_button"
-		    style="@style/ButtonText"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_centerHorizontal="true"
-		    android:background="@drawable/black_button"
-		    android:onClick="deleteBirdSighting"
-		    android:text="@string/deleteButtonText"
-		    android:layout_below="@+id/submit_button" />
+            <ImageButton
+                android:id="@+id/form_image_button"
+                android:layout_width="250dp"
+                android:layout_height="185dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/bird_picture_description"
+                android:src="@drawable/ic_camera2" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/common_name_text_view"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/birdName"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/common_name_edit_text"
+                style="@style/textHintColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:hint="@string/birdNameHint"
+                android:inputType="textPersonName"
+                android:maxLength="55" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/scientific_name_text_view"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/scientificName"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/scientific_name_edit_text"
+                style="@style/textHintColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:hint="@string/scientificNameHint"
+                android:inputType="textPersonName"
+                android:maxLength="55" >
+
+                <requestFocus />
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/noteText"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/noteText"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/notes_edit_text"
+                style="@style/textHintColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:hint="@string/notesHint"
+                android:inputType="textMultiLine"
+                android:maxLength="255"
+                android:maxLines="5"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/dateText"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/dateText"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/date_time_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:maxLength="11"
+                android:paddingLeft="8dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/time_title"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/timeText"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hour_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:maxLength="10"
+                android:paddingLeft="8dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/latitude_title"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/latitudeTitle"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/latitude_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="30"
+                android:paddingLeft="8dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/longitude_text"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/longitudeTitle"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/longitude_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="30"
+                android:paddingLeft="8dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/refresh_button"
+                style="@style/CoordinateButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/coordinate_button_red"
+                android:text="@string/coordinateOutOfDate" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/category_text"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/categoryText"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/category_drop_down"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:prompt="@string/categoryPrompt"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/activity_text"
+                style="@style/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:text="@string/activityText"
+               android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/bird_acivity_dropdown"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:prompt="@string/activityPrompt"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/submit_button"
+                style="@style/ButtonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/black_button"
+                android:onClick="checkFieldsAndNotifyUserOfBlanksBeforeSubmission"
+                android:text="@string/submitButtonText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/delete_button"
+                style="@style/ButtonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/black_button"
+                android:onClick="deleteBirdSighting"
+                android:text="@string/deleteButtonText" />
+        </LinearLayout>
+    </TableLayout>
 
 </ScrollView>
