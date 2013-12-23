@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,7 +71,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private Spinner categorySpinner;
 	private Spinner activitySpinner;
 	private GPSUtility gpsUtility;
-	private TextView latitudeEditText, longitudeEditText;
+	private EditText latitudeEditText, longitudeEditText;
 
 	private EditText commonNameEditText;
 	private EditText scientificNameEditText;
@@ -203,8 +204,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		commonNameEditText = (EditText) findViewById(R.id.common_name_edit_text);
 		scientificNameEditText = (EditText) findViewById(R.id.scientific_name_edit_text);
 		notesEditText = (EditText) findViewById(R.id.notes_edit_text);
-		latitudeEditText = (TextView) findViewById(R.id.latitude_edit_text);
-		longitudeEditText = (TextView) findViewById(R.id.longitude_edit_text);
+		latitudeEditText = (EditText) findViewById(R.id.latitude_edit_text);
+		latitudeEditText.setRawInputType(InputType.TYPE_CLASS_PHONE);
+		longitudeEditText = (EditText) findViewById(R.id.longitude_edit_text);
+		longitudeEditText.setRawInputType(InputType.TYPE_CLASS_PHONE);
 		coordinateRefreshButton = (Button) findViewById(R.id.refresh_button);	
 		submitButton = (Button) findViewById(R.id.submit_button);
 	}
@@ -579,7 +582,35 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		if (missingFieldTitles.size() > 0) {
 			submitAlertDialog(missingFieldTitles);
 		} else {
+			checkLatitudeAndLongitudeForErrors();
+		}
+	}
+
+	/**
+	 * Checks to make sure that the latitude and longitude are valid
+	 */
+	private void checkLatitudeAndLongitudeForErrors() {
+		// TODO Auto-generated method stub
+		String longitudeField = longitudeEditText.getText().toString();
+		String latitudeField = latitudeEditText.getText().toString();
+		double latitude = 0;
+		double longitude = 0;
+		try{
+			latitude = Double.parseDouble(latitudeField);
+			longitude = Double.parseDouble(longitudeField);
+		}catch(NumberFormatException e){
+			
+		}
+		boolean latitudeValid = (latitude >= -90 && latitude <=90);		
+		boolean longitudeValid = (longitude >= -180 && longitude <=180);		
+		if(latitudeValid && longitudeValid){
 			submitBirdSighting();
+		}
+		if(!latitudeValid){
+			latitudeEditText.setError(getString(R.string.invalidLatitude));
+		}
+		if(!longitudeValid){
+			longitudeEditText.setError(getString(R.string.invalidLongitude));
 		}
 	}
 
@@ -629,7 +660,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	 */
 	public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
 		if (!cancelled) {
-			submitBirdSighting();
+			checkLatitudeAndLongitudeForErrors();
 		}
 	}
 

@@ -2,6 +2,8 @@ package com.catalyst.android.birdapp.test.utilities;
 
 import java.util.Locale;
 
+import org.junit.After;
+
 import com.catalyst.android.birdapp.utilities.Utilities;
 
 import android.test.InstrumentationTestCase;
@@ -49,6 +51,11 @@ public class UtilitiesTest extends InstrumentationTestCase {
 		Locale.setDefault(Locale.US);
 		assertEquals("04:00 PM", utils.formatTime(BOTTOM_VALUE));
 		assertEquals("04:00 AM", utils.formatTime(OTHER_VALUE));
+	}
+	
+	@After
+	public void tearDown(){
+		Locale.setDefault(Locale.US);
 	}
 
 }
