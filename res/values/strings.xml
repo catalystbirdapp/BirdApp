@@ -141,5 +141,33 @@
         <item>None</item>
     </string-array>
     <string name="bird_picture_description">Picture of the bird sighting.</string>
-
+    
+    <string name="aboutUsTitle">About Us</string>
+    <string name="aboutUsHeading">Catalyst IT Services</string>
+    <string name="aboutUsAddress">www.CatalystITServices.com</string>
+    <string name="aboutUsAddressUrl">http://www.CatalystITServices.com</string>
+    <string name="aboutUsContactButton">Contact Us</string>
+    <string name="aboutUsContactEmail">info@catalystITservices.com</string>
+    <string name="aboutUsContactSubject">Information request from BirdApp</string>
+    <string name="aboutUsBlurb1">Catalyst’s mobility work has ranged from helping develop one of the leading mobile advertising platforms to extensive iPad and iPhone development for a Fortune 500 consumer products company. Our deep expertise with Agile development and support is exceptionally well suited to mobile development and mobile product engineering.</string>
+    <string name="aboutUsBlurb2">Catalyst also does deep mobility work in systems designed to give business users and consumers real-time access to data and control over that information. From mobile portals to improving supply chain operations for a major defense contractor to e-commerce systems for a mid-market consumer products company, Catalyst is the partner of choice because of our deep mobile solutions experience and recognized Agile execution aptitude.</string>
+    <string name="aboutUsDevelopersHeading">Developers:</string>
+    <string name="aboutUsTestersHeading">Testers:</string>
+    <string name="aboutUsScrumMastersHeading">Scrum Masters:</string>
+    <string-array name="aboutUsDevelopers">
+        <item>Randy</item>
+        <item>Hannah</item>
+        <item>Judy</item>
+        <item>Ian</item>
+        <item>Justin</item>
+        <item>Brandon</item>
+        <item>Michael</item>
+    </string-array>
+    <string-array name="aboutUsTesters">
+        <item>Anna</item>
+    </string-array>
+    <string-array name="aboutUsScrumMasters">
+        <item>Sam</item>
+        <item>Les</item>
+    </string-array>
 </resources>
