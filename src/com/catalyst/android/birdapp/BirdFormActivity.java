@@ -14,8 +14,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -25,6 +27,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,6 +100,7 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	private BirdSighting birdSighting;
 	private Bitmap birdPictureBitmap;
 	private Bundle savedInstanceState;
+	private Button deleteButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +109,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_bird_form);
-		// Sets up the GPS Utility class
+		//Grab and hide delete button
+		deleteButton = (Button) findViewById(R.id.delete_button);
+		deleteButton.setVisibility(View.GONE);
+		//Sets up the GPS Utility class
 		gpsUtility = new GPSUtility(this);
 		//Checks for GPS
 		setGPSAutoFill();
@@ -129,8 +136,10 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 			autoPopulateEditFields();
 		}
 		if(callingActivity == MAP_ACTIVITY || callingActivity == SIGHTING_LIST_ACTIVITY){
+			//Set up the form for editing
 			coordinateRefreshButton.setVisibility(View.GONE);
 			submitButton.setText(getString(R.string.save_changes));
+			deleteButton.setVisibility(View.VISIBLE);
 			picturePath = birdSighting.getPicturePath();
 			addPictureToPictureButton();
 		}
@@ -148,7 +157,6 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 				imageButton.setFocusable(true);
 				imageButton.setFocusableInTouchMode(true);
 				imageButton.requestFocus();
-				//imageButton.performClick();
 				callCameraActivity();	
 				
 			}
@@ -691,4 +699,39 @@ public class BirdFormActivity extends Activity implements OnDialogDoneListener {
 	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
+	/**
+	 * Allows the user to delete a sighting
+	 */
+	public void deleteBirdSighting(View view){
+		//Open an alert dialog box that asks them if they really want to delete the sighting
+		AlertDialog alert = new AlertDialog.Builder(this).create();
+        
+        //Sets alert box title and message
+        alert.setTitle(getString(R.string.delete_sighting_title));
+        alert.setMessage(getString(R.string.delete_sighting_confirmation));
+		
+		//Sets the alert box YES button and listener
+        alert.setButton(DialogInterface.BUTTON_POSITIVE,getString(R.string.yes), new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialogInterface, int notUsed) {
+                	//Deletes the sighting and then returns to the activity that called the edit form
+                	DatabaseHandler dbHandler = DatabaseHandler.getInstance(getApplicationContext());
+            		dbHandler.deleteBirdSighting(birdSighting.getId());
+            		Toast.makeText(getApplicationContext(), getString(R.string.sighting_deleted), Toast.LENGTH_SHORT).show();
+            		setResult(Activity.RESULT_OK);
+            		finish();
+                    dialogInterface.cancel();
+                }
+        });
+        //Sets the alert box NO button and listener
+        alert.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(final DialogInterface dialogInterface, int notUsed) {
+                        dialogInterface.cancel();
+                }
+        });
+        //shows the alertbox
+        alert.show();
+		
+	}
 }
