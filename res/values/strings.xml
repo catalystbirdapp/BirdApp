@@ -115,10 +115,14 @@
     <string name = "settings_title">Settings</string>
     <string name = "edit_form_activity_title">Edit Form</string>
     <string name = "save_changes">Save Changes</string>
+    <string name = "sighting_deleted">Bird sighting has been deleted!</string>
+    <string name = "delete_sighting_title">Delete Sighting?</string>
+    <string name = "delete_sighting_confirmation">Are you sure that you want to delete this sighting?</string>
     
     <string name = "bird_form_settings">Bird Sighting Settings</string>
     <string name = "gps_title">Allow GPS to be used</string>
     <string name = "gps_off_text">Prompting for GPS has been disabled.  To reactivate this feature, go to Settings</string>
+    <string name = "deleteButtonText">Delete</string>
     
     <string-array name="resolution_settings">
         <item>640 X 480</item>
