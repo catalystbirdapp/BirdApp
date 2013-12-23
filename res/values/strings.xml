@@ -123,6 +123,8 @@
     <string name = "gps_title">Allow GPS to be used</string>
     <string name = "gps_off_text">Prompting for GPS has been disabled.  To reactivate this feature, go to Settings</string>
     <string name = "deleteButtonText">Delete</string>
+    <string name = "invalidLatitude">Latitude must be between -90 and 90</string>
+    <string name = "invalidLongitude">Longitude must be between -180 and 180</string>
     
     <string-array name="resolution_settings">
         <item>640 X 480</item>
