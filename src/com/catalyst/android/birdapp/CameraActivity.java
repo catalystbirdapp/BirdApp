@@ -48,7 +48,6 @@ public class CameraActivity extends Activity {
 	private View buttonView;
 	private Spinner zoomSpinner;
 	private Spinner resolutionSpinner;
-	private Spinner pictureSizeSpinner;
 	private Spinner whiteBalanceSpinner;
 	private Button saveButton;
 	private ImageButton captureButton;
@@ -66,7 +65,6 @@ public class CameraActivity extends Activity {
 	private List<String> zoomLevel;
 	private List<String> supportedWhiteBalance;
 	private List<String> resolutions;
-	private List<String> previewSizes;
 	private Parameters parameters;
 
 	public static int count = 0;
@@ -89,19 +87,13 @@ public class CameraActivity extends Activity {
          mCamera = getCameraInstance();
          mCameraPreview = new CameraPreview(this, mCamera);
          preview = (FrameLayout) findViewById(R.id.camera_preview);
-         preview.addView(mCameraPreview); // calls CameraPreview class which
-                                                                                 // starts the preview(aka the camera
-                                                                                 // display)
+         preview.addView(mCameraPreview); // calls CameraPreview class which starts the preview(aka the camera display)
          relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
-         relativeLayoutControls.bringToFront(); // used to bring the capture
-                                                                                         // button the front so that it
-                                                                                         // overlays the preview display
+         relativeLayoutControls.bringToFront(); // used to bring the capture button the front so that it overlays the preview display
          captureButton = (ImageButton) findViewById(R.id.button_capture);
          settingsButton = (ImageButton) findViewById(R.id.settings_button);
-         view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
-                         null);
-         buttonView = getLayoutInflater().inflate(
-                         R.layout.camera_settings_button, null);
+         view = getLayoutInflater().inflate(R.layout.activity_camera_settings, null);
+         buttonView = getLayoutInflater().inflate(R.layout.camera_settings_button, null);
 	}
 
 	/**
@@ -111,80 +103,64 @@ public class CameraActivity extends Activity {
 	//
     @Override
     public void onResume() {
-            super.onResume();
-            setContentView(R.layout.activity_camera_layout);
-            if (mCamera == null) {
-                    mCamera = Camera.open();
-            }
-            cameraUtilities = new CameraUtilities();
-            mCameraPreview = new CameraPreview(this, mCamera);
-            if (parameters == null) {
-                    parameters = mCamera.getParameters();
-            }
-            preview = (FrameLayout) findViewById(R.id.camera_preview);
-            preview.addView(mCameraPreview);
-            relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
-            relativeLayoutControls.bringToFront();
-            captureButton = (ImageButton) findViewById(R.id.button_capture);
-            settingsButton = (ImageButton) findViewById(R.id.settings_button);
-            view = getLayoutInflater().inflate(R.layout.activity_camera_settings,
-                            null);
-            buttonView = getLayoutInflater().inflate(
-                            R.layout.camera_settings_button, null);
-            setCameraSettings();
-            // sets on click listener for capture button
-            captureButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            mCamera.takePicture(null, null, mPicture);
-                    }
+    	super.onResume();
+    	setContentView(R.layout.activity_camera_layout);
+    	if (mCamera == null) {
+    		mCamera = Camera.open();
+        }
+    	cameraUtilities = new CameraUtilities();
+    	mCameraPreview = new CameraPreview(this, mCamera);
+    	if (parameters == null) {
+    		parameters = mCamera.getParameters();
+        }
+    	preview = (FrameLayout) findViewById(R.id.camera_preview);
+    	preview.addView(mCameraPreview);
+    	relativeLayoutControls = (RelativeLayout) findViewById(R.id.controls_layout);
+    	relativeLayoutControls.bringToFront();
+    	captureButton = (ImageButton) findViewById(R.id.button_capture);
+    	settingsButton = (ImageButton) findViewById(R.id.settings_button);
+    	view = getLayoutInflater().inflate(R.layout.activity_camera_settings, null);
+    	buttonView = getLayoutInflater().inflate(R.layout.camera_settings_button, null);
+    	setCameraSettings();
+    	// sets on click listener for capture button
+    	captureButton.setOnClickListener(new View.OnClickListener() {
+    		@Override
+    		public void onClick(View v) {
+    			mCamera.takePicture(null, null, mPicture);
+    		}
 
-            });
+         });
 
-            settingsButton.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                            // on click adds layout to preview
-                            if (click) {
-
-                                    captureButton.setVisibility(View.GONE);
-                                    preview.addView(view);
-                                    preview.addView(buttonView);
-                                    setSaveButton();
-                                    setSettingsButton();
-                                    setRestoreButton();
-                                    // calls a utility class to get the supported phone settings
-                                    zoomLevel = cameraUtilities
-                                                    .getSupportedCameraZoom(parameters);
-                                    supportedWhiteBalance = cameraUtilities
-                                                    .getSupportedWhiteBalanceSettings(parameters);
-                                    resolutions = cameraUtilities
-                                                    .getSupportedCameraResolution(parameters);
-                                    previewSizes = cameraUtilities
-                                                    .getSupportedPreviewSize(parameters);
-                                    // populates spinners with the supported phone settings
-                                    populateZoomSpinner();
-                                    populateResolutionSpinner();
-                                    populatePictureSizeSpinner();
-                                    populateWhiteBalanceSpinner();
-                                    populatePreferences();
-                                    click = false;
-
-                            } else {
-                                    preview.removeView(view); // removes preview on click and
-                                                                                            // resumes camera preview
-                                    preview.removeView(buttonView);
-                                    captureButton.setVisibility(View.VISIBLE); // removes
-                                                                                                                            // capture
-                                                                                                                            // button on
-                                                                                                                            // setting
-                                                                                                                            // screen
-                                    click = true;
-                            }
-                    }
-
-            });
+    	settingsButton.setOnClickListener(new View.OnClickListener() {
+    		@Override
+    		public void onClick(View v) {
+    			// on click adds layout to preview
+    			if (click) {
+    				captureButton.setVisibility(View.GONE);
+    				preview.addView(view);
+    				preview.addView(buttonView);
+    				setSaveButton();
+    				setSettingsButton();
+    				setRestoreButton();
+    				// calls a utility class to get the supported phone settings
+    				zoomLevel = cameraUtilities.getSupportedCameraZoom(parameters);
+    				supportedWhiteBalance = cameraUtilities.getSupportedWhiteBalanceSettings(parameters);
+    				resolutions = cameraUtilities.getSupportedCameraResolution(parameters);
+    				// populates spinners with the supported phone settings
+    				populateZoomSpinner();
+    				populateResolutionSpinner();
+    				populateWhiteBalanceSpinner();
+    				populatePreferences();
+    				click = false;
+            	} else {
+            		preview.removeView(view); // removes preview on click and
+            		// resumes camera preview
+            		preview.removeView(buttonView);
+            		captureButton.setVisibility(View.VISIBLE); // removes capture button on setting screen
+            		click = true;
+            	}
+    		}	
+    	});
     }
     
     @Override
@@ -220,21 +196,15 @@ public class CameraActivity extends Activity {
 
 				zoomSpinner.setSelection(0);
 				resolutionSpinner.setSelection(0);
-				pictureSizeSpinner.setSelection(0);
 				whiteBalanceSpinner.setSelection(0);
 				String zoom = zoomSpinner.getSelectedItem().toString();
-				String resolution = resolutionSpinner.getSelectedItem()
-						.toString();
-				String previewSize = pictureSizeSpinner.getSelectedItem()
-						.toString();
-				String whiteBalance = whiteBalanceSpinner.getSelectedItem()
-						.toString();
+				String resolution = resolutionSpinner.getSelectedItem().toString();
+				String whiteBalance = whiteBalanceSpinner.getSelectedItem().toString();
 
 				// sets the new camera settings to shared preferences
 				Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
 				preferencesEditor.putString("ZoomPreference", zoom)
 						.putString("ResolutionPreference", resolution)
-						.putString("PictureSizePreference", previewSize)
 						.putString("WhiteBalancePreference", whiteBalance)
 						.commit();
 
@@ -243,13 +213,7 @@ public class CameraActivity extends Activity {
 				if (!click) {
 					preview.removeView(view);
 					preview.removeView(buttonView);
-					captureButton.setVisibility(View.VISIBLE); // un-hides
-																// capture
-																// button when
-																// setting
-																// screen is
-																// cleared
-
+					captureButton.setVisibility(View.VISIBLE); // un-hides capture button when setting screen is cleared
 					click = true;
 				}
 
@@ -271,39 +235,25 @@ public class CameraActivity extends Activity {
 				// Gets all the choices selected from the all the spinners and
 				// saves them to shared preferences
 				String zoom = zoomSpinner.getSelectedItem().toString();
-				String resolution = resolutionSpinner.getSelectedItem()
-						.toString();
-				String previewSize = pictureSizeSpinner.getSelectedItem()
-						.toString();
-				String whiteBalance = whiteBalanceSpinner.getSelectedItem()
-						.toString();
-				String[] sizes = cameraUtilities.getResolutionAndPreviewSize(
-						resolution, previewSize);
+				String resolution = resolutionSpinner.getSelectedItem().toString();
+				String whiteBalance = whiteBalanceSpinner.getSelectedItem().toString();
+				String[] sizes = cameraUtilities.getResolutionAndPreviewSize(resolution);
 
 				// sets the new camera settings to shared preferences
 				Editor preferencesEditor = getPreferences(MODE_PRIVATE).edit();
 				preferencesEditor.putString("ZoomPreference", zoom)
 						.putString("ResolutionPreference", resolution)
-						.putString("PictureSizePreference", previewSize)
 						.putString("ResolutionPreferenceHeight", sizes[0])
 						.putString("ResolutionPreferenceWidth", sizes[1])
-						.putString("PictureSizePreferenceHeight", sizes[2])
-						.putString("PictureSizePreferenceWidth", sizes[3])
 						.putString("WhiteBalancePreference", whiteBalance)
 						.commit();
 
-				setCameraSettings(); // sets the new camera settings to the
-										// camera parameters
+				setCameraSettings(); // sets the new camera settings to the camera parameters
 
 				if (!click) {
 					preview.removeView(view);
 					preview.removeView(buttonView);
-					captureButton.setVisibility(View.VISIBLE); // un-hides
-																// capture
-																// button when
-																// setting
-																// screen is
-																// cleared
+					captureButton.setVisibility(View.VISIBLE); // un-hides capture button when setting screen is cleared
 
 					click = true;
 				}
@@ -324,12 +274,7 @@ public class CameraActivity extends Activity {
 				if (!click) {
 					preview.removeView(view);// removes setting screen on click
 					preview.removeView(buttonView);
-					captureButton.setVisibility(View.VISIBLE);// un-hides
-																// capture
-																// button when
-																// setting
-																// screen is
-																// cleared
+					captureButton.setVisibility(View.VISIBLE);// un-hides capture button when setting screen is cleared
 					click = true;
 				}
 
@@ -346,35 +291,21 @@ public class CameraActivity extends Activity {
 	public void populatePreferences() {
 		// grabs the saved preferences and sets them to strings
 		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-		String zoomPreference = preferences.getString("ZoomPreference",
-				DEFAULT_VALUE);
-		String resolutionPreference = preferences.getString(
-				"ResolutionPreference", DEFAULT_VALUE);
-		String pictureSizePreference = preferences.getString(
-				"PictureSizePreference", DEFAULT_VALUE);
-		String whiteBalancePreference = preferences.getString(
-				"WhiteBalancePreference", DEFAULT_VALUE);
+		String zoomPreference = preferences.getString("ZoomPreference",	DEFAULT_VALUE);
+		String resolutionPreference = preferences.getString("ResolutionPreference", DEFAULT_VALUE);
+		String pictureSizePreference = preferences.getString("PictureSizePreference", DEFAULT_VALUE);
+		String whiteBalancePreference = preferences.getString("WhiteBalancePreference", DEFAULT_VALUE);
 
-		ArrayAdapter<String> zoomAdapter = (ArrayAdapter<String>) zoomSpinner
-				.getAdapter();
-		ArrayAdapter<String> resolutionAdapter = (ArrayAdapter<String>) resolutionSpinner
-				.getAdapter();
-		ArrayAdapter<String> pictureSizeAdapter = (ArrayAdapter<String>) pictureSizeSpinner
-				.getAdapter();
-		ArrayAdapter<String> whiteBalanceAdapter = (ArrayAdapter<String>) whiteBalanceSpinner
-				.getAdapter();
+		ArrayAdapter<String> zoomAdapter = (ArrayAdapter<String>) zoomSpinner.getAdapter();
+		ArrayAdapter<String> resolutionAdapter = (ArrayAdapter<String>) resolutionSpinner.getAdapter();
+		ArrayAdapter<String> whiteBalanceAdapter = (ArrayAdapter<String>) whiteBalanceSpinner.getAdapter();
 		// gets the position of the saved string in the dropdown menus
 		int zoomPosition = zoomAdapter.getPosition(zoomPreference);
-		int resolutionPosition = resolutionAdapter
-				.getPosition(resolutionPreference);
-		int pictureSizePosition = pictureSizeAdapter
-				.getPosition(pictureSizePreference);
-		int whiteBalancePosition = whiteBalanceAdapter
-				.getPosition(whiteBalancePreference);
+		int resolutionPosition = resolutionAdapter.getPosition(resolutionPreference);
+		int whiteBalancePosition = whiteBalanceAdapter.getPosition(whiteBalancePreference);
 		// sets the spinners to the saved setting
 		zoomSpinner.setSelection(zoomPosition);
 		resolutionSpinner.setSelection(resolutionPosition);
-		pictureSizeSpinner.setSelection(pictureSizePosition);
 		whiteBalanceSpinner.setSelection(whiteBalancePosition);
 
 	}
@@ -384,26 +315,19 @@ public class CameraActivity extends Activity {
 	 * 
 	 */
 	public void setCameraSettings() {
-		SharedPreferences preferences = getSharedPreferences("CameraActivity",
-				Context.MODE_PRIVATE);
+		SharedPreferences preferences = getSharedPreferences("CameraActivity", Context.MODE_PRIVATE);
 		String savedZoom = preferences.getString("ZoomPreference", "1");
 		supportedWhiteBalance = new ArrayList<String>();
 		zoomLevel = new ArrayList<String>();
 		// Checks to see if the camera supports zoom and smooth zoom
 		int zoomNumber = cameraUtilities.getCameraZoom(parameters, savedZoom);
 
-		// gets the whitebalance preference and sets the camera parameters to
-		// that preference
-		String whiteBalance = preferences.getString("WhiteBalancePreference",
-				"Auto").toLowerCase(Locale.US);
-		int resolutionHeight = Integer.parseInt(preferences.getString(
-				"ResolutionPreferenceHeight", "480"));
-		int resolutionWidth = Integer.parseInt(preferences.getString(
-				"ResolutionPreferenceWidth", "640"));
-		int previewSizeHeight = Integer.parseInt(preferences.getString(
-				"PictureSizePreferenceHeight", "480"));
-		int previewSizeWidth = Integer.parseInt(preferences.getString(
-				"PictureSizePreferenceWidth", "640"));
+		// gets the whitebalance preference and sets the camera parameters to that preference
+		String whiteBalance = preferences.getString("WhiteBalancePreference","Auto").toLowerCase(Locale.US);
+		int resolutionHeight = Integer.parseInt(preferences.getString("ResolutionPreferenceHeight", "480"));
+		int resolutionWidth = Integer.parseInt(preferences.getString("ResolutionPreferenceWidth", "640"));
+		int previewSizeHeight = Integer.parseInt(preferences.getString("PictureSizePreferenceHeight", "480"));
+		int previewSizeWidth = Integer.parseInt(preferences.getString("PictureSizePreferenceWidth", "640"));
 
 		// preview stop required when changing the previewSize parameter
 		parameters.setPictureSize(resolutionWidth, resolutionHeight);
@@ -419,8 +343,7 @@ public class CameraActivity extends Activity {
 	 */
 	public void populateZoomSpinner() {
 		zoomSpinner = (Spinner) findViewById(R.id.zoom_spinner);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.spinner_item, R.id.spinnertextview, zoomLevel);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, zoomLevel);
 		zoomSpinner.setAdapter(adapter);
 
 	}
@@ -430,20 +353,8 @@ public class CameraActivity extends Activity {
 	 */
 	public void populateResolutionSpinner() {
 		resolutionSpinner = (Spinner) findViewById(R.id.resolution_spinner);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.spinner_item, R.id.spinnertextview, resolutions);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinnertextview, resolutions);
 		resolutionSpinner.setAdapter(adapter);
-	}
-
-	/**
-	 * sets picture size spinner
-	 */
-	public void populatePictureSizeSpinner() {
-		pictureSizeSpinner = (Spinner) findViewById(R.id.picture_size_spinner);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.spinner_item, R.id.spinnertextview, previewSizes);
-
-		pictureSizeSpinner.setAdapter(adapter);
 	}
 
 	/**
@@ -476,12 +387,10 @@ public class CameraActivity extends Activity {
                  .format(new Date());
 		 File mediaFile;
 		 if (birdName != null) {
-			 mediaFile = new File(mediaStorageDir.getPath() + "//" + birdName
-                         + timeStamp + ".jpg");
+			 mediaFile = new File(mediaStorageDir.getPath() + "//" + birdName + timeStamp + ".jpg");
 		 } else {
 			 String bird = "Bird";
-			 mediaFile = new File(mediaStorageDir.getPath() + "//"
-                         + bird.toString() + timeStamp + ".jpg");
+			 mediaFile = new File(mediaStorageDir.getPath() + "//" + bird.toString() + timeStamp + ".jpg");
 		 }
 		 return mediaFile;
 

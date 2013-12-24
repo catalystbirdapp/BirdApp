@@ -40,13 +40,10 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 	
 	public void testGetResolutionAndPreviewSize(){
 		String resolution = SETTLING_480_X_640;
-		String preview = SETTING_640_X_480;
-		String[] resolutionAndPreview = cUtils.getResolutionAndPreviewSize(resolution, preview);
+		String[] resolutionAndPreview = cUtils.getResolutionAndPreviewSize(resolution);
 		
 		assertEquals(resolutionAndPreview[0], SETTING_480);
 		assertEquals(resolutionAndPreview[1], SETTING_640);
-		assertEquals(resolutionAndPreview[2], SETTING_640);
-		assertEquals(resolutionAndPreview[3], SETTING_480);
 	}
 	
 	
@@ -71,17 +68,6 @@ public class CameraUtilityTest extends InstrumentationTestCase{
 		when(params.getSupportedPictureSizes()).thenReturn(supportedCameraResolution);
 		resolutions = cUtils.getSupportedCameraResolution(params);
 		assertEquals(resolutions.get(0), SETTING_640_X_480);
-	}
-	
-	public void testGetSupportedPreviewSizes(){
-		List<String> previewSizes = new ArrayList<String>();
-		ArrayList<Size> supportedPreviewSizes = new ArrayList<Size>();
-		Size size = camera.new Size(480, 640);
-		supportedPreviewSizes.add(size);
-		when(camera.getParameters()).thenReturn(params);
-		when(params.getSupportedPreviewSizes()).thenReturn(supportedPreviewSizes);
-		previewSizes = cUtils.getSupportedPreviewSize(params);
-		assertEquals(previewSizes.get(0), SETTING_640_X_480);
 	}
 	
 	public void testGetSupportedCameraZoom(){

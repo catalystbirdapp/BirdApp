@@ -25,15 +25,12 @@ public class CameraUtilities {
 	 * @return
 	 */
 	
-	public String[] getResolutionAndPreviewSize(String resolution, String previewSize){
+	public String[] getResolutionAndPreviewSize(String resolution){
 		
 		String[] resolutionParts = resolution.split(" X ");
 		String resolutionHeight = resolutionParts[0];
 		String resolutionWidth = resolutionParts[1];
-		String[] previewParts = previewSize.split(" X ");
-		String previewHeight = previewParts[0];
-		String previewWidth = previewParts[1];
-		String [] sizes = {resolutionHeight, resolutionWidth, previewHeight, previewWidth};
+		String [] sizes = {resolutionHeight, resolutionWidth};
 		
 		return sizes;
 	}

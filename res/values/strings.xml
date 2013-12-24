@@ -112,7 +112,8 @@
     <string name = "picture_size_title">Preview Size:</string>
     <string name = "restore_defaults">Restore Defaults</string>
     <string name = "save_button">Save</string>
-    <string name = "settings_title">Settings</string>
+    <string name = "camera_settings_title">Camera Settings</string>
+    <string name = "map_settings_title">Map Settings</string>
     <string name = "edit_form_activity_title">Edit Form</string>
     <string name = "save_changes">Save Changes</string>
     <string name = "sighting_deleted">Bird sighting has been deleted!</string>

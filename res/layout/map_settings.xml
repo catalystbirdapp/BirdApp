@@ -5,39 +5,66 @@
     android:layout_height="match_parent"
     android:background="#77000000"
     android:gravity="center_vertical" >
+    
+    <LinearLayout
+            android:id="@+id/title_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/setting_table_top_margin" >
 
-    <TableRow
+            <TextView
+                style="@style/settings_title_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/settings_margin_left"
+                android:layout_marginRight="@dimen/settings_margin_right"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/map_settings_title" >
+            </TextView>
+        </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/settings_margin_left"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:layout_marginRight="@dimen/settings_margin_right">
 
         <TextView
             android:id="@+id/mapTypeTextView"
             style="@style/textSize"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="50"
             android:text="@string/map_type"
-            android:typeface="monospace" />
+            android:typeface="monospace"
+            android:layout_gravity="center_vertical" />
 
         <Spinner
             android:id="@+id/map_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </TableRow>
+             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:gravity="left"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
-    <TableRow
+     <LinearLayout
         android:id="@+id/tableRow2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:layout_marginRight="@dimen/settings_margin_right">
 
         <Button
             android:id="@+id/map_settings_save_button"
             style="@style/specialButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/save_button" />
-    </TableRow>
+    </LinearLayout>
 
 </TableLayout>
