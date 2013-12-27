@@ -24,6 +24,7 @@ public class AboutUsActivity extends Activity {
 	private String[] developerArray;
 	private String[] testerArray;
 	private String[] scrumArray;
+	private String[] ownerArray;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class AboutUsActivity extends Activity {
 		developerArray = getResources().getStringArray(R.array.aboutUsDevelopers);
 		testerArray = getResources().getStringArray(R.array.aboutUsTesters);
 		scrumArray = getResources().getStringArray(R.array.aboutUsScrumMasters);
+		ownerArray = getResources().getStringArray(R.array.aboutUsProductOwners);
 		insertDataInTable();
 		
 		contactButton.setOnClickListener(new OnClickListener() {
@@ -97,6 +99,11 @@ public class AboutUsActivity extends Activity {
 		//insert scrum masters
 		insertHeadingInScrollView(getString(R.string.aboutUsScrumMastersHeading), i++);
 		for (String developer : scrumArray) {
+			insertDataInScrollView(developer, i++);
+		}
+		//insert product owners
+		insertHeadingInScrollView(getString(R.string.aboutUsProductOwnersHeading), i++);
+		for (String developer : ownerArray) {
 			insertDataInScrollView(developer, i++);
 		}
 	}

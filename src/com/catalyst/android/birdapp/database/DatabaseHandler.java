@@ -146,6 +146,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'"
                                 + context.getString(R.string.mating) + "'"
                                 + INSERT_BIRD_ACTIVITY_PART_TWO);
+                db.execSQL(INSERT_BIRD_ACTIVITY_PART_ONE + "'"
+                		+ context.getString(R.string.not_applicable) + "'"
+                		+ INSERT_BIRD_ACTIVITY_PART_TWO);
                 // Categories
                 db.execSQL(INSERT_SIGHTING_CATEGORY_PART_ONE + "'"
                                 + context.getString(R.string.nest) + "'"

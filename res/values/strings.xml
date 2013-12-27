@@ -77,6 +77,7 @@
     <string name="swimming">Swimming</string>
     <string name="hunting">Hunting</string>
     <string name="mating">Mating</string>
+    <string name="not_applicable">N/A</string>
     <string name="nest">Nest</string>
     <string name="sighting">Sighting</string>
     <string name="misc">Misc</string>
@@ -161,6 +162,7 @@
     <string name="aboutUsDevelopersHeading">Developers:</string>
     <string name="aboutUsTestersHeading">Testers:</string>
     <string name="aboutUsScrumMastersHeading">Scrum Masters:</string>
+    <string name="aboutUsProductOwnersHeading">Product Owners:</string>
     <string-array name="aboutUsDevelopers">
         <item>Randy M.</item>
         <item>Hannah Y.</item>
@@ -177,4 +179,10 @@
         <item>Sam L.</item>
         <item>Les G.</item>
     </string-array>
+    <string-array name="aboutUsProductOwners">
+        <item>Paul W.</item>
+        <item>Adam K.</item>
+        <item>Adam B.</item>
+    </string-array>
+    
 </resources>

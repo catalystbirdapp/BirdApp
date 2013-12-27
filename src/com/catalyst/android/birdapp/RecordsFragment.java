@@ -131,7 +131,7 @@ private static final String ID = "ID";
 	 * Formats the date for the sightings list
 	 */
 	private String formatDate(Date sightingDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  HH:mm", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy  hh:mm a", Locale.US);
 		return sdf.format(sightingDate); 
 	}
 	
